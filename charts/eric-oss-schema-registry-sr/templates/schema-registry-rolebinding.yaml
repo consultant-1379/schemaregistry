@@ -1,0 +1,37 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- $securityPoliciesDefined := include "eric-oss-schema-registry-sr.security-policies-defined" . | trim -}}
+{{- if $global.security.policyBinding.create -}}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}-rolebinding
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.securityPolicy.annotations" . | nindent 4 }}
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ index $global.security.policyReferenceMap "default-restricted-security-policy" | quote }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "eric-oss-schema-registry-sr.name" . }}-sa
+{{- else if eq $securityPoliciesDefined "true" }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "eric-oss-schema-registry-sr.securityPolicy.rolebinding.name" . }}
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.securityPolicy.annotations" . | nindent 4 }}
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: {{ .Values.global.securityPolicy.rolekind }}
+  name: {{ .Values.securityPolicy.rolename }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "eric-oss-schema-registry-sr.name" . }}-sa
+{{- end }}

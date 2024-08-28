@@ -1,0 +1,84 @@
+pipeline {
+    agent {
+        node {
+            label params.SLAVE
+        }
+    }
+    options {
+        skipDefaultCheckout true
+        timestamps()
+        timeout(time: 1, unit: 'HOURS')
+        buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
+    }
+    environment {
+		BOB = "docker run --rm --env APP_PATH=${WORKSPACE} --env KUBECONFIG=${WORKSPACE}/.kube/config --env CREDENTIALS_SELI_ARTIFACTORY_USR=${CREDENTIALS_SELI_ARTIFACTORY_USR} --env CREDENTIALS_SELI_ARTIFACTORY_PSW=${CREDENTIALS_SELI_ARTIFACTORY_PSW} --env RELEASE_CANDIDATE=${RELEASE_CANDIDATE} --env DRY_RUN=${DRY_RUN} -v ${WORKSPACE}:${WORKSPACE} -v /home/lciadm100/.docker:/root/.docker -v /var/run/docker.sock:/var/run/docker.sock -w ${WORKSPACE} ${env.BOB_DOCKER_IMAGE} -r ruleset2.0.pra.yaml"
+        CREDENTIALS_SELI_ARTIFACTORY = credentials('ejenksonomArtifactoryApiKey')
+		CREDENTIALS_SEKA_ARTIFACTORY = credentials('ejenksonomArtifactoryApiKey')
+        CREDENTIALS_SEKI_ARTIFACTORY = credentials('ejenksonomArtifactoryApiKeySEKI')
+        CREDENTIALS_MARKETPLACE_TOKEN = credentials('schema-registry-marketplace-api-token')
+    }
+    stages {
+        stage('Clean') {
+            steps {
+                echo "Cleanup workspace"
+                cleanWs()
+                echo 'SCM Checkout'
+                checkout scm
+            }
+        }
+        stage('Checkout revision') {
+            steps {
+                sh "git checkout ${RELEASE_CANDIDATE}"
+            }
+        }
+        stage('Prepare environment'){
+            steps {
+                echo "Prepare Bob environment"
+                sh "${BOB} clean"
+                echo "Init environment"
+                sh "${BOB} init"
+                sh "sudo chmod -fR 777 .bob/"
+                sh 'echo "${CREDENTIALS_SEKA_ARTIFACTORY_PSW}" > .bob/var.HELM_REPO_API_TOKEN'
+                sh 'echo "${CREDENTIALS_MARKETPLACE_TOKEN}" > .bob/var.MARKETPLACE_TOKEN'
+            }
+       
+        }
+        stage('Store release images artifacts') {
+            steps {
+              withCredentials([usernamePassword(credentialsId: 'ejenksonomArtifactoryApiKey', usernameVariable: 'CREDENTIALS_SELI_ARTIFACTORY_USR', passwordVariable: 'CREDENTIALS_SELI_ARTIFACTORY_PSW'),
+                             string(credentialsId: 'DE_ADP_PORTAL_API_KEY', variable: 'ADP_PORTAL_API_KEY')]) {
+                sh "${BOB} image-package-release"
+            }
+        }
+        }
+        stage('Store release helm charts artifacts') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'ejenksonomArtifactoryApiKey', usernameVariable: 'CREDENTIALS_SELI_ARTIFACTORY_USR', passwordVariable: 'CREDENTIALS_SELI_ARTIFACTORY_PSW'),
+                             string(credentialsId: 'DE_ADP_PORTAL_API_KEY', variable: 'ADP_PORTAL_API_KEY')]) {
+                sh "${BOB} helm-package-release"
+                archiveArtifacts "build/released-charts/*.tgz"
+                archiveArtifacts 'artifact.properties'
+				}
+            }
+        
+        }
+        stage('Publish') {
+            steps {
+               withCredentials([usernamePassword(credentialsId: 'ejenksonomArtifactoryApiKey', usernameVariable: 'CREDENTIALS_SELI_ARTIFACTORY_USR', passwordVariable: 'CREDENTIALS_SELI_ARTIFACTORY_PSW'),
+                             string(credentialsId: 'DE_ADP_PORTAL_API_KEY', variable: 'ADP_PORTAL_API_KEY')]) {
+                sh "${BOB} publish-release"
+				}
+            }
+        
+        }
+        stage('Increment VERSION_PREFIX in git repo') {
+            steps {
+               withCredentials([usernamePassword(credentialsId: 'ejenksonomArtifactoryApiKey', usernameVariable: 'CREDENTIALS_SELI_ARTIFACTORY_USR', passwordVariable: 'CREDENTIALS_SELI_ARTIFACTORY_PSW'),
+                             string(credentialsId: 'DE_ADP_PORTAL_API_KEY', variable: 'ADP_PORTAL_API_KEY')]) {  
+                  sh "${BOB} increment-version-prefix"
+				 }
+            }
+        }
+    }
+
+}

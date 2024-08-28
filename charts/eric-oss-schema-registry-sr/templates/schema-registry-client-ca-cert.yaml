@@ -1,0 +1,18 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- if $global.security.tls.enabled }}
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalUserCA
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}-client-ca
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+spec:
+  kubernetes:
+    generatedSecretName: {{ template "eric-oss-schema-registry-sr.client-ca-secret" . }}
+    certificateName: clientcacertbundle.pem
+  certificate:
+    subject:
+      cn: {{ template "eric-oss-schema-registry-sr.name" . }}
+{{- end -}}

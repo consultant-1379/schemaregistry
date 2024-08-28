@@ -1,0 +1,25 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- if $global.security.tls.enabled }}
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalCertificate
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}-server-cert
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+spec:
+  kubernetes:
+    generatedSecretName: {{ template "eric-oss-schema-registry-sr.server-cert-secret" . }}
+    certificateName: srvcert.pem
+    privateKeyName: srvkey.pem
+  certificate:
+    subject:
+      cn: {{ template "eric-oss-schema-registry-sr.name" . }}
+    extendedKeyUsage:
+      tlsClientAuth: true
+      tlsServerAuth: true
+    validity:
+      overrideTtl: {{ .Values.service.endpoints.schemaregistry.tls.certTtl }}
+      overrideLeadTime: {{ .Values.service.endpoints.schemaregistry.tls.certLeadTime }}
+{{- end -}}

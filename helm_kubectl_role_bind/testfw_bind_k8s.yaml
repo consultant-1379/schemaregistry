@@ -1,0 +1,13 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+   name: testfw-rolebind
+   namespace: eric-oss-schema-registry-sr-install
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: eric-oss-schema-registry-sr-install
+roleRef:
+  kind: ClusterRole
+  name: testfw-bro
+  apiGroup: rbac.authorization.k8s.io

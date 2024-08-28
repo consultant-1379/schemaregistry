@@ -1,0 +1,485 @@
+modelVersion: 2.0
+
+docker-images:
+  - py3-kube-helm3-va: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-py3kubehelmbuilder:latest
+  - adp-release-auto-va: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-adp-release-auto:latest
+  - trivy-inline-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/trivy-inline-scan:latest
+  - hadolint-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/hadolint-scan:latest
+  - kubesec-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-scan-kubesec:latest
+  - kubeaudit-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-scan-kubeaudit:latest
+  - kubehunter-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-scan-kubehunter:latest
+  - kubebench-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-scan-kubebench:latest
+  - grype-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-image-scanning-grype:latest
+
+import:
+  common: common-properties.yaml
+  std-rules: ruleset2.0.yaml
+
+properties:
+  - image-drop-repopath: proj-ec-son-drop
+  - image-full-name: ${common.image-registry}/${image-drop-repopath}/${common.image-name}
+  - image-secret: k8s-registry-secret
+
+  - helm-chart-drop-repopath: proj-ec-son-drop-helm
+  - helm-chart-name: eric-oss-schema-registry-sr
+  - helm-install-namespace: ${helm-chart-name}-install-va
+  - adp-repo-url: https://arm.rnd.ki.sw.ericsson.se/artifactory/proj-adp-gs-all-helm
+
+  - distributed-coordinator-ed-chart-name: eric-data-distributed-coordinator-ed
+  - sip-tls-chart-name: eric-sec-sip-tls
+  - key-management-chart-name: eric-sec-key-management
+  - key-management-root-secret-name: eric-data-distributed-coordinator-creds
+  - key-management-root-secret-password: topSecret
+
+  - zk-chart-name: eric-data-coordinator-zk
+  - kf-chart-name: eric-data-message-bus-kf
+  - bro-chart-name: eric-ctrl-bro
+
+  - va-config-dir: va-config
+  - va-report-dir: va-reports
+
+env:
+  - PWD
+  - HOME
+  - KUBECONFIG (default=notset)
+  - ARM_SELI_USER
+  - ARM_SERO_USER
+  - ARM_SERO_API_KEY
+  - ARM_SELI_API_KEY
+  - SIP_TLS (default=true)
+  - HELM3_INSTALL_TIMEOUT (default=600s)
+  - VERSION (default=1.1.6-47)
+
+var:
+  - version
+  - image-full-name-drop
+  - bragent-image-full-name-drop
+  - helm-chart-repo-drop
+  - key-management-chart-file-name
+  - key-management-helm-flags
+  - sip-tls-chart-file-name
+  - sip-tls-helm-flags
+  - distributed-coordinator-ed-chart-file-name
+  - distributed-coordinator-ed-helm-flags
+  - zk-chart-file-name
+  - zk-helm-flags
+  - kf-chart-file-name
+  - kf-helm-flags
+  - bro-chart-file-name
+  - bro-helm-flags
+  - sr-helm-flags
+  - va-report-cmd
+  - docker-config-basepath
+
+rules:
+
+  clean:
+    - rule: clean-files
+    - rule: clean-k8s
+    - rule: std-rules.clean-sip-tls-crd
+
+  clean-files:
+    - rule: std-rules.clean-files
+    - task: clean-va-files
+      cmd: rm -rf ${va-report-dir}
+
+  # Remove all helm deployments from ${helm-install-namespace} and delete namespace
+  clean-k8s:
+    - task: clean-k8s
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ -n $(kubectl get ns ${helm-install-namespace}) ]];
+          then
+          DEPLOYMENTS=$(helm ls -n ${helm-install-namespace} -qa);
+          if [[ -n $DEPLOYMENTS ]];
+          then
+          echo "Cleaning helm deployments:";
+          echo "$DEPLOYMENTS";
+          helm uninstall -n ${helm-install-namespace} $DEPLOYMENTS;
+          fi;
+          echo "Deleting namespace ${helm-install-namespace}";
+          kubectl delete ns ${helm-install-namespace};
+          fi'
+
+  init-va:
+    - rule: std-rules.chart-init
+    - task: version
+      cmd: echo "${env.VERSION}" | sed s/+/-/ > .bob/var.version
+    - task: create-va-folder
+      cmd: mkdir -p ${va-report-dir}
+    - task: image-repopath-internal
+      cmd: echo "${image-drop-repopath}" > .bob/var.image-repopath-drop
+    - task: set-image-full-name
+      cmd: echo "${common.image-registry}/${image-drop-repopath}/${common.image-name}" > .bob/var.image-full-name-drop
+    - task: set-bragent-image-full-name
+      cmd: echo '${common.image-registry}/${image-drop-repopath}/${common.bragent-image-name}' > .bob/var.bragent-image-full-name-drop
+    - task: set-helm-chart-repo
+      cmd: echo "${common.helm-chart-repo-server}/${helm-chart-drop-repopath}/${common.helm-chart-name}" > .bob/var.helm-chart-repo-drop
+    - task: va-report-cmd
+      cmd: echo "va-report
+        --config ${env.PWD}/${va-config-dir}/va_report_config.yaml
+        --set version=${var.version}
+        --output ${env.PWD}/${va-report-dir}/va_report_2.0_SR_${var.version}.md
+        --md
+        --debug" > .bob/var.va-report-cmd
+
+  fetch-xray:
+    - task: setup-xray
+      cmd: mkdir -p ${va-report-dir}/xray-reports
+    - task: fetch-xray-report
+      docker-image: adp-release-auto-va
+      cmd: bash -c 'fetch-xray
+        --config ${va-config-dir}/va_report_config.yaml
+        --debug
+        --user ${env.ARM_SELI_USER}
+        --apikey ${env.ARM_SELI_API_KEY}
+        --set version=${var.version}
+        --set image-name=${common.image-name}
+        --set bragent-image-name=${common.bragent-image-name}
+        --set image-drop-repopath=${image-drop-repopath}
+        --output ${va-report-dir}/xray-reports/xray_report.json
+        --raw-output ${va-report-dir}/xray-reports/raw_xray_report.json'
+    - task: va-report-cmd
+      cmd: echo "${var.va-report-cmd}
+        --raw-xray-report ${env.PWD}/${va-report-dir}/xray-reports/raw_xray_report.json
+        --xray-report ${env.PWD}/${va-report-dir}/xray-reports/xray_report.json" > .bob/var.va-report-cmd
+
+  run-grype:
+    - task: pull-image
+      cmd: docker pull ${var.image-full-name-drop}:${var.version}
+    - task: pull-agent-image
+      cmd: docker pull ${var.bragent-image-full-name-drop}:${var.version}
+    - task: setup-grype
+      cmd: mkdir -p ${va-report-dir}/grype-reports
+    - task: run-grype
+      docker-image: grype-scan
+      docker-flags:
+        - "--volume /var/run/docker.sock:/var/run/docker.sock"
+      docker-in-docker: socket
+      cmd: grype_scan --image ${var.image-full-name-drop}:${var.version} --image ${var.bragent-image-full-name-drop}:${var.version} --report-dir ${va-report-dir}/grype-reports
+    - task: va-report-cmd
+      cmd: echo "${var.va-report-cmd}
+        --anchore-reports ${va-report-dir}/grype-reports" > .bob/var.va-report-cmd
+
+  run-trivy:
+    - task: pull-image
+      cmd: docker pull ${var.image-full-name-drop}:${var.version}
+    - task: pull-agent-image
+      cmd: docker pull ${var.bragent-image-full-name-drop}:${var.version}
+    - task: setup-trivy
+      cmd: mkdir -p ${va-report-dir}/trivy-reports
+    - task: run-trivy-json
+      docker-image: trivy-inline-scan
+      docker-in-docker: socket
+      cmd: --format json --output ${va-report-dir}/trivy-reports/trivy.report.json ${var.image-full-name-drop}:${var.version}
+    - task: move-files
+      cmd:
+        - cp trivy_metadata.properties ${va-report-dir}/trivy-reports
+        - rm trivy_metadata.properties
+    - task: va-report-cmd
+      cmd: echo "${var.va-report-cmd}
+        --trivy-reports ${va-report-dir}/trivy-reports" > .bob/var.va-report-cmd
+
+  run-hadolint:
+    - task: setup-hadolint
+      cmd: mkdir -p ${va-report-dir}/hadolint-reports
+    - task: run-hadolint
+      docker-image: hadolint-scan
+      docker-flags:
+        - "--workdir /app/"
+      cmd: "--product ${helm-chart-name}
+            --dockerfiles ${env.PWD}/Docker/Dockerfile ${env.PWD}/bragent/Docker/Dockerfile
+            --config ${env.PWD}/${va-config-dir}/hadolint_config.yaml > ${env.PWD}/${va-report-dir}/hadolint-reports/hadolint_log.txt"
+
+  # Create the namespace services will be installed into
+  deploy-create-namespace:
+    - task: deploy-create-namespace
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ -z $(kubectl get ns ${helm-install-namespace}) ]]; then
+          kubectl create namespace ${helm-install-namespace};
+          fi'
+
+  deploy-sr:
+    - task: deploy-sr
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.helm-chart-repo-drop}/${helm-chart-name}-${var.version}.tgz";
+          helm upgrade --install ${helm-chart-name}
+          ${var.helm-chart-repo-drop}/${helm-chart-name}-${var.version}.tgz
+          --namespace ${helm-install-namespace}
+          --set ${var.sr-helm-flags}
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  # Deploy services required for TLS functionality
+  deploy-sip-tls:
+    - task: deploy-sip-tls
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--env SIP_TLS=${env.SIP_TLS}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ $SIP_TLS == "true" ]]; then
+          echo "Installing ${var.key-management-chart-file-name}";
+          kubectl create secret generic ${key-management-root-secret-name}
+          --namespace ${helm-install-namespace}
+          --from-literal=etcdpasswd=$(echo -n "${key-management-root-secret-password}" | base64);
+          helm upgrade --install ${key-management-chart-name}
+          ${adp-repo-url}/${key-management-chart-name}/${var.key-management-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set ${var.key-management-helm-flags};
+          echo "Installing ${var.distributed-coordinator-ed-chart-file-name}";
+          helm upgrade --install ${distributed-coordinator-ed-chart-name}
+          ${adp-repo-url}/${distributed-coordinator-ed-chart-name}/${var.distributed-coordinator-ed-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set ${var.distributed-coordinator-ed-helm-flags};
+          echo "Installing ${var.sip-tls-chart-file-name}";
+          helm upgrade --install ${sip-tls-chart-name}
+          ${adp-repo-url}/${sip-tls-chart-name}/${var.sip-tls-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set ${var.sip-tls-helm-flags}
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT};
+          fi'
+
+  deploy-zk:
+    - task: deploy-zk
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.zk-chart-file-name}";
+          helm upgrade --install ${zk-chart-name}
+          ${adp-repo-url}/${zk-chart-name}/${var.zk-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set "${var.zk-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  deploy-kf:
+    - task: deploy-kf
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.kf-chart-file-name}";
+          helm upgrade --install ${kf-chart-name}
+          ${adp-repo-url}/${kf-chart-name}/${var.kf-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set "${var.kf-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  deploy-bro:
+    - task: deploy-bro
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.bro-chart-file-name}";
+          helm upgrade --install ${bro-chart-name}
+          ${adp-repo-url}/${bro-chart-name}/${var.bro-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set "${var.bro-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  log-k8s-env-info:
+    - task: log-k8s-env-info
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+
+      cmd:
+        - bash -c '
+          helm ls -aA;
+          for deployment in $(helm ls -n ${helm-install-namespace} -a | grep -v "NAME" | cut -f1);
+          do echo "$deployment values:";
+          helm get values --namespace ${helm-install-namespace} $deployment;
+          done'
+
+  # Deploy environment
+  deploy-k8s:
+    # Cleans the environment from (potential) leftover test artifacts in case of repeated test executions.
+    - rule: clean-k8s
+
+    # Initialize helm set flags needed for deployment
+    - task: set-key-management-helm-flags
+      cmd: echo "replicas=1" > .bob/var.key-management-helm-flags
+    - task: set-sip-tls-helm-flags
+      cmd: echo "replicaCount=1" > .bob/var.sip-tls-helm-flags
+    - task: set-distributed-coordinator-ed-helm-flags
+      cmd: echo "pods.dced.replicas=1,
+        persistence.persistentVolumeClaim.storageClassName=" | tr -d [:space:] > .bob/var.distributed-coordinator-ed-helm-flags
+    - task: set-zk-helm-flags
+      cmd: echo "replicaCount=1,
+        resources.datacoordinatorzk.requests.cpu=500m,
+        resources.datacoordinatorzk.requests.memory=2Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        persistence.persistentVolumeClaim.enabled=false" | tr -d [:space:] > .bob/var.zk-helm-flags
+    - task: set-kf-helm-flags
+      cmd: echo "replicaCount=1,
+        resources.messagebuskf.requests.cpu=500m,
+        resources.messagebuskf.requests.memory=1Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        configurationOverrides.min\.insync\.replicas=1,
+        configurationOverrides.default\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.num\.partitions=1,
+        configurationOverrides.transaction\.state\.log\.num\.partitions=1,
+        persistence.persistentVolumeClaim.enabled=false,
+        service.endpoints.messagebuskf.tls.enforced=optional" | tr -d [:space:] > .bob/var.kf-helm-flags
+    - task: set-bro-helm-flags
+      cmd: echo "global.security.tls.enabled=false,
+        eric-ctrl-bro.persistence.persistentVolumeClaim.size=5Gi,
+        security.tls.broToAgent.enabled=false,
+        security.tls.rest.enabled=false,
+        service.endpoints.broToAgent.tls.enforced=optional,
+        service.endpoints.broToAgent.tls.verifyClientCertificate=optional,
+        service.endpoints.restActions.tls.enforced=optional" | tr -d [:space:] > .bob/var.bro-helm-flags
+    - task: set-sr-helm-flags
+      cmd: echo 'brAgent.enabled=true,
+        messagebuskf.minBrokers=1,
+        messageBus.minBrokers=1,
+        init.minNumberOfBrokers=1,
+        jmx.enabled=true,
+        log.outputs="{stdout,stream}",
+        service.endpoints.schemaregistry.tls.enforced=optional' | tr -d [:space:] > .bob/var.sr-helm-flags
+
+    #Set up k8s environment
+    - rule: deploy-create-namespace
+    - rule: std-rules.deploy-sip-tls-crd
+    - rule: deploy-sip-tls
+    - rule: deploy-zk
+    - rule: deploy-kf
+    - rule: deploy-bro
+    - rule: deploy-sr
+    - rule: std-rules.log-k8s-env-info
+
+  run-portscan:
+    - task: run-portscan
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}:ro"
+      cmd:
+        test.py --kubernetes-admin-conf="${env.KUBECONFIG}"
+        --helm-user="${env.ARM_SERO_USER}"
+        --arm-api-token="${env.ARM_SERO_API_KEY}"
+        --kubernetes-namespace="${helm-install-namespace}"
+        --nmap-config-file=${va-config-dir}/nmap_config_tcp.yaml
+        --nmap-test
+    - task: va-report-cmd
+      cmd: echo "${var.va-report-cmd}
+        --nmap-reports ${va-report-dir}/nmap_report" > .bob/var.va-report-cmd
+
+  run-kubesec:
+    - task: setup-kubesec
+      cmd: mkdir -p ${va-report-dir}/kubesec-reports
+    - task: run-kubesec
+      docker-image: kubesec-scan
+      docker-flags:
+        - "--workdir /opt/va-scan-kubesec/"
+        - "--volume ${env.KUBECONFIG}:/opt/va-scan-kubesec/conf/kubeconfig"
+        - "--volume ${env.PWD}/${va-config-dir}/kubesec_config.yaml:/opt/va-scan-kubesec/conf/kubesec_config.yaml"
+        - "--volume ${env.PWD}/${va-report-dir}/kubesec-reports:/tmp/reports"
+        - "--volume ${env.PWD}/.bob/${helm-chart-name}-internal:/tmp/src"
+      cmd: ""
+    - task: cleanup-kubesec
+      cmd:
+        - rm -rf ${va-report-dir}/kubesec-reports/*${zk-chart-name}*
+        - rm -rf ${va-report-dir}/kubesec-reports/*${kf-chart-name}*
+        - rm -rf ${va-report-dir}/kubesec-reports/*${bro-chart-name}*
+        - rm -rf ${va-report-dir}/kubesec-reports/*${distributed-coordinator-ed-chart-name}*
+        - rm -rf ${va-report-dir}/kubesec-reports/*${sip-tls-chart-name}*
+        - rm -rf ${va-report-dir}/kubesec-reports/*${key-management-chart-name}*
+    - task: va-report-cmd
+      cmd: echo "${var.va-report-cmd}
+        --kubesec-reports ${va-report-dir}/kubesec-reports" > .bob/var.va-report-cmd
+
+  run-kubehunter:
+    - task: setup-kubehunter
+      cmd: mkdir -p ${va-report-dir}/kubehunter-reports
+    - task: run-kubehunter
+      docker-image: kubehunter-scan
+      docker-flags:
+        - "--workdir /opt/kubehunter/"
+        - "--volume ${env.KUBECONFIG}:/opt/kubehunter/conf/kubeconfig"
+        - "--volume ${env.PWD}/${va-config-dir}/kubehunter_config.yaml:/opt/kubehunter/conf/kubehunter_config.yaml"
+        - "--volume ${env.PWD}/${va-report-dir}/kubehunter-reports:/tmp/reports"
+      cmd: ""
+
+  run-kubeaudit:
+    - task: setup-kubeaudit
+      cmd: mkdir -p ${va-report-dir}/kubeaudit-reports
+    - task: run-kubeaudit
+      docker-image: kubeaudit-scan
+      docker-flags:
+        - "--workdir /opt/va-scan-kubeaudit/"
+        - "--volume ${env.PWD}/${va-config-dir}/kubeaudit_config.yaml:/opt/va-scan-kubeaudit/conf/kubeaudit_config.yaml"
+        - "--volume ${env.KUBECONFIG}:/opt/va-scan-kubeaudit/conf/kubeconfig"
+        - "--volume ${env.PWD}/${va-report-dir}/kubeaudit-reports:/tmp/reports"
+        - "--volume ${env.PWD}/.bob/${helm-chart-name}-internal:/tmp/src"
+      cmd: ""
+    - task: cleanup-kubeaudit
+      cmd:
+        - rm -rf ${va-report-dir}/kubeaudit-reports/*${zk-chart-name}*
+        - rm -rf ${va-report-dir}/kubeaudit-reports/*${kf-chart-name}*
+        - rm -rf ${va-report-dir}/kubeaudit-reports/*${bro-chart-name}*
+        - rm -rf ${va-report-dir}/kubeaudit-reports/*${distributed-coordinator-ed-chart-name}*
+        - rm -rf ${va-report-dir}/kubeaudit-reports/*${sip-tls-chart-name}*
+        - rm -rf ${va-report-dir}/kubeaudit-reports/*${key-management-chart-name}*
+    - task: va-report-cmd
+      cmd: echo "${var.va-report-cmd}
+        --kubeaudit-reports ${va-report-dir}/kubeaudit-reports" > .bob/var.va-report-cmd
+
+  run-zap:
+    - task: setup-zap
+      cmd: mkdir -p ${va-report-dir}/zap-reports
+    - task: zap-scan
+      docker-image: py3-kube-helm3-va
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        test.py --helm-v3
+        --kubernetes-admin-conf="${env.KUBECONFIG}"
+        --helm-user="${env.ARM_SERO_USER}"
+        --arm-api-token="${env.ARM_SERO_API_KEY}"
+        --kubernetes-namespace="${helm-install-namespace}"
+        --zap-config-file ${va-config-dir}/zap_config.yaml
+        --skip-upgrade-test
+        --only-zap-test || true
+    - task: va-report-cmd
+      cmd: echo "${var.va-report-cmd}
+        --zap-reports ${va-report-dir}/zap-reports" > .bob/var.va-report-cmd
+
+  #prepare VA report 2.0 without uploading results
+  run-va-report:
+    - task: run-va-report
+      docker-image: adp-release-auto-va
+      cmd: ${var.va-report-cmd} || true

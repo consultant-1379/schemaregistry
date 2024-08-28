@@ -1,0 +1,20 @@
+{{- if .Values.jmx.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}-jmx-cfg
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 8 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 8 }}
+data:
+  config.yml: |
+    hostPort: {{ .Values.jmx.hostName }}:{{ .Values.jmx.destPort }}
+    username:
+    password:
+    {{- if eq (include "eric-oss-schema-registry-sr.jmx-exporter-tls" .) "true" }}
+    ssl: true
+    {{- end }}
+    rules:
+    - pattern: ".*"
+{{- end -}}

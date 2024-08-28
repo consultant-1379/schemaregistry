@@ -1,0 +1,34 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- if $global.security.tls.enabled }}
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalCertificate
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}-kafka-client-cert
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+spec:
+  kubernetes:
+    generatedSecretName: {{ template "eric-oss-schema-registry-sr.kafka-client-cert-secret" . }}
+    certificateName: kfclientcert.pem
+    privateKeyName: kfclientkey.pem
+  certificate:
+    {{- if eq .Values.messagebuskf.srclientcn "sr" }}
+    subject:
+      cn: {{ template "eric-oss-schema-registry-sr.name" . }}
+    {{- else if eq .Values.messagebuskf.srclientcn "kf" }}
+    subject:
+      cn: {{ .Values.messagebuskf.clientServiceName | quote }}
+    {{- end }}
+    issuer:
+      reference:  {{ .Values.messagebuskf.issuerReference | quote }}
+    subjectAlternativeName:
+      populateKubernetesDns: false
+    extendedKeyUsage:
+      tlsClientAuth: true
+      tlsServerAuth: false
+    validity:
+      overrideTtl: {{ .Values.service.endpoints.messagebuskf.tls.certTtl }}
+      overrideLeadTime: {{ .Values.service.endpoints.messagebuskf.tls.certLeadTime }}
+{{- end -}}

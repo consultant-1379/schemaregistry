@@ -1,0 +1,82 @@
+#
+# COPYRIGHT Ericsson 2024
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: eric-oss-schema-registry-sr
+  title: Schema Registry SR
+  description: The Schema Registry SR Service ensures that Apache Avro, JSON and Protobuf formatted messages sent between Producers and Consumers comply with schemas.
+  annotations:
+    backstage.io/source-location: url:https://gerrit-gamma.gic.ericsson.se/plugins/gitiles/AIA/microservices/schemaregistry
+    backstage.io/kubernetes-label-selector: 'app.kubernetes.io/name=eric-schema-registry-sr'
+    gerrit/component: AIA/microservices/schemaregistry
+    sonarqube.org/project-key: com.ericsson.oss.schemaregistry:eric-oss-schema-registry-sr
+    jira.com/project-keys: IDUN
+    jira.com/filter-ids: "125156"
+    jira.com/instance: oss
+    jenkins:
+      fem6s11-eiffel216.eiffel.gic.ericsson.se:8443/schemaregistry_PreCodeReview_Hybrid,
+      fem6s11-eiffel216.eiffel.gic.ericsson.se:8443/schemaregistry_Publish_Hybrid
+    spinnaker.io/application-name: dmm-e2e-cicd
+    spinnaker.io/pipelines: eric-dmm-schema-registry-sr-E2E-Flow
+  links:
+    - url: https://mimer.internal.ericsson.com/productPage?activeView=productDetails&productNumber=APR201492
+      title: Mimer
+      icon: dashboard
+    - url: https://eteamspace.internal.ericsson.com/display/IDUN/Team+Sunshine
+      title: Team Sunshine Confluence
+      icon: dashboard
+    - url: https://adp.ericsson.se/marketplace/schema-registry-sr
+      title: ADP
+      icon: dashboard
+  tags:
+    - ericsson-intelligent-controller
+    - ready-for-integration
+  roles:
+    microservice-architect: zauskum
+    scrum-master: xkispoo
+    product-owner: xramear
+    line-manager: erocorr
+    security-master: zamibak
+    test-expert: zpooagr
+    ci-spoc: zdurkal
+  approval:
+    date: 22-02-2024
+    approver: zauskum
+spec:
+  system: eric-oss-dmm
+  lifecycle: production
+  owner: team-sunshine-mandl
+  type: microservice
+  providesApis:
+    - schema-registry-api
+  consumesApis:
+    - schema-registry-api
+
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: schema-registry-api
+  title: Schema Registry API
+  description: The Schema Registry SR Service ensures that Apache Avro, JSON and Protobuf formatted messages sent between Producers and Consumers comply with schemas. It assigns an ID to each registered schema.
+spec:
+  system: eric-oss-adc
+  type: external-link
+  lifecycle: production
+  owner: team-sunshine-mandl
+  definition: https://gerrit-gamma.gic.ericsson.se/plugins/gitiles/AIA/microservices/schemaregistry/+/master/Documentation/SchemaRegistrySRApiGuide.md

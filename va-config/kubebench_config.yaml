@@ -1,0 +1,15 @@
+KubeBench:
+  Product: 'Schema Registry' #Node/TPG Name(this is an optional parameter now, newly added for analytics)
+  KubeconfigFile: "kubeconfig"
+  Targets: 'all' #Other Options: master,controlplane,node,etcd,policies # one or more by comma separated.
+  Version: '' #Format: 1.19, 1.17  #Optional, only if you want to override the default option.
+  #Timeout: !ENV ${STD_TIMEOUT}  #Max Wait time in seconds for the Pod to become successful, 60 secs is default.
+  DisplayReportConsole: True #Make it true if you want the reports to be displayed in console
+  Namespace: !ENV '${VA_NAMESPACE}'
+
+  #This configuration support ENV variables
+  #    The environment variables must have !ENV before them and be in this format to be parsed: ${VAR_NAME}.
+  #    E.g.:
+  #    scanner:
+  #        arm_path: !ENV 'https://arm.sel..${PROD}:${VER}'
+  #        something_else: !ENV '${AWESOME_ENV_VAR}/var/${A_SECOND_AWESOME_VAR}'

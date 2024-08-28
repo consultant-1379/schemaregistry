@@ -1,0 +1,30 @@
+{{- $serviceMesh := include "eric-oss-schema-registry-sr.service-mesh-enabled" . | trim -}}
+{{- $tls := include "eric-oss-schema-registry-sr.global-security-tls-enabled" . | trim -}}
+{{- $osm2ism := include "eric-oss-schema-registry-sr.osm2ism-enabled" . | trim -}}
+{{- $osmServiceCSAC := include "eric-oss-schema-registry-sr.osmService-csac-enabled" . | trim -}}
+{{- $intermediateCA := include "eric-oss-schema-registry-sr.osmService-csac-issuerRef-enabled" . | trim -}}
+{{- if and (eq $serviceMesh "true") (eq $tls "true") (eq $osm2ism "true") (eq $osmServiceCSAC "true") }}
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalCertificate
+metadata:
+  name: {{ include "eric-oss-schema-registry-sr.name" . }}-{{ include "eric-oss-schema-registry-sr.osmService-csac-name" . }}-int-cert
+  labels:
+  {{- include "eric-oss-schema-registry-sr.labels" .| nindent 4 }}
+  annotations:
+  {{- include "eric-oss-schema-registry-sr.annotations" .| nindent 4 }}
+spec:
+  kubernetes:
+    generatedSecretName: {{ include "eric-oss-schema-registry-sr.name" . }}-{{ include "eric-oss-schema-registry-sr.osmService-csac-name" . }}-secret
+    certificateName: "cert.pem"
+    privateKeyName: "key.pem"
+  certificate:
+    subject:
+      cn: {{ include "eric-oss-schema-registry-sr.name" . }}
+    {{- if (eq $intermediateCA "true") }}
+    issuer:
+      reference: {{ include "eric-oss-schema-registry-sr.osmService-csac-issuerRef" . }}
+    {{- end }}
+    extendedKeyUsage:
+      tlsClientAuth: true
+      tlsServerAuth: true
+{{- end }}

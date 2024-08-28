@@ -1,0 +1,4 @@
+requests==2.11.1
+jinja2==2.9.6
+setuptools-git==1.0.B1
+MarkupSafe==1.1.0

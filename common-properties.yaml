@@ -1,0 +1,43 @@
+modelVersion: 2.0
+
+properties:
+  - image-name: eric-oss-schema-registry-sr
+    # Microservice helm chart name
+  - helm-chart-name: eric-oss-schema-registry-sr
+  - helm-chart-repo-server: https://arm.seli.gic.ericsson.se/artifactory
+  - image-registry: armdocker.rnd.ericsson.se
+  - image-drop-repopath: proj-eric-oss-drop
+  - image-dev-repopath: proj-eric-oss-dev
+  - image-full-name: armdocker.rnd.ericsson.se/proj-eric-oss-drop/eric-oss-schema-registry-sr
+  - image-product-number: "CXC2011692"
+  - docker-image-name: eric-oss-schema-registry-sr
+  - project-artifact-id: eric-oss-schema-registry-sr
+  - gerrit-repo-name: AIA/microservices/schemaregistry
+  # Fossa team name
+  - fossa-team-name: eric-oss-sunshine
+  #- eridoc-config: "doc/eridoc/eridoc_config.yaml"
+  #- jira-component-name: "Bob"
+
+  - cbos-image-repo: "armdocker.rnd.ericsson.se/proj-ldc/common_base_os_release"
+  - cbos-image-name: "sles"
+  - cbos-image-version: "6.16.0-13"
+
+  #- jira-component-name: " "
+  # Microservice helm chart name
+    # Path to YAML file containing all needed information about product structure to release in PRIM
+    # Local folder where the dpraf output is generated based on dpraf-config-file during execution of adp-prim-release rule
+    # Configuration file for eridoc documents
+    # Static information for PRI
+    # Product extended name in JIRA
+    # GERRIT repository URL
+  - gerrit-url: "https://gerrit-gamma.gic.ericsson.se/#/admin/projects/AIA/microservices/schemaregistry"
+
+  # bragent name
+  - bragent-image-name: eric-oss-schema-registry-sr-bragent
+  # to enable custom stage of API Testing
+  - enable_api_testing_stage: false
+  # Directory where dependencies.yaml is generated or updated
+  - ci-artifacts-directory: generated/dependencies
+  # Directory where dependencies-3pp.yaml and dependencies-metadata.yaml are stored
+  - dependencies-files-folder: ci-cd/config/dependencies
+

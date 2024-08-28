@@ -1,0 +1,146 @@
+#
+# COPYRIGHT Ericsson 2021
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+
+#################################################################################
+# WARNING: This is an example Artefact description of schemaregistry microservices for reference, not for usage in production.
+#################################################################################
+# The ID is autoassigned when the artefact is uploaded to the tool.
+# Unique key for the description is the combination of Name and Version.
+# Name of microservice that artefact description belongs.
+Name: eric-schema-registry-sr
+Version: 1.0.0
+
+# Repository param expresses a way to locate the artefact
+Artifact:
+  Type: Gerrit
+  # microservice helm chart
+  Name: eric-schema-registry-sr
+  Tag: 1.71.0-1
+  ProductNumber: APR201492
+  # Group id for microservice repo
+  GerritProjectName: com.ericsson.oss.dmi
+
+Capabilities:
+  # Details of microservice use-cases and capabilites
+    Name: schemaregistry
+    Version: 1.71.0-1 # semantic versioning of capability.
+    Description: "schemaregistry ensures that Apache Avro, JSON and Protobuf formatted messages sent between Producers and Consumers comply with schemas."
+
+Requirements:
+  # list of dependent and required capabilities.
+  - Id: kafka
+    prefix: kf
+    Version: 1.1.0-53
+
+ConfigurationDeclaration:
+  SRRequestCpu:
+    Presence: Optional
+    TemplateName: resources.schemaregistry.requests.cpu
+  SRRequestMem:
+    Presence: Optional
+    TemplateName: resources.schemaregistry.requests.memory
+  SRLimitCpu:
+    Presence: Optional
+    TemplateName: resources.schemaregistry.limits.cpu
+  SRLimitMem:
+    Presence: Optional
+    TemplateName: resources.schemaregistry.limits.memory
+  jmxRequestCpu:
+    Presence: Optional
+    TemplateName: resources.jmx.requests.cpu
+  jmxRequestMem:
+    Presence: Optional
+    TemplateName: resources.jmx.requests.memory
+  jmxLimitCpu:
+    Presence: Optional
+    TemplateName: resources.jmx.limits.cpu
+  jmxLimitMem:
+    Presence: Optional
+    TemplateName: resources.jmx.limits.memory
+
+ConfigurationAssignment: {}
+
+Resources:
+  LoadDrivers:
+    # Deployment specific load drivers. these load drivers are derived from top level load drivers.
+     numOfRequestPerSecond: "Number of schemas created" # this is numOfSchemas but here giving as numOfRequestPerSecond due to generic schema
+    # Genric load drivers. these are documented for reference as these could change in future and impact microservice characteristics.
+    # The default values of generic load drivers are documented in rules or ConfigurationAssignment.
+     sizeOfSchema: "Size of schema"
+
+Rules:
+  # Properties affecting microservice characteristics.
+  # resource usage, peformance metrics and optimal load from single instance benchmarking.
+    horizontalScalingLimit: (0)
+    srCpuUsage: ( 0.117 ) # in ms
+    srPeakCpuUsage: ( 0.184 ) # in ms
+    srMemoryUsage: ( 312 ) # in mb
+    srPeakMemoryUsage: ( 403 ) # in mb
+    jmxCpuUsage: ( 0.634 ) # in ms
+    jmxPeakCpuUsage: ( 0.651 ) # in ms
+    jmxMemoryUsage: ( 102 ) # in mb
+    jmxPeakMemoryUsage: ( 102 ) # in mb
+    CpuUsage: (srCpuUsage + jmxCpuUsage) # in cores
+    PeakCpuUsage: (srPeakCpuUsage + jmxPeakCpuUsage) # in cores
+    MemoryUsage: (srMemoryUsage + jmxMemoryUsage) # in mib
+    PeakMemoryUsage: (srPeakMemoryUsage + jmxPeakMemoryUsage) # in mib
+    optimumNumOfRequestPerInstance: (1150)
+    maxNumOfSchemasPerFSPerInstance: (15)
+    optimumNumOfSchemasPer15minRopPerInstance: ( 10 )
+    latency: (27ms)
+    trafficRate: ( 0.182 req/sec ) #single instance performance characteristics, rate of files processed.
+
+  # Properties for calculation
+    perSecondRequestProcessingCost: (10)
+
+
+  # Scaling
+  # processing power of an single instance.
+    instanceProcessingPower: ( (optimumNumOfSchemasPerInstance * perSecondRequestProcessingCost))
+  # required processing power for product/application load.
+    requiredProcessingPower: ( (numOfRequestPerSecond * perSecondRequestProcessingCost))
+  # Instance Count calculation
+    instanceCount: ( Ceil(requiredProcessingPower / instanceProcessingPower) )
+
+  # Resource allocation per instance
+  # assigned via a static value or via user-defined formula.
+    srCpuRequest: ( 100 ) # in milli vCPU
+    srCpuLimit: ( 600 ) # in milli vCPU
+    srMemoryRequest: ( 800 ) # in megabyte
+    srMemoryLimit: ( 1024 ) # in megabyte
+
+    jmxCpuRequest: ( 50 ) # in milli vCPU
+    jmxCpuLimit: ( 100 ) # in milli vCPU
+    jmxMemoryRequest: ( 170 ) # in megabyte
+    jmxMemoryLimit: ( 384 ) # in megabyte
+
+  # assigned via a static value or via user-defined formula.
+    CpuRequest: (srCpuRequest + jmxCpuRequest)
+    MemoryRequest: (srMemoryRequest + jmxMemoryRequest)
+    CpuLimit: (srCpuLimit + jmxCpuLimit)
+    MemoryLimit: (srMemoryLimit + jmxMemoryLimit)
+
+  # microservice Instance resource allocation summary
+    cpuRequest: (CpuRequest)
+    memRequest: (MemoryRequest)
+    cpuLimits: (CpuLimit)
+    memLimits: (MemoryLimit)
+
+  # Resource population per instance
+    RequestCpu: (CpuRequest + 'm')
+    LimitCpu: (CpuLimit + 'm')
+    RequestMem: (MemoryRequest + 'Mi')
+    LimitMem: (MemoryLimit + 'Mi')

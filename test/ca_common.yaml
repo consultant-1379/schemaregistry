@@ -1,0 +1,10 @@
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalUserCA
+metadata:
+  name: {name}
+spec:
+  kubernetes:
+    generatedSecretName: {name}
+  certificate:
+    subject:
+      cn: eric-eea-ingress-ctrl-common-client-ca

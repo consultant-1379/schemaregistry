@@ -1,0 +1,24 @@
+productName: "Schema Registry SR"
+productNumber: "CXC 201 1692"
+images:
+  schemaregistry:
+    productName: "Schema Registry SR"
+    productNumber: "CXC 201 1692"
+    registry: "armdocker.rnd.ericsson.se"
+    repoPath: "REPO_PATH"
+    name: "eric-oss-schema-registry-sr"
+    tag: "VERSION"
+  jmxexporter:
+    productName: "Schema Registry SR JMX Container"
+    productNumber: "CXC 201 2016"
+    registry: "armdocker.rnd.ericsson.se"
+    repoPath: "proj-adp-message-bus-kf-internal"
+    name: "eric-data-message-bus-kf-jmx-exporter"
+    tag: "1.49.0-0"
+  bragent:
+    productName: "Schema Registry SR Backup and Recovery Agent Image"
+    productNumber: "CXC 201 1692"
+    registry: "armdocker.rnd.ericsson.se"
+    repoPath: "REPO_PATH"
+    name: "eric-oss-schema-registry-sr-bragent"
+    tag: "VERSION"

@@ -1,0 +1,26 @@
+documents:
+    - name: "Service User Guide"
+      filepath: build/doc-md/user-guide.zip
+      default: true
+    - name: "Application Developers Guide"
+      filepath: build/doc-md/developers-guide.zip
+    - name: "Inner Source README"
+      filepath: build/doc-md/readme.zip
+    - name: "Contributing Guideline"
+      filepath: build/doc-md/contributing.zip
+    - name: "Vulnerability Analysis Report"
+      external-link: "https://erilink.ericsson.se/eridoc/erl/objectId/09004cffced308c6?docno=&format=md"
+      restricted: true
+    - name: "Software Vendor List (SVL)"
+      external-link: "https://erilink.ericsson.se/eridoc/erl/objectId/09004cffcc9e0bf0?docno=1/24050-APR201492Uen&action=current&format=excel8book"
+    - name: "Api Guide"
+      filepath: build/doc-md/api-guide.zip
+    - name: "Risk Assessment & Privacy Impact Assessment"
+      external-link: "https://erilink.ericsson.se/eridoc/erl/objectId/09004cffcde51d9b?docno=LMI-23:000186Uen&action=approved&format=msw8"
+      restricted: true
+    - name: "Test Specification"
+      filepath: build/doc-md/Test-Specification.zip
+    - name: "Test Verification Report"
+      filepath: build/doc-md/Test-Verification-Report.zip
+    - name: "Product Revision Information (PRI)"
+      filepath: build/doc-md/Schema-Registry-PRI.zip  

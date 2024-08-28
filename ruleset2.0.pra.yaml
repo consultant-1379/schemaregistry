@@ -1,0 +1,233 @@
+modelVersion: 2.0
+
+import:
+  common: common-properties.yaml
+
+docker-images:
+  #- adp-release-auto: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-adp-release-auto:latest
+  - adp-release-auto: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-adp-release-auto:${env.RELEASE_AUTO_TAG}
+
+properties:
+  # Properties for Docker images
+  - image-repo-server:  https://armdocker.rnd.ericsson.se/artifactory/docker-v2-global-local
+  - image-repo-name-drop: proj-ec-son-drop
+  - image-repo-fullpath-drop: ${common.image-registry}/${image-repo-name-drop}/${common.image-name}
+  - image-repo-drop: ${common.image-registry}/${image-repo-name-drop}
+  - image-folder-released: 'build/released-images'
+  - image-manifest-url: ${image-repo-server}/$(image-repo-name-drop)/${common.image-name}/${env.RELEASE_CANDIDATE}
+  #- image-manifest-url: ${image-repo-server}/$(image-repo-name-drop)/${common.image-name}/1.1.3-7/manifest.json
+  # Properties for Helm charts
+  #- helm-chart-repo-name-released: proj-ec-son-drop-helm
+  - helm-chart-repo-name-released: proj-eric-oss-drop-helm
+  - helm-chart-repo-name-drop: proj-eric-oss-drop-helm
+  - helm-chart-repo-fullpath-released: ${common.helm-chart-repo-server}/${helm-chart-repo-name-released}/${common.helm-chart-name}
+  - helm-chart-repo-fullpath-drop: ${common.helm-chart-repo-server}/${helm-chart-repo-name-drop}/${common.helm-chart-name}
+  - helm-chart-repo-released: ${common.helm-chart-repo-server}/${helm-chart-repo-name-released}
+  - helm-chart-repo-drop: ${common.helm-chart-repo-server}/${helm-chart-repo-name-drop}
+  - helm-chart-folder-released: 'build/released-charts'
+  - arm-doc-released: ${common.helm-chart-repo-server}/proj-adp-eric-message-bus-kf-docs-released-generic-local/
+  # Other properties
+  - git-clone-url: "https://ejenksonom@gerrit-gamma.gic.ericsson.se/a/AIA/microservices/schemaregistry"
+  - git-change-url: "https://gerrit-gamma.gic.ericsson.se/#/q/"
+  - image-to-PRA: ${image-full-name}:${env.RELEASE_CANDIDATE}
+  - image-dev-repopath: ${image-registry-path}-dev
+  - image-ci-repopath: ${image-registry-path}-ci-internal
+  - image-drop-repopath: ${image-registry-path}-drop
+  - image-ci-full-name: ${image-ci-repopath}/${common.docker-image-name}
+  - image-full-name: ${image-drop-repopath}/${common.docker-image-name}
+  - image-registry-path: armdocker.rnd.ericsson.se/proj-eric-oss
+    # Helm Chart name must follow the pattern: eric-[a-z0-9]{1,5}-[a-z0-9-]{1,30}-->Taken from CI ruleset.
+  - helm-chart-repo-server-path: https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss
+  - helm-chart-dev-repopath: ${helm-chart-repo-server-path}-dev-helm
+  - helm-chart-ci-repopath: ${helm-chart-repo-server-path}-ci-internal-helm-local
+  - helm-chart-drop-repo: ${helm-chart-repo-server-path}-drop-helm/${common.helm-chart-name}/
+
+env:
+  - HOME
+  - PWD
+  - DOCKER_USERNAME
+  - DOCKER_PWD (default=Docker)
+  - RELEASE_CANDIDATE
+  - KUBECONFIG (default=/tmp/kube.admin.conf)
+  - HELM_USER (default=eadphub)
+  - ARTIFACTS_REPO_API_TOKEN
+  - KAAS_HOSTNAME (default=todd060.rnd.gic.ericsson.se)
+  - GIT_COMMIT (default=HEAD)
+  - GERRIT_USERNAME
+  - GERRIT_PASSWORD
+  - JIRA_USERNAME
+  - JIRA_PASSWORD
+  - ERIDOC_USERNAME (default=eadpusers)
+  - ERIDOC_PASSWORD
+  - ERIDOC_UPLOAD
+  - DPRAF_USERNAME
+  - DPRAF_API_TOKEN
+  - DRY_RUN (default=true)
+  - EVMS_USERNAME (default=eadphub)
+  - EVMS_PASSWORD
+  - ERIDOC_USERNAME (default=eadpusers)
+  - ERIDOC_PASSWORD
+  - API_TOKEN
+  - MARKETPLACE_TOKEN
+  - ADP_PORTAL_API_KEY
+  - RND_KI_API_TOKEN
+  - HELM_RELEASE (default=${common.helm-chart-name}-release)
+  - GERRIT_CHANGE_NUMBER (default=$GERRIT_CHANGE_NUMBER)
+  - SELI_ARTIFACTORY_REPO_USER
+  - SELI_ARTIFACTORY_REPO_PASS
+  - SERO_ARTIFACTORY_REPO_USER
+  - SERO_ARTIFACTORY_REPO_PASS
+  - CREDENTIALS_SELI_ARTIFACTORY_USR
+  - CREDENTIALS_SELI_ARTIFACTORY_PSW
+  - RELEASE_AUTO_TAG (default=latest)
+  - MAVEN_OPTS (default=-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn)
+  - PROJ_MVN (default=/proj/mvn)
+  - DOCKER_VOLUME_MAPPING_PASSWD (default=--volume ${env.HOME}/mypasswd:/etc/passwd:ro)
+  - ENABLE_HELM_V3 (default=true)
+
+var:
+  - image-full-name-internal
+  - released-version
+  - helmchart-file-name
+  - released-version-without-build-number
+  - doc-repo-internal
+  - doc-version
+  - sha256-helm
+  - sha256-image
+  - sha256-initcontainer
+  - sha256-lib
+  - sha256-sdk
+  - version-prefix: VERSION_PREFIX
+  - HELM_REPO_API_TOKEN
+  - MARKETPLACE_TOKEN
+  - ADP_PORTAL_API_KEY
+  - version
+
+rules:
+  # Make sure repo is clean
+  clean:
+    - task: rm
+      cmd:
+        - rm -rf .bob/
+        - rm -rf build/
+        - rm -f artifact.properties
+  # Generates the released version based on environment variable RELEASE_CANDIDATE
+  # Generates adp artifacts properties
+  init:
+    - task: generate-released-version
+      cmd:
+        - echo ${env.RELEASE_CANDIDATE} | sed s/-/+/ > .bob/var.released-version
+    - task: helmchart-file-name
+      cmd: echo ${common.helm-chart-name}-${var.released-version}.tgz > .bob/var.helmchart-file-name
+    - task: doc-repo-internal
+      cmd: echo '${helm-chart-ci-repopath}/${common.helm-chart-name}' > .bob/var.doc-repo-internal
+      # doc-version is major.minor.patch
+    - task: doc-version
+      cmd: bash -c 'v=${env.RELEASE_CANDIDATE}; echo "${v%-*}"' > .bob/var.doc-version
+
+  # This rule pulls the release candidate image, saves it in a tar.gz format and pushes it to released-artifacts-repo
+  image-package-release:
+    - task: pull-docker-image
+      cmd:
+        - docker pull ${image-to-PRA}
+    - task: save-images
+      cmd:
+        - mkdir -p ${image-folder-released}
+        - docker save ${image-to-PRA}
+             -o ${image-folder-released}/${common.image-name}-${env.RELEASE_CANDIDATE}.tar.gz
+  # This rule fetches release candidate (e.g. 1.0.0-3) helm chart from helm-chart-repo
+  # and packages with PRA release version (e.g. 1.0.0+3)
+  helm-package-release:
+    - task: generate-release-chart
+      docker-image: adp-release-auto
+      docker-flags:
+       - "--env ENABLE_HELM_V3=true"
+      cmd:
+        - mkdir -p ${helm-chart-folder-released}
+        - generate_release_helm_package
+          -r ${helm-chart-drop-repo}
+          -n ${common.helm-chart-name}
+          -v ${env.RELEASE_CANDIDATE}
+          -o ${helm-chart-folder-released}
+          -x ${var.released-version}
+          -u ${env.CREDENTIALS_SELI_ARTIFACTORY_USR}
+          -t ${env.CREDENTIALS_SELI_ARTIFACTORY_PSW}
+    - task: adp-artifacts-properties
+      docker-image: adp-release-auto
+      cmd: generate-adp-artifacts
+        --chart-name ${common.helm-chart-name}
+        --chart-version ${var.released-version}
+        --chart-repo ${helm-chart-repo-released}
+        --image-name ${common.image-name}
+        --image-version ${env.RELEASE_CANDIDATE}
+        --image-repo ${image-ci-repopath}
+    - task: write-git-details
+      cmd:
+        - echo "GIT_TAG=$(git log -1 --pretty=format:'%h')" >> artifact.properties
+        - echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')" >> artifact.properties
+        - echo "GIT_COMMIT_SUMMARY=$(git log -1 --pretty=format:'%s')" >> artifact.properties
+        - echo "GERRIT_CHANGE_URL=${git-change-url}$(git log -1 --pretty=format:'%H')" >> artifact.properties
+    - task: additional-adp-artifact-properties
+      cmd:
+        - echo "DRY_RUN=${env.DRY_RUN}" >> artifact.properties
+
+  # The rule uploads the helm chart with PRA release version (e.g. 1.0.0+3) generated
+  # to the official helm repository helm-chart-repo-released
+  publish-release:
+    - task: release-helm-package
+      docker-image: adp-release-auto
+      #This original command can't be used, helm-chart-repo-gs-released doesn't exist in case of schema-registry
+      #cmd: upload_helm_package
+      #  -f "${helm-chart-folder-released}/${var.helmchart-file-name}"
+      #  -r ${helm-chart-repo-released}
+      #  -u ${env.HELM_USER}
+      #  -t ${env.API_TOKEN}
+      #  -i ${helm-chart-repo-gs-released}
+      #Use instead this command
+      cmd: upload_file.sh
+        --filename=${helm-chart-folder-released}/${var.helmchart-file-name}
+        --repository=${helm-chart-repo-fullpath-released}
+        --api-token=${env.CREDENTIALS_SELI_ARTIFACTORY_PSW}
+        --dry-run=${env.DRY_RUN}
+    # Create and push git tag. Example v1.0.0+55
+    - task: git-tag
+      docker-image: adp-release-auto
+      docker-flags:
+        - --env GERRIT_USERNAME=ejenksonom
+        - --env GERRIT_PASSWORD='c(9(dIDwm+\4C}{<'
+      cmd: version-handler create-git-tag
+           --tag v${var.released-version}
+           --message "PRA Release ${var.released-version}"
+           --git-repo-url ${git-clone-url}
+           --dry-run ${env.DRY_RUN}
+    - task: zip-md-oas-release
+      docker-image: adp-release-auto
+      cmd: doc-handler generate
+        --config ${env.PWD}/Documentation/marketplace_config.config
+        --output ${env.PWD}/build/doc-md
+        --format html
+        --zip
+    - task: upload-md-oas-release
+      docker-image: adp-release-auto
+      cmd: marketplace upload
+          --arm-api-token ${var.HELM_REPO_API_TOKEN}
+          --arm-url ${var.doc-repo-internal}
+          --config ${env.PWD}/Documentation/marketplace_upload_config.yaml
+          --version ${var.doc-version}
+          --debug
+          --portal-token ${var.MARKETPLACE_TOKEN}
+          --refresh
+          --dry-run ${env.DRY_RUN}
+
+  increment-version-prefix:
+    - task: git-push-version-prefix-increment
+      docker-image: adp-release-auto
+      docker-flags:
+        - --env GERRIT_USERNAME=ejenksonom
+        - --env GERRIT_PASSWORD='c(9(dIDwm+\4C}{<'
+      cmd: version-handler increment
+           --step-version-prefix "PATCH"
+           --git-repo-url ${git-clone-url}
+           --branch master
+           --dry-run ${env.DRY_RUN}
+           

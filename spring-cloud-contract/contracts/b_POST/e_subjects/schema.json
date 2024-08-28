@@ -1,0 +1,1 @@
+{"schema":"{\"type\":\"record\",\"name\":\"nose_test_topic_p1_r3_pw\",\"namespace\":\"com.ippontech.kafkatutorials\",\"fields\":[{\"name\":\"firstName\",\"type\":\"string\"},{\"name\":\"lastName\",\"type\":\"string\"},{\"name\":\"birthDate\",\"type\":\"long\"}]}"}

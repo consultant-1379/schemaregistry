@@ -1,0 +1,18 @@
+TEST FW ACCESS ON THE KAAS
+==========================
+
+The TestFw creates a Test Pod which performs Helm and Kubectl commands.
+Roles and RoleBindings need to be created to allow the test pod to perform these commands.
+
+See manifests in this directory.
+
+For Kubectl permissions: 
+
+-  testfw_role_k8s.yaml 
+-  testfw_bind_k8s.yaml
+
+For Helm permissions:
+
+-  testfw_role.yaml
+-  testfw_bind.yaml
+

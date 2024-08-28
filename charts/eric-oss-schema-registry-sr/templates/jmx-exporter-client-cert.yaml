@@ -1,0 +1,27 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- if eq (include "eric-oss-schema-registry-sr.jmx-exporter-tls" .) "true" }}
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalCertificate
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}-jmx-exporter-client-cert
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+spec:
+  kubernetes:
+    generatedSecretName: {{ template "eric-oss-schema-registry-sr.jmx-exporter-client-cert-secret" . }}
+    certificateName: jmxclientcert.pem
+    privateKeyName: jmxclientkey.pem
+  certificate:
+    subject:
+      cn: {{ template "eric-oss-schema-registry-sr.name" . }}
+    issuer:
+      reference: {{ template "eric-oss-schema-registry-sr.name" . }}-client-ca
+    extendedKeyUsage:
+      tlsClientAuth: true
+      tlsServerAuth: false
+    validity:
+      overrideTtl: {{ .Values.service.endpoints.jmx.tls.certTtl }}
+      overrideLeadTime: {{ .Values.service.endpoints.jmx.tls.certLeadTime }}
+{{- end -}}

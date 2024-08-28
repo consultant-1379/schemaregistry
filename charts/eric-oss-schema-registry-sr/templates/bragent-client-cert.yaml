@@ -1,0 +1,31 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+
+{{/*
+  Client CA Certificate provided by BRO for mTLS communication between SR BrAgent and BRO
+*/}}
+{{- if and $global.security.tls.enabled .Values.brAgent.enabled }}
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalCertificate
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.agentName" . }}-bro-client-cert
+  labels:
+    {{- include "eric-oss-schema-registry-sr.agent.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+spec:
+  kubernetes:
+    generatedSecretName: {{ template "eric-oss-schema-registry-sr.agentName" . }}-bro-client-cert
+    certificateName: clientcert.pem
+    privateKeyName: clientprivkey.pem
+  certificate:
+    subject:
+      cn: {{ template "eric-oss-schema-registry-sr.agentName" . }}-bro-client-cert
+    issuer:
+      reference: {{ template "eric-oss-schema-registry-sr.broServiceName" . }}-ca
+    extendedKeyUsage:
+      tlsClientAuth: true
+      tlsServerAuth: false
+    validity:
+      overrideTtl: {{ .Values.service.endpoints.bragent.tls.certTtl }}
+      overrideLeadTime: {{ .Values.service.endpoints.bragent.tls.certLeadTime }}
+{{- end -}}

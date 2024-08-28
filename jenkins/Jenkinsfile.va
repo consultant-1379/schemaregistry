@@ -1,0 +1,184 @@
+@Library('son-dev-utils-shared-library')
+import jenkins.utils.*
+
+logging = new logging() // https://gerrit-gamma.gic.ericsson.se/gitweb?p=OSS/com.ericsson.oss.services.sonom/son-dev-utils.git;a=blob_plain;f=src/jenkins/utils/logging.groovy;hb=master
+utils = new utils()     // https://gerrit-gamma.gic.ericsson.se/gitweb?p=OSS/com.ericsson.oss.services.sonom/son-dev-utils.git;a=blob_plain;f=src/jenkins/utils/utils.groovy;hb=master
+
+pipeline {
+    agent {
+        node {
+            label SLAVE
+        }
+    }
+    tools {
+        jdk 'jdk8'
+        maven 'maven'
+    }
+    options {
+        skipDefaultCheckout true
+        timestamps()
+        timeout(time: 3, unit: 'HOURS')
+        buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
+    }
+    environment {
+        SERVICE_NAME = 'eric-oss-schema-registry-sr'
+        SIP_TLS = 'true'
+        CREDENTIALS_SEKA_ARTIFACTORY = credentials ('ejenksonomArtifactoryApiKey')
+        ARM_SERO_API_KEY = credentials('ARM_SERO_API_KEY')
+        ARM_SERO_USER = credentials('ARM_SERO_USER')
+        BOB = "docker run --rm \
+                           --env HOME=${HOME} \
+                           --env APP_PATH=${WORKSPACE} \
+                           --env KUBECONFIG=${WORKSPACE}/.kube/config \
+                           --env ARM_SELI_API_KEY=${env.CREDENTIALS_SEKA_ARTIFACTORY_PSW} \
+                           --env ARM_SERO_API_KEY=${env.ARM_SERO_API_KEY} \
+                           --env ARM_SELI_USER=${env.CREDENTIALS_SEKA_ARTIFACTORY_USR} \
+                           --env ARM_SERO_USER=${env.ARM_SERO_USER} \
+                           --env VERSION=${env.VERSION} \
+                           --env SIP_TLS=${SIP_TLS} \
+                           --env HELM3_INSTALL_TIMEOUT=${HELM3_INSTALL_TIMEOUT} \
+                           -v ${WORKSPACE}:${WORKSPACE} \
+                           -v /var/run/docker.sock:/var/run/docker.sock \
+                           -w ${WORKSPACE} \
+                           ${env.BOB_DOCKER_IMAGE} -r ${RULESET}"
+        KUBECTL_CMD = "docker run --rm \
+                                    -v ${WORKSPACE}/.kube/config:/root/.kube/config \
+                                    -v ${WORKSPACE}:${WORKSPACE} \
+                                    ${env.KUBECTL_DOCKER_IMAGE}"
+        HELM_INSTALL_NAMESPACE = "${SERVICE_NAME}-install-va"
+        HELM3_INSTALL_TIMEOUT = '600s'
+        RULESET = 'ruleset2.0.va.yaml'
+    }
+    stages {
+        stage('Clean') {
+            steps {
+                echo 'Cleanup workspace'
+                cleanWs()
+                echo 'SCM Checkout'
+                checkout scm
+            }
+        }
+        stage('Init') {
+            steps {
+                configFileProvider([configFile(fileId: "$AIA_SVC_KUBE_CONFIG", targetLocation: "${ WORKSPACE }/.kube/config")]) {}
+                sh('${BOB} init-va > bob-init.log')
+            }
+        }
+        stage('Fetch xray') {
+            steps {
+                echo 'Fetch-xray'
+                sh('${BOB} fetch-xray > bob-fetch-xray.log')
+            }
+        }
+        stage('Run grype') {
+            when {
+                expression { env.GRYPE_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run Grype'
+                sh('${BOB} run-grype > bob-grype-scan.log')
+            }
+        }
+        stage('Run trivy') {
+            when {
+                expression { env.TRIVY_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run trivy'
+                sh('${BOB} run-trivy > bob-trivy-scan.log')
+            }
+        }
+        stage('Run hadolint') {
+            when {
+                expression { env.HADOLINT_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run hadolint'
+                sh('${BOB} run-hadolint > bob-hadolint-scan.log')
+            }
+        }
+        stage('Deploy') {
+            when {
+                expression { env.PORTSCAN_ENABLED == 'true' || env.KUBESEC_ENABLED == 'true' || env.KUBEHUNTER_ENABLED == 'true' || env.KUBEAUDIT_ENABLED == 'true' || env.ZAP_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Deploy'
+                sh('${BOB} deploy-k8s > bob-deploy.log')
+            }
+        }
+        stage('Run portscan') {
+            when {
+                expression { env.PORTSCAN_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run portscan'
+                sh('${BOB} run-portscan > bob-portscan.log')
+            }
+        }
+        stage('Run kubesec') {
+            when {
+                expression { env.KUBESEC_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run kubesec'
+                sh('${BOB} run-kubesec > bob-kubesec-scan.log')
+            }
+        }
+        stage('Run kubehunter') {
+            when {
+                expression { env.KUBEHUNTER_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run kubehunter'
+                sh('${BOB} run-kubehunter > bob-kubehunter-scan.log')
+            }
+        }
+        stage('Run kubeaudit') {
+            when {
+                expression { env.KUBEAUDIT_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run kubeaudit'
+                sh('${BOB} run-kubeaudit > bob-kubeaudit-scan.log')
+            }
+        }
+        stage('Run zap-scan') {
+            when {
+                expression { env.ZAP_ENABLED == 'true' }
+            }
+            steps {
+                echo 'Run zap-scan'
+                script {
+                    sh('${BOB} run-zap > bob-zap-scan.log')
+                }
+            }
+        }
+        stage('Prepare va-report') {
+            steps {
+                echo 'Prepare va-report'
+                sh('${BOB} run-va-report > bob-va-report.log')
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                archiveArtifacts([
+                    allowEmptyArchive: true,
+                    artifacts: 'bob-*.log, va-reports/**/*.*'
+                ])
+
+                sh('${BOB} clean-files > bob-clean.log')
+                if (env.PORTSCAN_ENABLED == 'true' || env.KUBESEC_ENABLED == 'true' || env.KUBEHUNTER_ENABLED == 'true' || env.KUBEAUDIT_ENABLED == 'true' || env.ZAP_ENABLED == 'true') {
+                    logging.get_logs_for_each_namespace(HELM_INSTALL_NAMESPACE)
+                    sh('${BOB} clean-k8s >> bob-clean.log')
+                }
+
+                archiveArtifacts([
+                    allowEmptyArchive: true,
+                    artifacts: 'bob-clean.log'
+                ])
+            }
+        }
+    }
+}

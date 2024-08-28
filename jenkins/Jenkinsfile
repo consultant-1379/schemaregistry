@@ -1,0 +1,286 @@
+@Library('son-dev-utils-shared-library')
+import jenkins.utils.*
+
+logging = new logging() // https://gerrit-gamma.gic.ericsson.se/gitweb?p=OSS/com.ericsson.oss.services.sonom/son-dev-utils.git;a=blob_plain;f=src/jenkins/utils/logging.groovy;hb=master
+utils = new utils()     // https://gerrit-gamma.gic.ericsson.se/gitweb?p=OSS/com.ericsson.oss.services.sonom/son-dev-utils.git;a=blob_plain;f=src/jenkins/utils/utils.groovy;hb=master
+
+pipeline {
+    agent {
+        node {
+            label SLAVE
+        }
+    }
+    tools {
+        jdk 'jdk8'
+        maven 'maven'
+    }
+    options {
+        skipDefaultCheckout true
+        timestamps()
+        timeout(time: 1, unit: 'HOURS')
+        buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20'))
+    }
+    environment {
+        SERVICE_NAME = "eric-oss-schema-registry-sr"
+        SIP_TLS="true"
+        CREDENTIALS_SEKA_ARTIFACTORY = credentials('ejenksonomArtifactoryApiKey')
+        CREDENTIALS_SEKI_ARTIFACTORY = credentials('ejenksonomArtifactoryApiKeySEKI')
+        CREDENTIALS_SQAPITOKEN_ECSON = credentials('SQApiToken-ECSON')
+        CREDENTIALS_MARKETPLACE_TOKEN = credentials('schema-registry-marketplace-api-token')
+        BOB = "docker run --rm \
+                          --env HOME=${HOME} \
+                          --env APP_PATH=${WORKSPACE} \
+                          --env KUBECONFIG=${WORKSPACE}/.kube/config \
+                          --env ADP_RELEASE_AUTO_TAG=${env.ADP_RELEASE_AUTO_TAG} \
+                          --env DOC_BUILDER_TAG=${env.DOC_BUILDER_TAG} \
+                          --env SIP_TLS=${SIP_TLS} \
+                          --env CONTRACT_TEST=${CONTRACT_TEST} \
+                          --env HELM3_INSTALL_TIMEOUT=${HELM3_INSTALL_TIMEOUT} \
+                          -v ${WORKSPACE}:${WORKSPACE} \
+                          -v /var/run/docker.sock:/var/run/docker.sock \
+                          -w ${WORKSPACE} \
+                          ${env.BOB_DOCKER_IMAGE}"
+        KUBECTL_CMD = "docker run --rm -v ${WORKSPACE}/.kube/config:/root/.kube/config -v ${WORKSPACE}:${WORKSPACE} ${env.KUBECTL_DOCKER_IMAGE}"
+        HELM_INSTALL_NAMESPACE = "${SERVICE_NAME}-install"
+        HELM3_INSTALL_TIMEOUT = "600s"
+    }
+    stages {
+        stage('Clean') {
+            steps {
+                echo "Cleanup workspace"
+                cleanWs()
+                echo 'SCM Checkout'
+                checkout scm
+            }
+        }
+        stage('Init') {
+            steps {
+                script {
+                    try {
+                        // Initialize testframework submodule
+                        sh 'git submodule sync'
+                        sh 'git submodule update --init --remote --recursive'
+                        configFileProvider([configFile(fileId: "$AIA_SVC_KUBE_CONFIG", targetLocation: "${WORKSPACE}/.kube/config")]) {}
+
+                        if (env.RELEASE == "true") {
+                            sh "${BOB} init-drop > bob-init.log"
+                        } else {
+                            sh "${BOB} init-review > bob-init.log"
+                        }
+                        sh "sudo chmod -fR 777 .bob/"
+                        sh 'echo "${CREDENTIALS_SEKA_ARTIFACTORY_PSW}" > .bob/var.HELM_REPO_API_TOKEN'
+                        sh 'echo "${CREDENTIALS_MARKETPLACE_TOKEN}" > .bob/var.MARKETPLACE_TOKEN'
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-init.log'
+                    }
+                }
+            }
+        }
+        stage('Dependency Updates') {
+            when {
+                expression { env.TRIGGERED_BY_STAGING == "true" }
+            }
+            steps {
+                script {
+                    utils.updateDependencyWhenTriggeredByStaging()
+                }
+            }
+        }
+	    stage('Build') {
+            steps {
+                script {
+                    try {
+                        sh "${BOB} build-agent > bob-build-agent.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-build-agent.log'
+                    }
+                }
+            }
+        }
+        stage('Image') {
+            steps {
+                script {
+                    try {
+                        sh "${BOB} image > bob-image.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-image.log'
+                    }
+                }
+            }
+        }
+        stage('Test Docker Image') {
+            steps {
+                script {
+                    try {
+                        sh "${BOB} test-image > bob-test-image.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-test-image.log'
+                    }
+                }
+            }
+        }
+        stage('Package') {
+            steps {
+                script {
+                    try {
+                        sh "${BOB} package > bob-package.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-package.log'
+                    }
+                }
+            }
+        }
+        stage('Publish Internal') {
+            steps {
+                script {
+                    try {
+                        sh "${BOB} publish-internal > bob-publish-internal.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-publish-internal.log'
+                    }
+                }
+            }
+        }
+        stage('Lint') {
+            steps {
+                script {
+                    try {
+                        sh "${BOB} lint > bob-lint.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-lint.log, .bob/design-rule-check-report*.html, .bob/cbos-age-report*.html'
+                    }
+                }
+            }
+        }
+        stage('K8S Test') {
+             when {
+                 expression { k8s() }
+            }
+            steps {
+                script {
+                    sh "${KUBECTL_CMD} create ns ${HELM_INSTALL_NAMESPACE}"
+                    sh "${KUBECTL_CMD} create secret docker-registry ${SERVICE_NAME}-secret --docker-server=armdocker.rnd.ericsson.se --docker-username=${CREDENTIALS_SEKA_ARTIFACTORY_USR} --docker-password=${CREDENTIALS_SEKA_ARTIFACTORY_PSW} -n ${HELM_INSTALL_NAMESPACE}"
+
+                    sh '${KUBECTL_CMD} apply -f ${WORKSPACE}/helm_kubectl_role_bind/'
+
+                    try {
+                        sh "${BOB} test-k8s-auto > bob-test-k8s-auto.log"
+                    } finally {
+                        sh 'mv testdeploy.log test-k8s-auto-application.log'
+                        sh 'mv output.html    test-k8s-auto-application.html'
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-test-k8s-auto.log, test-k8s-auto-application*'
+                    }
+
+                    try {
+                        sh "${BOB} test-k8s-bur > bob-test-k8s-bur.log"
+                    } finally {
+                        sh 'mv testdeploy.log test-k8s-bur-application.log'
+                        sh 'mv output.html    test-k8s-bur-application.html'
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-test-k8s-bur.log, test-k8s-bur-application*'
+                    }
+
+                    sh 'cd ${WORKSPACE}'
+                    sh 'git checkout -- .'
+                }
+            }
+        }
+        stage('Contract Test') {
+            when {
+                expression { k8s() && env.CONTRACT_TEST == "true" }
+            }
+            steps {
+                script {
+                    try {
+                        sh "${BOB} contract-test > bob-contract-test.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-contract-test.log'
+                    }
+                }
+            }
+        }
+        stage('Dependency Updates Commit') {
+            when {
+                expression { env.TRIGGERED_BY_STAGING == "true" }
+            }
+            steps {
+                script {
+                    utils.commitChangesWhenTriggeredByStaging()
+                }
+            }
+        }
+	    stage('Publish') {
+            when {
+                expression { env.RELEASE == "true"  }
+            }
+            steps {
+                script {
+                    try {
+                        sh "${BOB} publish > bob-publish.log"
+                    } finally {
+                        archiveArtifacts allowEmptyArchive: true, artifacts: 'artifact.properties, bob-publish.log'
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                if (env.STATIC_ANALYSIS_ENABLED == "true"){
+                    utils.staticAnalysisReports()
+                }
+                try {
+                    if (k8s()) {
+                        logging.get_logs_for_each_namespace(HELM_INSTALL_NAMESPACE)
+                        sh "${BOB} clean-k8s >> bob-clean.log"
+                    }
+                    sh "${BOB} delete-images >> bob-clean.log"
+                    sh "${BOB} clean-files >> bob-clean.log"
+                } finally {
+                    archiveArtifacts allowEmptyArchive: true, artifacts: 'bob-clean.log'
+                    step([$class: 'ClaimPublisher'])
+                }
+            }
+        }
+        success {
+            script {
+                modifyBuildDescription("schemaregistry")
+            }
+        }
+        failure {
+            script {
+                if (!env.PRE_CODE_REVIEW) {
+                    emailext to: 'PDLESONTEA@pdl.internal.ericsson.com', recipientProviders: [culprits(), developers(), requestor(), brokenBuildSuspects()], subject: "FAILURE: ${currentBuild.fullDisplayName}", body: "<b>Jenkins job failed:</b><br><br>Project: ${env.JOB_NAME}<br>Build Number: ${env.BUILD_NUMBER}<br>${env.BUILD_URL}", mimeType: 'text/html'
+                }
+            }
+        }
+    }
+}
+
+
+private boolean k8s() {
+    return env.GERRIT_CHANGE_OWNER_NAME == 'schema registry automation user id' || env.RELEASE == "true"
+}
+
+def modifyBuildDescription(GERRIT_REPO_NAME) {
+    script {
+        if (env.RELEASE == "true") {
+            try {
+                echo 'Get helm chart version from artifact.properties'
+                def CHART_NAME = sh(returnStdout: true, script: "cat artifact.properties | grep CHART_NAME | cut -f2 -d'='").trim()
+                def CHART_VERSION = sh(returnStdout: true, script: "cat artifact.properties | grep CHART_VERSION | cut -f2 -d'='").trim()
+                def CHART_REPO = sh(returnStdout: true, script: "cat artifact.properties | grep CHART_REPO | cut -f2 -d'='").trim()
+                CHART_DOWNLOAD_LINK = "${CHART_REPO}/${CHART_NAME}/${CHART_NAME}-${CHART_VERSION}.tgz"
+                IMAGE_ARTIFACTORY_LINK = "https://arm.seli.gic.ericsson.se/artifactory/webapp/#/artifacts/browse/tree/General/docker-v2-global-local/proj-ec-son-drop/${CHART_NAME}/${CHART_VERSION}"
+                currentBuild.description = "Helm Chart: <a href=${CHART_DOWNLOAD_LINK}>${CHART_NAME}-${CHART_VERSION}.tgz</a><br>Docker Image: <a href=${IMAGE_ARTIFACTORY_LINK}>${CHART_VERSION}</a><br>"
+                pom = readMavenPom file: 'pom.xml'
+                POM_VERSION = pom.version
+                currentBuild.description = "Helm Chart: <a href=${CHART_DOWNLOAD_LINK}>${CHART_NAME}-${CHART_VERSION}.tgz</a><br>Docker Image: <a href=${IMAGE_ARTIFACTORY_LINK}>${CHART_VERSION}</a><br>Gerrit: ${POM_VERSION}<br>"
+                GERRIT_LINK = "https://gerrit-gamma.gic.ericsson.se/gitweb?p=AIA/microservices/${GERRIT_REPO_NAME}.git;a=tree;hb=refs/tags/${CHART_VERSION}"
+                currentBuild.description = "Helm Chart: <a href=${CHART_DOWNLOAD_LINK}>${CHART_NAME}-${CHART_VERSION}.tgz</a><br>Docker Image: <a href=${IMAGE_ARTIFACTORY_LINK}>${CHART_VERSION}</a><br>Gerrit: <a href=${GERRIT_LINK}>${POM_VERSION}</a><br>"
+            }
+            catch (ignored) {
+            }
+        }
+    }
+}

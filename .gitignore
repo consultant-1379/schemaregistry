@@ -1,0 +1,84 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Helm
+Helm/eric-oss-schema-registry-sr/*.lock
+localtest/umbrella/*.lock
+
+# Compiled source
+*.class
+*/bin/*
+*bin/*
+bin
+build
+spring-cloud-contract/*.jar
+
+# Bob artifacts
+.bob
+
+# Helm artifacts
+*/charts/*
+*.lock
+
+# Eclipse files
+.project
+.classpath
+.settings
+.metadata
+
+#Intellij Files
+*.iml
+.idea
+
+# Packages
+*.gz
+*.tgz
+*.zip
+
+# Maven build files
+target
+reports
+
+# ARQ tests
+arq-perf
+
+# PMD
+.pmd
+
+# Merge files
+*.orig
+*.versionsBackup
+
+# jboss files
+transaction.log
+
+# python
+.pydevproject
+__pycache__
+*.py[cod]
+*$py.class
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*,cover
+test-output/
+testdeploy.log
+output.html
+structure-test
+folder
+
+# linux
+*.*~
+*~
+*.swp
+
+# va reports
+va-reports/
+### ignore CI-Jenkinsfiles
+ci/common_precodereview.Jenkinsfile
+ci/common_ruleset2.0.yaml

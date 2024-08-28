@@ -1,0 +1,32 @@
+{{- if .Values.brAgent.enabled }}
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.agentName" . }}-cfg
+  labels:
+    {{- include "eric-oss-schema-registry-sr.agent.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+data:
+  application.properties: |
+    kafka.bootstrap.server={{.Values.messagebuskf.clientServiceName}}
+    {{- if $global.security.tls.enabled -}}
+    kafka.bootstrap.port={{.Values.security.tls.messagebus.port}}
+    {{- else -}}
+    kafka.bootstrap.port={{.Values.security.plaintext.messagebus.port}}
+    {{- end -}}
+    kafka.brTopic={{.Values.kafkastoreTopic}}
+    bro.host={{ template "eric-oss-schema-registry-sr.broServiceName" . }}
+    bro.port={{ template "eric-oss-schema-registry-sr.broGrpcServicePort" . }}
+    {{- if .Values.brAgent.brLabelValue -}}
+    sr.agent.id={{ .Values.brAgent.brLabelValue }}
+    {{- else -}}
+    sr.agent.id={{- template "eric-oss-schema-registry-sr.name" . }}
+    {{- end -}}
+    {{- if .Values.brAgent.backupTypeList -}}
+    sr.agent.scope = {{- template "eric-oss-schema-registry-sr.agent.backupTypes" . }}
+    {{- end -}}
+  log4j2.xml:
+    {{ .Values.brAgent.logging.log4jxml | indent 4 }}
+{{- end -}}

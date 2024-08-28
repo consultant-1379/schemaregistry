@@ -1,0 +1,277 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- $logRedirect := (include "eric-oss-schema-registry-sr.logRedirect" .) -}}
+{{- if eq (include "eric-oss-schema-registry-sr.service-mesh-enabled" .) "true" }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 8 }}
+  annotations:
+ {{- include "eric-oss-schema-registry-sr.prometheus" . | nindent 8 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "eric-oss-schema-registry-sr.name" . }}
+      release: {{ .Release.Name | quote }}
+  serviceName: {{ template "eric-oss-schema-registry-sr.name" . }}
+  replicas: {{ .Values.replicaCount }}
+  updateStrategy:
+    type: {{ .Values.updateStrategy.type | quote }}
+  template:
+    metadata:
+      labels:
+        {{- include "eric-oss-schema-registry-sr.labels" . | nindent 8 }}
+        {{- include "eric-oss-schema-registry-sr.service-mesh-inject" .| nindent 8 }}
+        {{- include "eric-oss-schema-registry-sr.service-mesh-ism2osm-labels" .| nindent 8 }}
+      annotations:
+        {{- if .Values.jmx.enabled }}
+        {{- include "eric-oss-schema-registry-sr.prometheus-config" . | nindent 8 }}
+        {{- end }}
+        {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 8 }}
+        {{- include "eric-oss-schema-registry-sr.service-mesh-inject" .| nindent 8 }}
+        {{- include "eric-oss-schema-registry-sr.service-mesh-version" .| nindent 8 }}
+        {{- include "eric-oss-schema-registry-sr.service-mesh-volume" .| nindent 8 }}
+        {{- if has "stream" .Values.log.outputs }}
+          {{- include "eric-log-shipper-sidecar.LsAppArmorProfileAnnotation" . | indent 8 }}
+        {{- end }}
+    spec:
+      securityContext:
+        fsGroup: {{ template "eric-oss-schema-registry-sr.fsGroup.coordinated" . }}
+        {{ include "eric-oss-schema-registry-sr.supplementalGroups" . }}
+        {{- include "eric-oss-schema-registry-sr.seccomp-profile" . | indent 8 }}
+      serviceAccount: ""
+      serviceAccountName: {{ template "eric-oss-schema-registry-sr.name" . }}-sa
+      {{- if include "eric-oss-schema-registry-sr.pullSecrets" . }}
+      imagePullSecrets:
+        - name: {{ template "eric-oss-schema-registry-sr.pullSecrets" . }}
+      {{- end }}
+      {{- if (index .Values "podPriority" "priorityClassName") }}
+      priorityClassName: {{ (index .Values "podPriority" "priorityClassName") | quote }}
+      {{- end }}
+      {{- include "eric-oss-schema-registry-sr.schemaregistryNodeSelector" . | nindent 6 }}
+      initContainers:
+      - name: {{ .Chart.Name }}-init
+        image: {{ template "eric-oss-schema-registry-sr.imagePath" (merge (dict "imageName" "schemaregistry") .) }}
+        resources:
+          {{- toYaml .Values.resources.init | nindent 10 }}
+        imagePullPolicy: {{ or .Values.imageCredentials.schemaregistry.registry.imagePullPolicy (include "eric-oss-schema-registry-sr.imagePullPolicy" .) | quote }}
+        command:
+          - '/bin/bash'
+          - '-c'
+          - '/etc/confluent/docker/init.sh
+            | /stdout-redirect -service-id={{ include "eric-oss-schema-registry-sr.name" . }}
+                               -container={{ .Chart.Name }}-init
+                               -redirect={{ $logRedirect }}
+                               -logfile=/logs/{{ .Chart.Name }}-init.log'
+        env:
+        - name: TZ
+          value: {{ $global.timezone | quote }}
+        - name: SCHEMA_REGISTRY_KAFKASTORE_SECURITY_PROTOCOL
+          value: "PLAINTEXT"
+        - name: SCHEMA_REGISTRY_HOST_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SCHEMA_REGISTRY_LISTENERS
+          value: {{ include "eric-oss-schema-registry-sr.sm-listener" . | indent 8 }}
+        - name: SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS
+          value: {{- include "eric-oss-schema-registry-sr.kafka-bootstrap-server" . | indent 8 }}
+        - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC
+          value: {{ .Values.kafkastoreTopic | quote }}
+        {{- if eq .Values.messagebuskf.srclientcn "sr" }}
+        - name: SCHEMA_REGISTRY_KAFKASTORE_TIMEOUT_MS
+          value: {{ .Values.kafkastoreTimeoutms | quote }}
+        {{- end }}
+        - name: SCHEMA_REGISTRY_KAFKASTORE_TOPIC_REPLICATION_FACTOR
+          value: {{ .Values.messagebuskf.minBrokers | quote }}
+        - name: SCHEMA_REGISTRY_LOG4J_ROOT_LOGLEVEL
+          value: {{ .Values.log.schemaregistry.level | quote }}
+        volumeMounts:
+        - name: init
+          mountPath: "/etc/schema-registry/init"
+        {{- if has "stream" .Values.log.outputs }}
+        {{- include "eric-log-shipper-sidecar.log-shipper-sidecar-mounts" . | indent 8 }}
+        {{- end }}
+        {{- include "eric-oss-schema-registry-sr.secretsMountPath" . | nindent 8 }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 105656
+          capabilities:
+            drop:
+              - all
+      containers:
+      - name: {{ .Chart.Name }}
+        image: {{ template "eric-oss-schema-registry-sr.imagePath" (merge (dict "imageName" "schemaregistry") .) }}
+        resources:
+            limits:
+              {{- if .Values.resources.schemaregistry.limits.cpu }}
+              cpu: {{ .Values.resources.schemaregistry.limits.cpu | quote }}
+              {{- end }}
+              {{- if .Values.resources.schemaregistry.limits.memory }}
+              memory: {{ .Values.resources.schemaregistry.limits.memory | quote }}
+              {{- end }}
+            requests:
+              {{- if .Values.resources.schemaregistry.requests.cpu }}
+              cpu: {{ .Values.resources.schemaregistry.requests.cpu | quote }}
+              {{- end }}
+              {{- if .Values.resources.schemaregistry.requests.memory }}
+              memory: {{ .Values.resources.schemaregistry.requests.memory | quote }}
+              {{- end }}
+        imagePullPolicy: {{ or .Values.imageCredentials.schemaregistry.registry.imagePullPolicy (include "eric-oss-schema-registry-sr.imagePullPolicy" .) | quote }}
+        env:
+         {{- if eq .Values.enableJvm true }}
+        - name: JAVA_OPTS
+          value: {{ include "eric-oss-schema-registry-sr.jvmHeapSettings" . }}
+         {{- end }}
+        - name: TZ
+          value: {{ $global.timezone | quote }}
+        - name: SCHEMA_REGISTRY_JMX_OPTS
+          value: {{ include "eric-oss-schema-registry-sr.sm-jmx-opts" . | quote }}
+        - name: SCHEMA_REGISTRY_JAVA_OPTS
+          value: {{ .Values.java.opts | quote }}
+        command:
+          - '/bin/bash'
+          - '-c'
+          - 'java $SCHEMA_REGISTRY_JAVA_OPTS
+                  $SCHEMA_REGISTRY_JMX_OPTS
+                  -Dlog4j.configuration=file:///etc/${COMPONENT}/init/log4j.properties
+                  -jar /etc/${COMPONENT}/${COMPONENT}-${COMPONENT_VERSION}.jar
+                  /etc/${COMPONENT}/init/${COMPONENT}.properties
+            | /stdout-redirect -service-id={{ include "eric-oss-schema-registry-sr.name" . }}
+                               -container={{ .Chart.Name }}
+                               -redirect={{ $logRedirect }}
+                               -logfile=/logs/{{ .Chart.Name }}.log'
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.security.plaintext.schemaregistry.port }}
+          initialDelaySeconds: {{ .Values.probes.general.livenessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .Values.probes.general.livenessProbe.failureThreshold }}
+          periodSeconds: {{ .Values.probes.general.livenessProbe.periodSeconds }}
+          timeoutSeconds: {{ .Values.probes.general.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.security.plaintext.schemaregistry.port }}
+          initialDelaySeconds: {{ .Values.probes.general.readinessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .Values.probes.general.readinessProbe.failureThreshold }}
+          periodSeconds: {{ .Values.probes.general.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.probes.general.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.probes.general.readinessProbe.timeoutSeconds }}
+        ports:
+        - containerPort: {{ .Values.security.plaintext.schemaregistry.port }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 105656
+          capabilities:
+            drop:
+              - all
+        volumeMounts:
+        - name: init
+          mountPath: "/etc/schema-registry/init"
+        {{- if has "stream" .Values.log.outputs }}
+        {{- include "eric-log-shipper-sidecar.log-shipper-sidecar-mounts" . | indent 8 }}
+        {{- end }}
+        {{- include "eric-oss-schema-registry-sr.secretsMountPath" . | nindent 8 }}
+      {{- if .Values.jmx.enabled }}
+      - name: {{ .Chart.Name }}-jmx
+        image: {{ template "eric-oss-schema-registry-sr.imagePath" (merge (dict "imageName" "jmxexporter") .) }}
+        imagePullPolicy: {{ or .Values.imageCredentials.jmxexporter.registry.imagePullPolicy (include "eric-oss-schema-registry-sr.imagePullPolicy" .) | quote }}
+        env:
+        - name: TZ
+          value: {{ $global.timezone | quote }}
+        - name: SERVICE_PORT
+          value: {{ .Values.jmx.servicePort | quote }}
+        - name: DEST_HOST
+          value: '127.0.0.1'
+        - name: DEST_PORT
+          value: {{ .Values.jmx.destPort | quote }}
+        - name: CONFIG_FILE
+          value: '/opt/jmx_exporter/config/config.yml'
+        - name: JVM_LOCAL_OPTS
+          value: "-Dcom.sun.management.jmxremote.disabled"
+        command:
+          - '/bin/bash'
+          - '-c'
+          - '/opt/jmx_exporter/start.sh | /usr/bin/stdout-redirect -service-id={{ include "eric-oss-schema-registry-sr.name" . }}
+                                                                   -container={{ .Chart.Name }}-jmx
+                                                                   -redirect={{ $logRedirect }}
+                                                                   -logfile=/logs/{{ .Chart.Name }}-jmx.log'
+        ports:
+        - containerPort: {{ .Values.jmx.servicePort }}
+          name: jmx-srv-port
+        resources:
+        {{- toYaml .Values.resources.jmx | nindent 10 }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 105656
+          capabilities:
+            drop:
+              - all
+        volumeMounts:
+        - name: jmx-config
+          mountPath: "/opt/jmx_exporter/config"
+        {{- if has "stream" .Values.log.outputs }}
+        {{- include "eric-log-shipper-sidecar.log-shipper-sidecar-mounts" . | indent 8 }}
+        {{- end }}
+        {{- include "eric-oss-schema-registry-sr.secretsMountPath" . | nindent 8 }}
+      {{- end }}
+      {{- if has "stream" .Values.log.outputs }}
+      {{- $logshipperImageDict := dict "logshipperSidecarImage" ((((.Values).global).logShipper).config).image -}}
+      {{- include "eric-log-shipper-sidecar.log-shipper-sidecar-container" (mergeOverwrite . $logshipperImageDict ) | indent 6 }}
+      {{- end }}
+      volumes:
+      - name: init
+        emptyDir: {}
+      {{- include "eric-oss-schema-registry-sr.volumes" . | nindent 6 }}
+      {{- if .Values.jmx.enabled }}
+      - name: jmx-config
+        configMap:
+          name: "{{ template "eric-oss-schema-registry-sr.name" . }}-jmx-cfg"
+      {{- end }}
+      {{- if has "stream" .Values.log.outputs }}
+        {{- include "eric-log-shipper-sidecar.log-shipper-sidecar-volumes" . | indent 6 }} #corretto con 6 da 8
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+     {{- with .Values.topologySpreadConstraints.deployment }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- if eq .Values.affinity.podAntiAffinity "hard" }}
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - {{ template "eric-oss-schema-registry-sr.name" . }}
+              topologyKey: "kubernetes.io/hostname"
+      {{- else if eq .Values.affinity.podAntiAffinity  "soft" }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - {{ template "eric-oss-schema-registry-sr.name" . }}
+                topologyKey: "kubernetes.io/hostname"
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+{{- end -}}

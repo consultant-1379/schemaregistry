@@ -1,0 +1,30 @@
+modelVersion: 2.0
+uses_encryption:
+  - product_number: APR201492
+    encryptions:
+        # Explain how the encryption is used
+      - usage: "Schema Registry SR supports TLS encryption. The Schema Registry SR service can store and manage versioned histories of schemas. It allows schemas to be changed based upon configured rules."
+        # Encryption Purpose (possible values: 'Data confidentiality, OAM only', 'Data confidentiality, not only OAM', 'Other than data confidentiality')
+        purpose: 'Data confidentiality, OAM only'
+        # Encryption Protocols
+        protocols:
+          - protocol: TLS 1.2
+            # Provide a description of how the protocol is used
+            usage: "Used for communication between Schema Registry SR and Message Bus KF, between Schema Registry SR and JMX Exporter and between Schema Registry SR and REST
+            standard: "IETF"
+          - protocol: TLS 1.3
+            # Provide a description of how the protocol is used
+            usage: "Used for communication between Schema Registry SR and Message Bus KF, between Schema Registry SR and JMX Exporter and between Schema Registry SR and REST
+            standard: "IETF"
+        # Cryptographic Algorithms
+        crypto_algorithms:
+          - name: ECDHE
+          - name: ECDSA
+          - name: DHE
+          - name: DSS
+          - name: ECDH
+          - name: RSA
+          - name: AES
+            key_length: 256
+          - name: HMAC-SHA
+            key_length: 384

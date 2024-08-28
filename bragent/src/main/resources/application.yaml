@@ -1,0 +1,43 @@
+kafka:
+  bootstrap:
+    server: "eric-oss-dmm-kf-op-sz-kafka-bootstrap"
+    port: 9092
+  brTopic: "_schemas"
+
+bro:
+  host: "eric-ctrl-bro"
+  port: 3000
+
+siptls:
+  security:
+    enabled: "false"
+  ca:
+    name:
+    path:
+  bro:
+    client:
+      cert:
+        file:
+        keyfile:
+sr:
+  agent:
+    id: "eric-schema-registry-sr"
+    scope: "default"
+    apiVersion: "4.0.1"
+    fragment:
+      backup:
+        data:
+          path: "/backupdata/backup.txt"
+    download:
+      location: "/backupdata/"
+    softwareVersion:
+      description: The Backup and Restore Agent for Schema Registry
+      productionDate: date
+      productName: schema-registry-sr-brAgent
+      productNumber: CXPNumber
+      type: Service
+      revision: 1
+    restore:
+      type: default
+      softwareVersion:
+        previousProductNumber: CXPNumber

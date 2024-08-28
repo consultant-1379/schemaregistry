@@ -1,0 +1,44 @@
+schemaVersion: "2.0.0"
+
+# Verifies that the files required to run the container are present and executable
+
+fileExistenceTests:
+  - name: 'init-entrypoint'
+    path: '/etc/confluent/docker/init.sh'
+    shouldExist: true
+    permissions: '-rwx---r-x'
+    uid: '0'
+    isExecutableBy: 'schema_registry_user'
+  - name: 'kafka-ready-entrypoint'
+    path: '/etc/confluent/docker/kafka-ready.sh'
+    shouldExist: true
+    permissions: '-rwx---r-x'
+    uid: '0'
+    isExecutableBy: 'schema_registry_user'
+  - name: 'init-jks-entrypoint'
+    path: '/etc/confluent/docker/init-jks.sh'
+    shouldExist: true
+    permissions: '-rwx---r-x'
+    uid: '0'
+    isExecutableBy: 'schema_registry_user'
+  - name: 'docker-utils-jar'
+    path: '/etc/confluent/docker/docker-utils-7.3.1-jar-with-dependencies.jar'
+    shouldExist: true
+    permissions: '-rw----r--'
+    uid: '0'
+  - name: 'component-directory'
+    path: '/etc/schema-registry'
+    shouldExist: true
+    permissions: 'drwx---r-x'
+    uid: '105656'
+  - name: 'component-jar'
+    path: '/etc/schema-registry/schema-registry-7.3.1.jar'
+    shouldExist: true
+    permissions: '-rw----r--'
+    uid: '0'
+  - name: 'stdout-redirect'
+    path: '/stdout-redirect'
+    shouldExist: true
+    permissions: '-rwx---r-x'
+    uid: '0'
+    isExecutableBy: 'schema_registry_user'

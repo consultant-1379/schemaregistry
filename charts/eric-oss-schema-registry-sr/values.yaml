@@ -1,0 +1,370 @@
+# Default values for helm-schema-registry.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+enableNewScrapePattern: false
+
+updateStrategy:
+  type: "RollingUpdate"
+
+#global:
+#  annotations: {}
+#  internalIPFamily:
+#  labels: {}
+#  nodeSelector:
+#  pullSecret:
+#  registry:
+#    url: armdocker.rnd.ericsson.se
+#    imagePullPolicy: IfNotPresent
+#  security:
+#    tls:
+#      enabled: false
+#    policyBinding:
+#      create: true
+#    policyReferenceMap:
+#      default-restricted-security-policy: default-restricted-security-policy
+#  timezone: UTC
+#  fsGroup:
+#    manual: 10000
+#    namespace: true
+
+
+productInfo:
+  rstate: "RSTATE"
+
+imageCredentials:
+  pullSecret:
+  schemaregistry:
+    registry:
+      imagePullPolicy:
+      url: # overrides global registry url
+    repoPath: # overrides repoPath from eric-product-info.yaml
+  jmxexporter:
+    registry:
+      imagePullPolicy:
+      url: # overrides global registry url
+    repoPath: # overrides repoPath from eric-product-info.yaml
+  logshipper:
+    registry:
+      imagePullPolicy:
+      url: # overrides repoPath from eric-product-info.yaml
+    repoPath: proj-adp-log-released # overrides repoPath from eric-product-info.yaml
+  bragent:
+    registry:
+      imagePullPolicy:
+      url: # overrides global registry url
+    repoPath: # overrides repoPath from eric-product-info.yaml
+
+kafkastoreTopic: "_schemas"
+
+appArmorProfile:
+  type: ""
+
+seccompProfile:
+  type: "RuntimeDefault"
+  
+podPriority:
+  priorityClassName: ""
+
+enableJvm: true
+resources:
+  schemaregistry:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    jvm:
+      initialMemoryAllocationPercentage: 50
+      smallMemoryAllocationMaxPercentage: 70
+      largeMemoryAllocationMaxPercentage: 50
+  brAgent:
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+  logshipper:
+    requests:
+      cpu: "100m"
+      memory: "100Mi"
+    limits:
+      cpu: "250m"
+      memory: "500Mi"
+  jmx:
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+  init:
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+  initjks:
+    limits:
+      cpu: "500m"
+      memory: "256Mi"
+    requests:
+      cpu: "300m"
+      memory: "128Mi"
+  kafkaready:
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+  monitorjks:
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+security:
+  tls:
+    schemaregistry:
+      port: "8082"
+    messagebus:
+      port: "9093"
+  plaintext:
+    schemaregistry:
+      port: "8081"
+    messagebus:
+      port: "9092"
+
+service:
+  #override service type for NodePort, defaulted to ClusterIP
+  type: ClusterIP
+  endpoints:
+    schemaregistry:
+      tls:
+        enforced: "required"
+        verifyClientCertificate: "required"
+        certTtl: 604800
+        certLeadTime: 4800
+    messagebuskf:
+      tls:
+        enforced: "required"
+        certTtl: 604800
+        certLeadTime: 4800
+    jmx:
+      tls:
+        enforced: "required"
+        verifyClientCertificate: "required"
+        certTtl: 604800
+        certLeadTime: 4800
+    bragent:
+      tls:
+        enforced: "required"  # NOT SUPPORTED YET
+        certTtl: 604800  # NOT SUPPORTED YET
+        certLeadTime: 4800  # NOT SUPPORTED YET
+
+ingress:
+  caCertificateSecret:
+
+probes:
+  monitorjks:
+    livenessProbe:
+      initialDelaySeconds: 60
+      failureThreshold: 3
+      periodSeconds: 10
+      timeoutSeconds: 10
+    readinessProbe:
+      initialDelaySeconds: 10
+      failureThreshold: 3
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 5
+  general:
+    livenessProbe:
+      initialDelaySeconds: 60
+      failureThreshold: 3
+      periodSeconds: 10
+      timeoutSeconds: 5
+    readinessProbe:
+      initialDelaySeconds: 60
+      failureThreshold: 3
+      periodSeconds: 5
+      successThreshold: 1
+      timeoutSeconds: 5
+  jmx:
+    livenessProbe:
+      initialDelaySeconds: 10
+      failureThreshold: 3
+      periodSeconds: 60
+      timeoutSeconds: 60
+    readinessProbe:
+      initialDelaySeconds: 10
+      failureThreshold: 3
+      periodSeconds: 60
+      successThreshold: 1
+      timeoutSeconds: 60
+  logshipper:
+    livenessProbe:
+      initialDelaySeconds: 1
+      failureThreshold: 3
+      periodSeconds: 10
+      timeoutSeconds: 10
+
+jmx:
+  enabled: true
+  hostName: 127.0.0.1
+  destPort: 10000
+  servicePort: 21000
+
+messagebuskf:
+  clientServiceName: eric-data-message-bus-kf-client
+  issuerReference: eric-data-message-bus-kf-client-client-ca
+  srclientcn: kf
+  clientPort: 9092
+  secureClientPort: 9093
+  minBrokers: 3
+  clientTimeout: 300000
+
+messaging:
+  kafka:
+    issuerReference: eric-data-message-bus-kf-client-client-ca
+    bootstrapServersTls: eric-data-message-bus-kf-client:9093
+    bootstrapServers: eric-data-message-bus-kf-client:9092
+    clusterName: eric-data-message-bus-kf-client
+
+logShipper:
+  disableProbes: true
+  logplane: adp-app-logs
+  runAndExit: false
+  shutdownDelay: 10
+  storageAllocation: 1Gi
+  storageMedium:
+  storage:
+    size: 15Mi
+    path: "/logs"
+  harvester:
+    closeTimeout: "5m"
+#    logData:
+#      - subPaths: [ "/sample.log*" ]
+#        exclude_lines: []
+#        logplane: "adp-app-logs"
+#        additionalFields:
+#          project: "eric-oss-schema-registry-sr"
+#        multiline:
+#          pattern: '^[[:space:]]'
+#          negate: false
+#          match: after
+  logtransformer:
+    host: eric-log-transformer
+
+podDisruptionBudget:
+  maxUnavailable: 1
+
+annotations: {}
+labels: {}
+nodeSelector:
+  schemaregistry: {}
+  brAgent: {}
+
+# tolerations: DR-D1120-061
+
+tolerations:
+
+java:
+  opts:
+
+log:
+  # Supported values ["stdout", "stream"]
+  outputs:
+    - "stdout"
+  logshipper:
+    level: "info"
+  schemaregistry:
+    level: "info"
+
+brAgent:
+  enabled: false
+  replicaCount: 1
+  logLevel: "INFO"
+  backupTypeList:
+  properties:
+    fileName: "application.properties"
+  logging:
+    fileName: "log4j2.xml"
+    log4jxml: |-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Configuration status="WARN" monitorInterval="30" packages="com.ericsson.adp.mgmt.sr.bragent.logging">
+          <Appenders>
+              <Console name="Appender" target="SYSTEM_OUT" follow="true">
+                  <AdpJsonLayout compact="true" eventEol="true" >
+                     <!--  Mandatory Fields -->
+                     <KeyValuePair key="version" value="0.3.0"/>
+                     <KeyValuePair key="timestamp" value="yyyy-MM-dd'T'HH:mm:ss.SSSZ"/>
+                     <KeyValuePair key="service_id" value="eric-oss-schema-registry-sr-bragent"/>
+                     <RewriteField oldKey="level_standardLevel" newKey="severity"/>
+                     <RewriteField oldKey="message_formattedMessage" newKey="message"/>
+                     <!--  Optional Fields -->
+                     <KeyValuePair key="function" value="Backup and Restore"/>
+                     <KeyValuePair key="category" value="Schema Registry SR"/>
+                     <RewriteField oldKey="source_classLoaderName" newKey="proc_id"/>
+                     <RewriteField oldKey="source_className" newKey="ul_id"/>
+                  </AdpJsonLayout>
+              </Console>
+          </Appenders>
+          <Loggers>
+              <Root level="${env:LOG_LEVEL:-INFO}">
+                  <AppenderRef ref="Appender" />
+              </Root>
+          </Loggers>
+      </Configuration>
+  grpc:
+    backup:
+      # Time, in seconds, to wait for the data channel to be ready before aborting the backup
+      dataChannelTimeoutSecs: 30
+      # Maximum Size, in KiB, of fragment chunk to send with each backup data message
+      fragmentChunkSize: 512
+
+terminationGracePeriodSeconds: 30
+
+topologySpreadConstraints: {}
+
+affinity:
+  podAntiAffinity: "soft"
+kafkastoreTimeoutms: 5000
+
+# A set of local supplementalGroups values for use when fsGroup is not supported
+podSecurityContext:
+  supplementalGroups: null #{value='0...max'}{default=null}
+
+# role bindings
+securityPolicy:
+  rolename: eric-oss-schema-registry-sr
+
+osm2ism:
+  enabled: false
+  outMeshService:
+    serviceAAS:
+      enabled: false
+      name:
+      intermediateCA:
+        enabled: false
+        name:
+    serviceAIS:
+      enabled: false
+      name:
+      intermediateCA:
+        enabled: false
+        name:
+    serviceCSAC:
+      enabled: false
+      name:
+      intermediateCA:
+        enabled: false
+        name:

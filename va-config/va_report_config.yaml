@@ -1,0 +1,15 @@
+product:
+  name: eric-oss-schema-registry-sr
+  version: {version}
+  description: Schema Registry provides a RESTful interface for storing and retrieving Avro, JSON Schema, and Protobuf schemas
+  spoc: Sunshine team, PDLTEAMSUN@pdl.internal.ericsson.com
+  scanpaths:
+    - "ARM-SELI/docker-v2-global-{image-drop-repopath}-xray-local/{image-drop-repopath}/{image-name}:{version}"
+    - "ARM-SELI/docker-v2-global-{image-drop-repopath}-xray-local/{image-drop-repopath}/{bragent-image-name}:{version}"
+#mitigations:
+  #CVE-2002-0493:
+  #  mitigation: Ignored as a test example
+  #  sce:
+  #    sce-id: SCE-1111-000
+  #    status: Approved
+  #    expires: 2022-12-31

@@ -1,0 +1,49 @@
+{{- $serviceMesh := include "eric-oss-schema-registry-sr.service-mesh-enabled" . | trim -}}
+{{- $tls := include "eric-oss-schema-registry-sr.global-security-tls-enabled" . | trim -}}
+{{- if and (eq $serviceMesh "true") (eq $tls "true") }}
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}
+  labels:
+    strimzi.io/cluster: {{  .Values.messaging.kafka.clusterName  }}
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+spec:
+  authentication:
+    type: tls-external
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: _schemas
+          patternType: literal
+        operation: Read
+      - resource:
+          type: topic
+          name: _schemas
+          patternType: literal
+        operation: Write
+      - resource:
+          type: topic
+          name: _schemas
+          patternType: literal
+        operation: Create
+      - resource:
+          type: topic
+          name: _schemas
+          patternType: literal
+        operation: DescribeConfigs
+      - resource:
+          type: group
+          name: schema-registry
+          patternType: literal
+        operation: Read
+      - resource:
+          type: group
+          name: schema-registry
+          patternType: literal
+        operation: Describe
+{{- end }}

@@ -1,0 +1,878 @@
+modelVersion: 2.0
+description: "EC SON: SCHEMA_REGISTORY Repository (eric-oss-schema-registry-sr)"
+# See image catalog: https://confluence.lmera.ericsson.se/display/ACD/ADP+CICD+Docker+Image+Catalog
+docker-images:
+  - adp-helm-dr-check: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/common-library-adp-helm-dr-check:latest
+  - doc-builder: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-docbuilder:${env.DOC_BUILDER_TAG}
+  - adp-release-auto: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-adp-release-auto:${env.ADP_RELEASE_AUTO_TAG}
+  - py-builder: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-python3builder:latest
+  - py3-kube-helm3: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-py3kubehelmbuilder:2.0.3-latest
+  - java11-mvn-builder: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-java11mvnbuilder:latest
+
+import:
+  common: Docker/files/common-properties.yaml
+
+# List of constants
+properties:
+  - image-name: eric-oss-schema-registry-sr
+  - image-registry: armdocker.rnd.ericsson.se
+  - image-drop-repopath: proj-ec-son-drop
+  - image-dev-repopath: proj-ec-son-dev
+  - image-ci-repopath: proj-ec-son-ci-internal
+  - image-full-name: ${image-registry}/${image-drop-repopath}/${image-name}
+
+  - helm-chart-name: eric-oss-schema-registry-sr
+  - helm-chart-repo-server: https://arm.seli.gic.ericsson.se/artifactory
+  - helm-chart-dev-repopath: proj-ec-son-dev-helm
+  - helm-chart-ci-repopath: proj-ec-son-ci-internal-helm
+  - helm-chart-drop-repopath: proj-ec-son-drop-helm
+  - helm-chart-drop-repo: ${helm-chart-repo-server}/${helm-chart-drop-repopath}
+  - helm-chart-file-name: ${helm-chart-name}-${var.version}.tgz
+  - helm-install-namespace: ${helm-chart-name}-install
+
+  - git-user: ejenksonom
+  - git-clone-url: https://${git-user}@gerrit-gamma.gic.ericsson.se/a/AIA/microservices/schemaregistry
+  - git-repo: https://gerrit-gamma.gic.ericsson.se/#/admin/projects/AIA/microservices/schemaregistry
+  - DOCKER_DIR: ./Docker
+
+  - project-group: com.ericsson.oss.dmi
+  - project-name: eric-oss-schema-registry-sr
+  - producer-stubs-classifier: stubs
+  # MVN REPO url, etc
+
+  - adp-repo-name: proj-adp-gs-all
+  - adp-repo-url: https://arm.rnd.ki.sw.ericsson.se/artifactory/proj-adp-gs-all-helm
+  - key-management-chart-name: eric-sec-key-management
+  - key-management-chart-version:           # If left empty will use latest PRA
+  - key-management-root-secret-name: eric-data-distributed-coordinator-creds
+  - key-management-root-secret-password: topSecret
+  - sip-tls-chart-name: eric-sec-sip-tls
+  - sip-tls-chart-version:            # If left empty will use latest PRA
+  - distributed-coordinator-ed-chart-name: eric-data-distributed-coordinator-ed
+  - distributed-coordinator-ed-chart-version:            # If left empty will use latest PRA
+  - zk-chart-name: eric-data-coordinator-zk
+  - zk-chart-version:            # If left empty will use latest PRA
+  - kf-chart-name: eric-data-message-bus-kf
+  - kf-chart-version:            # If left empty will use latest PRA
+  - bro-chart-name: eric-ctrl-bro
+  - bro-chart-version:            # If left empty will use latest PRA
+  - sip-tls-crd-chart-name: eric-sec-sip-tls-crd
+  - sip-tls-crd-chart-version:            # If left empty will use latest PRA
+  - sip-tls-crd-namespace: ${sip-tls-crd-chart-name}
+
+  # bragent
+  # Docker Images
+  - bragent-image-full-name-internal: ${image-registry}/${image-dev-repopath}/${common.bragent-image-name}
+  - bragent-image-full-name: ${image-registry}/${image-drop-repopath}/${common.bragent-image-name}
+
+  - skipped-helm-design-rules: "" # format "-DhelmDesignRule.config.DR-D1121-121=skip"
+
+# Import environment variables (e.g. Jenkins parameters)
+env:
+  - ADP_RELEASE_AUTO_TAG (default=latest)
+  - DOC_BUILDER_TAG (default=1.0.0-3)
+  - PWD
+  - HOME
+  - KUBECONFIG (default=notset)
+  - API_TOKEN
+  - HELM_USER
+  - GERRIT_PATCHSET_REVISION (default=HEAD)
+  - GERRIT_USERNAME
+  - GERRIT_PASSWORD
+  - GERRIT_CHANGE_NUMBER
+  - JIRA_USERNAME
+  - JIRA_PASSWORD
+  - ERIDOC_USERNAME
+  - ERIDOC_PASSWORD
+  - IMAGE_REPO
+  - IMAGE_NAME
+  - IMAGE_TAG
+  - SIP_TLS (default=true)
+  - HELM3_INSTALL_TIMEOUT (default=600s)
+  - CONTRACT_TEST (default=false)
+  - DOCKER_CONFIG (default=$HOME/.docker/config.json)
+  - DOCKER_NETWORK (default=--network host)
+
+var:
+  - version
+  - rstate
+  - commithash
+  - image-repopath-internal
+  - image-full-name-internal
+  - bragent-image-full-name-internal
+  - helm-chart-repo-internal
+  - doc-repo-internal
+  - helm-lint-values
+  - key-management-chart-file-name
+  - key-management-helm-flags
+  - sip-tls-chart-file-name
+  - sip-tls-helm-flags
+  - distributed-coordinator-ed-chart-file-name
+  - distributed-coordinator-ed-helm-flags
+  - zk-chart-file-name
+  - zk-helm-flags
+  - kf-chart-file-name
+  - kf-helm-flags
+  - bro-chart-file-name
+  - bro-helm-flags
+  - sr-helm-flags
+  - sip-tls-crd-chart-file-name
+  - HELM_REPO_API_TOKEN
+  - MARKETPLACE_TOKEN
+  - docker-config-basepath
+
+# Rules to execute
+rules:
+
+  conditions:
+    - task: contract-test
+      cmd: '[[ "${env.CONTRACT_TEST}" = "true" ]]'
+    - task: jenkins
+      cmd: 'whoami && ! [[ $(whoami) =~ ^e[a-z]{6} ]] || exit 1'
+    - task: local
+      cmd: '[[ $(whoami) =~ ^e[a-z]{6} ]]'
+
+  # Remove bob files, temporary files, build artifacts, etc.
+  clean-files:
+    - task: clean-files
+      cmd:
+        - rm -rf .bob/
+        - rm -rf build/
+        - rm -f /tmp/structure-test
+        - rm -f test/*tgz
+        - rm -f spring-cloud-contract/*.jar
+
+  # Remove all helm deployments from ${helm-install-namespace} and delete namespace
+  clean-k8s:
+    - task: clean-k8s
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ -n $(kubectl get ns ${helm-install-namespace}) ]];
+          then
+          DEPLOYMENTS=$(helm ls -n ${helm-install-namespace} -qa);
+          if [[ -n $DEPLOYMENTS ]];
+          then
+          echo "Cleaning helm deployments:";
+          echo "$DEPLOYMENTS";
+          helm uninstall -n ${helm-install-namespace} $DEPLOYMENTS;
+          fi;
+          echo "Deleting namespace ${helm-install-namespace}";
+          kubectl delete ns ${helm-install-namespace};
+          fi'
+
+  # Clean up eric-sip-tls-crd deployment and CRDs associated with it
+  clean-sip-tls-crd:
+    - task: clean-sip-tls-crd
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ -n $(kubectl get crd -o custom-columns=name:metadata.name | grep -E "com.ericsson.sec.tls|siptls.sec.ericsson.com") ]];
+          then
+          echo "Cleanup SIP-TLS-CRD Release";
+          helm uninstall ${sip-tls-crd-chart-name} --namespace ${sip-tls-crd-namespace};
+          kubectl delete ns ${sip-tls-crd-namespace};
+          kubectl delete crd internalcertificates.siptls.sec.ericsson.com;
+          kubectl delete crd internalusercas.siptls.sec.ericsson.com;
+          kubectl delete crd certificateauthorities.com.ericsson.sec.tls;
+          kubectl delete crd clientcertificates.com.ericsson.sec.tls;
+          kubectl delete crd servercertificates.com.ericsson.sec.tls;
+          fi'
+
+  # Clean workspace
+  clean:
+    - rule: clean-k8s
+    - rule: clean-sip-tls-crd
+    - rule: delete-images
+    - rule: clean-files
+
+  # Constructs the full chart name (chart-version.tgz) of the required services
+  # by taking the version strings from (service)-chart-version properties (if present)
+  # otherwise the latest PRA releases from ${adp-repo-url}
+  chart-init:
+    - task: helm-chart-init
+      docker-image: py3-kube-helm3
+      cmd:
+        - bash -c '
+          helm repo add ${adp-repo-name} ${adp-repo-url};
+          helm repo update;
+          declare -A variables;
+          variables[${key-management-chart-name}]=key-management-chart-file-name;
+          variables[${sip-tls-chart-name}]=sip-tls-chart-file-name;
+          variables[${distributed-coordinator-ed-chart-name}]=distributed-coordinator-ed-chart-file-name;
+          variables[${zk-chart-name}]=zk-chart-file-name;
+          variables[${kf-chart-name}]=kf-chart-file-name;
+          variables[${bro-chart-name}]=bro-chart-file-name;
+          variables[${sip-tls-crd-chart-name}]=sip-tls-crd-chart-file-name;
+          declare -A versions;
+          versions[${key-management-chart-name}]=${key-management-chart-version};
+          versions[${sip-tls-chart-name}]=${sip-tls-chart-version};
+          versions[${distributed-coordinator-ed-chart-name}]=${distributed-coordinator-ed-chart-version};
+          versions[${zk-chart-name}]=${zk-chart-version};
+          versions[${kf-chart-name}]=${kf-chart-version};
+          versions[${bro-chart-name}]=${bro-chart-version};
+          versions[${sip-tls-crd-chart-name}]=${sip-tls-crd-chart-version};
+          for key in "${!versions[@]}"; do
+            if [[ "${versions[$key]}" == "None" ]]; then
+              echo "Getting version for $key...";
+              versions[$key]=$(helm search repo -r "${adp-repo-name}/$key[^-]" --versions | sort -Vr | awk '\''NR==1 { print $2 }'\'');
+            fi;
+            chartfilename="$key-${versions[$key]}.tgz";
+            echo "$chartfilename";
+            echo "$chartfilename" > .bob/var.${variables[$key]};
+          done'
+
+  # Dev Tasks: only used by manually publishing development/black builds by developers
+  init-dev:
+    - rule: chart-init
+    - task: sync
+      cmd:
+        - git submodule sync --recursive
+        - git submodule update --init --remote --recursive
+    - task: version
+      docker-image: adp-release-auto
+      cmd: generate-version --is-release false --output version
+    - task: rstate
+      docker-image: adp-release-auto
+      cmd: get_rstate.py ${var.version} > .bob/var.rstate
+    - task: commit
+      docker-image: adp-release-auto
+      cmd: git rev-parse --short HEAD > .bob/var.commithash
+    - task: image-repopath-internal
+      cmd: echo "${image-dev-repopath}" > .bob/var.image-repopath-internal
+    - task: image-full-name-internal
+      cmd: echo "${image-registry}/${image-dev-repopath}/${image-name}" > .bob/var.image-full-name-internal
+    - task: bragent-image-full-name-internal
+      cmd: echo '${bragent-image-full-name-internal}' > .bob/var.bragent-image-full-name-internal
+    - task: helm-chart-repo-internal
+      cmd: echo "${helm-chart-repo-server}/${helm-chart-dev-repopath}" > .bob/var.helm-chart-repo-internal
+    - task: set-upload
+      cmd: echo "--debug" > .bob/var.pri_params
+
+  # [CI] used by CI to use as temporary storage for testing, only CI user has write access.
+  init-review:
+    - rule: chart-init
+    - task: version
+      docker-image: adp-release-auto
+      cmd: generate-version --is-release false --output version
+    - task: rstate
+      docker-image: adp-release-auto
+      cmd: get_rstate.py ${var.version} > .bob/var.rstate
+    - task: commit
+      docker-image: adp-release-auto
+      cmd: git rev-parse --short HEAD > .bob/var.commithash
+    - task: image-repopath-internal
+      cmd: echo "${image-ci-repopath}" > .bob/var.image-repopath-internal
+    - task: image-full-name-internal
+      cmd: echo "${image-registry}/${image-ci-repopath}/${image-name}" > .bob/var.image-full-name-internal
+    - task: bragent-image-full-name-internal
+      cmd: echo '${image-registry}/${image-ci-repopath}/${common.bragent-image-name}' > .bob/var.bragent-image-full-name-internal
+    - task: helm-chart-repo-internal
+      cmd: echo "${helm-chart-repo-server}/${helm-chart-ci-repopath}" > .bob/var.helm-chart-repo-internal
+    - task: set-upload
+      cmd: echo "--debug" > .bob/var.pri_params
+
+  # [CI] used by CI to publish artifacts after successful CI pipeline execution for a drop build
+  init-drop:
+    - rule: chart-init
+    - task: version
+      docker-image: adp-release-auto
+      cmd: generate-version --is-release true --output version
+    - task: rstate
+      docker-image: adp-release-auto
+      cmd: get_rstate.py ${var.version} > .bob/var.rstate
+    - task: commit
+      docker-image: adp-release-auto
+      cmd: git rev-parse --short HEAD > .bob/var.commithash
+    - task: image-repopath-internal
+      cmd: echo "${image-ci-repopath}" > .bob/var.image-repopath-internal
+    - task: image-full-name-internal
+      cmd: echo "${image-registry}/${image-ci-repopath}/${image-name}" > .bob/var.image-full-name-internal
+    - task: bragent-image-full-name-internal
+      cmd: echo '${image-registry}/${image-ci-repopath}/${common.bragent-image-name}' > .bob/var.bragent-image-full-name-internal
+    - task: helm-chart-repo-internal
+      cmd: echo "${helm-chart-repo-server}/${helm-chart-ci-repopath}" > .bob/var.helm-chart-repo-internal
+    - task: doc-repo-internal
+      cmd: echo '${helm-chart-repo-server}/${helm-chart-dev-repopath}/${helm-chart-name}' > .bob/var.doc-repo-internal
+    - task: set-upload
+      cmd: echo "--debug --upload" > .bob/var.pri_params
+    - task: adp-artifacts-properties
+      docker-image: adp-release-auto
+      cmd: generate-adp-artifacts
+        --chart-name ${helm-chart-name}
+        --chart-version ${var.version}
+        --chart-repo ${helm-chart-drop-repo}
+        --image-name ${image-name}
+        --image-version ${var.version}
+        --image-repo "${image-registry}/${var.image-repopath-internal}"
+    - task: write-git-details
+      cmd:
+        - echo "GIT_TAG=$(git log -1 --pretty=format:'%h')" >> artifact.properties
+        - echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')" >> artifact.properties
+        - echo "GIT_COMMIT_SUMMARY=$(git log -1 --pretty=format:'%s')" >> artifact.properties
+
+  init:
+    - rule: init-dev
+
+  docker:
+    - task: login
+      condition: conditions:jenkins
+      cmd: cat .bob/var.HELM_REPO_API_TOKEN | docker login -u ${git-user} --password-stdin ${image-registry}
+    - task: logout
+      condition: conditions:jenkins
+      cmd: docker logout ${image-registry}
+
+  build-agent:
+    - task: build-agent-jar
+      docker-image: java11-mvn-builder
+      docker-flags:
+        - "--env HOME=${env.HOME}"
+        - "--volume ${env.HOME}/.m2:${env.HOME}/.m2"
+      cmd:
+        - mvn clean install -f bragent/pom.xml -Dmaven.repo.local="$HOME/.m2/repository"
+
+  # Build docker image
+  image:
+    - task: docker:login
+    - task: docker-build
+      cmd: docker build ${DOCKER_DIR}
+        --file ${DOCKER_DIR}/Dockerfile
+        --tag ${var.image-full-name-internal}:${var.version}
+        --build-arg OS_BASE_IMAGE_REPO=${common.image-base-os-repo}
+        --build-arg OS_BASE_IMAGE_NAME=${common.image-base-os-name}
+        --build-arg OS_BASE_IMAGE_TAG=${common.image-base-os-version}
+        --build-arg REPOSITORY=${git-repo}
+        --build-arg COMMIT=${var.commithash}
+        --build-arg APP_VERSION=${var.version}
+    - task: docker-build-bra
+      cmd: docker build ${env.PWD}/bragent/Docker
+        --tag ${var.bragent-image-full-name-internal}:${var.version}
+        --file ${env.PWD}/bragent/Docker/Dockerfile
+        --build-arg OS_BASE_IMAGE_REPO=${common.image-base-os-repo}
+        --build-arg OS_BASE_IMAGE_NAME=${common.image-base-os-name}
+        --build-arg OS_BASE_IMAGE_TAG=${common.image-base-os-version}
+        --build-arg PRODUCT_REVISION="${var.rstate}"
+        --build-arg IMAGE_REVISION="${var.commithash}"
+        --build-arg IMAGE_VERSION="${var.version}"
+    - task: docker:logout
+
+  # Delete docker images created
+  delete-images:
+    - task: docker:login
+    - task: delete-internal-image
+      cmd:
+        - docker image remove ${var.image-full-name-internal}:${var.version} || true
+        - docker image remove ${var.bragent-image-full-name-internal}:${var.version} || true
+    - task: docker:logout
+
+  # Runs the Container Structure Tests with the help of Google's CST framework
+  # https://github.com/GoogleContainerTools/container-structure-test
+  test-image:
+    - task: test-docker
+      docker-image: adp-release-auto
+      cmd:
+        - chmod 777 ${DOCKER_DIR}/test/setup.sh &&
+          ${DOCKER_DIR}/test/setup.sh &&
+          chmod 777 ${DOCKER_DIR}/test/runtests.sh &&
+          ${DOCKER_DIR}/test/runtests.sh "${var.image-full-name-internal}:${var.version}"
+
+  # Package the helm chart
+  package:
+    - task: package-helm
+      docker-image: adp-release-auto
+      cmd: helm-package
+        --folder Helm/${helm-chart-name}
+        --workdir .bob
+        --output .bob/${helm-chart-name}
+        --version ${var.version}
+        --replace eric-product-info.yaml:VERSION=${var.version}
+        --replace RSTATE=${var.rstate}
+        --replace eric-product-info.yaml:REPO_PATH=${var.image-repopath-internal}
+
+  # [CI] Publish artifacts to internal repository
+  publish-internal:
+    # Upload docker image
+    - task: docker:login
+    - task: docker-push-internal
+      cmd: docker push ${var.image-full-name-internal}:${var.version}
+    - task: docker-push-internal-br
+      cmd: docker push ${var.bragent-image-full-name-internal}:${var.version}
+    - task: docker:logout
+
+  lint:
+    - task: markdownlint
+      docker-image: doc-builder
+      cmd: bash -c 'markdownlint --config /etc/markdownlint-cli/adp.yaml $(git ls-files -- \*\.md | cat | xargs)' || true
+    - task: vale
+      docker-image: doc-builder
+      cmd: bash -c 'vale --output line --no-wrap $(git ls-files -- \*\.md | cat | xargs)' || true
+    - rule: deploy-sip-tls-crd
+    - task: helm-lint-values
+      cmd: |
+        echo '
+        jmx:
+          enabled: true
+        log:
+          outputs:
+            - "stdout"
+            - "stream"' > .bob/var.helm-lint-values
+    - task: helm-lint
+      docker-image: adp-release-auto
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - helm lint .bob/${helm-chart-name}/${helm-chart-file-name} --values .bob/var.helm-lint-values
+        - helm template ${helm-chart-name} .bob/${helm-chart-name}/${helm-chart-file-name} --values .bob/var.helm-lint-values
+        - helm install ${helm-chart-name} .bob/${helm-chart-name}/${helm-chart-file-name} --debug --dry-run --values .bob/var.helm-lint-values
+    - task: helm-dr-check
+      docker-image: adp-helm-dr-check
+      cmd: helm-dr-check --fail-on-warnings false --elastic true -DhelmDesignRule.feature.dependency=1 --values-file .bob/var.helm-lint-values ${skipped-helm-design-rules} --helm-chart .bob/${helm-chart-name}/${helm-chart-file-name} --output .bob/
+    - task: cbos-age-tool
+      docker-image: adp-helm-dr-check
+      cmd: cbos-age-tool --cbos-age --helm-v3 --helm-chart=.bob/${helm-chart-name}/${helm-chart-file-name} -o=.bob/ -Dhelmdrck.credential.file.path=credentials.yaml --sort --elastic=FALSE --values-file=.bob/var.helm-lint-values
+
+  # Create the CRDs needed for SIP-TLS
+  deploy-sip-tls-crd:
+    - task: helm
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--env SIP_TLS=${env.SIP_TLS}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ $SIP_TLS == "true" ]]; then
+            if [[ -z $(kubectl get crd -o custom-columns=name:metadata.name | grep -E "com.ericsson.sec.tls|siptls.sec.ericsson.com") ]]; then
+              echo "Couldn'\''t find required CRDs, installing ${var.sip-tls-crd-chart-file-name}";
+              helm upgrade --install ${sip-tls-crd-chart-name}
+              ${adp-repo-url}/${sip-tls-crd-chart-name}/${var.sip-tls-crd-chart-file-name}
+              --namespace ${sip-tls-crd-namespace}
+              --create-namespace;
+            else
+              echo "Found required CRDs!";
+            fi;
+          fi'
+
+  # Create the namespace services will be installed into
+  deploy-create-namespace:
+    - task: deploy-create-namespace
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ -z $(kubectl get ns ${helm-install-namespace}) ]]; then
+            kubectl create namespace ${helm-install-namespace};
+          fi'
+
+  # Deploy services required for TLS functionality
+  deploy-sip-tls:
+    - task: deploy-sip-tls
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--env SIP_TLS=${env.SIP_TLS}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ $SIP_TLS == "true" ]]; then
+            echo "Installing ${var.key-management-chart-file-name}";
+            kubectl create secret generic ${key-management-root-secret-name}
+            --namespace ${helm-install-namespace}
+            --from-literal=etcdpasswd=$(echo -n "${key-management-root-secret-password}" | base64);
+            helm upgrade --install ${key-management-chart-name}
+            ${adp-repo-url}/${key-management-chart-name}/${var.key-management-chart-file-name}
+            --namespace ${helm-install-namespace}
+            --set ${var.key-management-helm-flags};
+            echo "Installing ${var.distributed-coordinator-ed-chart-file-name}";
+            helm upgrade --install ${distributed-coordinator-ed-chart-name}
+            ${adp-repo-url}/${distributed-coordinator-ed-chart-name}/${var.distributed-coordinator-ed-chart-file-name}
+            --namespace ${helm-install-namespace}
+            --set ${var.distributed-coordinator-ed-helm-flags};
+            echo "Installing ${var.sip-tls-chart-file-name}";
+            helm upgrade --install ${sip-tls-chart-name}
+            ${adp-repo-url}/${sip-tls-chart-name}/${var.sip-tls-chart-file-name}
+            --namespace ${helm-install-namespace}
+            --set ${var.sip-tls-helm-flags}
+            --wait
+            --timeout ${env.HELM3_INSTALL_TIMEOUT};
+          fi'
+
+  deploy-zk:
+    - task: deploy-zk
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.zk-chart-file-name}";
+          helm upgrade --install ${zk-chart-name}
+          ${adp-repo-url}/${zk-chart-name}/${var.zk-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set "${var.zk-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  deploy-kf:
+    - task: deploy-kf
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.kf-chart-file-name}";
+          helm upgrade --install ${kf-chart-name}
+          ${adp-repo-url}/${kf-chart-name}/${var.kf-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set "${var.kf-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  deploy-bro:
+    - task: deploy-bro
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.bro-chart-file-name}";
+          helm upgrade --install ${bro-chart-name}
+          ${adp-repo-url}/${bro-chart-name}/${var.bro-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set "${var.bro-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  deploy-sr:
+    - task: deploy-sr
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing .bob/${helm-chart-name}/${helm-chart-file-name}";
+          helm upgrade --install ${helm-chart-name}
+          .bob/${helm-chart-name}/${helm-chart-file-name}
+          --namespace ${helm-install-namespace}
+          --set ${var.sr-helm-flags}
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+
+  log-k8s-env-info:
+    - task: log-k8s-env-info
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+
+      cmd:
+        - bash -c '
+          helm ls -aA;
+          for deployment in $(helm ls -n ${helm-install-namespace} -a | grep -v "NAME" | cut -f1);
+          do echo "$deployment values:";
+          helm get values --namespace ${helm-install-namespace} $deployment;
+          done'
+
+  # Run integration tests
+  test-k8s-auto:
+    # Cleans the environment from (potential) leftover test artifacts in case of repeated test executions.
+    - rule: clean-k8s
+
+    # Initialize helm set flags needed for deployment
+    - task: set-key-management-helm-flags
+      cmd: echo "replicas=1" > .bob/var.key-management-helm-flags
+    - task: set-sip-tls-helm-flags
+      cmd: echo "replicaCount=1" > .bob/var.sip-tls-helm-flags
+    - task: set-distributed-coordinator-ed-helm-flags
+      cmd: echo "pods.dced.replicas=1,
+        persistence.persistentVolumeClaim.storageClassName=" | tr -d [:space:] > .bob/var.distributed-coordinator-ed-helm-flags
+    - task: set-zk-helm-flags
+      cmd: echo "global.security.tls.enabled=${env.SIP_TLS},
+        replicaCount=1,
+        resources.datacoordinatorzk.requests.cpu=500m,
+        resources.datacoordinatorzk.requests.memory=2Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        persistence.persistentVolumeClaim.enabled=false" | tr -d [:space:] > .bob/var.zk-helm-flags
+    - task: set-kf-helm-flags
+      cmd: echo "global.security.tls.enabled=${env.SIP_TLS},
+        replicaCount=1,
+        resources.messagebuskf.requests.cpu=500m,
+        resources.messagebuskf.requests.memory=1Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        configurationOverrides.min\.insync\.replicas=1,
+        configurationOverrides.default\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.num\.partitions=1,
+        configurationOverrides.transaction\.state\.log\.num\.partitions=1,
+        persistence.persistentVolumeClaim.enabled=false" | tr -d [:space:] > .bob/var.kf-helm-flags
+
+    #Set up k8s environment
+    - rule: deploy-create-namespace
+    - rule: deploy-sip-tls-crd
+    - rule: deploy-sip-tls
+    - rule: deploy-zk
+    - rule: deploy-kf
+    - rule: log-k8s-env-info
+    - task: copy-chart
+      cmd: cp .bob/${helm-chart-name}/${helm-chart-file-name} test/${helm-chart-file-name}
+
+    #Execute tests in nose_auto.py
+    - task: test-nose-auto
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+        - "--env TESTFW_SIP_TLS=${env.SIP_TLS}"
+        - "--network=host"
+      cmd:
+        - python testframework/bootstrap.py
+          --kubernetes-admin-conf="${env.KUBECONFIG}"
+          --kubernetes-namespace="${helm-install-namespace}"
+          --chart-archive="/tmp/${helm-chart-file-name}"
+          --helm-repo="${var.helm-chart-repo-internal}"
+          --baseline_chart_version="${var.version}"
+          --baseline_deployment_type="deployment"
+          --baseline_chart_name="${helm-chart-name}"
+          --test-params KOOPA_num1=4 KOOPA_num2=2
+          --test-runner-cmdline="nosetests -x -v --with-html --html-file=output.html --where=/test nose_auto.py"
+          -f True
+
+  # Run integration tests using Backup and Recovery
+  test-k8s-bur:
+    # Cleans the environment from (potential) leftover test artifacts in case of repeated test executions.
+    - rule: clean-k8s
+
+    # Initialize helm set flags needed for deployment
+    - task: set-zk-helm-flags
+      cmd: echo "global.security.tls.enabled=false,
+        replicaCount=1,
+        resources.datacoordinatorzk.requests.cpu=500m,
+        resources.datacoordinatorzk.requests.memory=2Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        global.pullSecret=${image-secret},
+        persistence.persistentVolumeClaim.enabled=false" | tr -d [:space:] > .bob/var.zk-helm-flags
+    - task: set-kf-helm-flags
+      #global.security.tls.enabled must be set as false as SR global.security.tls.enabled is false
+      cmd: echo "global.security.tls.enabled=false,
+        replicaCount=1,
+        resources.messagebuskf.requests.cpu=500m,
+        resources.messagebuskf.requests.memory=1Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        configurationOverrides.min\.insync\.replicas=1,
+        configurationOverrides.default\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.num\.partitions=1,
+        configurationOverrides.transaction\.state\.log\.num\.partitions=1,
+        global.pullSecret=${image-secret},
+        persistence.persistentVolumeClaim.enabled=false" | tr -d [:space:] > .bob/var.kf-helm-flags
+    - task: set-bro-helm-flags
+      cmd: echo "global.security.tls.enabled=false,
+        eric-ctrl-bro.persistence.persistentVolumeClaim.size=5Gi,
+        security.tls.broToAgent.enabled=false,
+        security.tls.rest.enabled=false,
+        service.endpoints.broToAgent.tls.enforced=optional,
+        service.endpoints.broToAgent.tls.verifyClientCertificate=optional,
+        global.pullSecret=${image-secret},
+        service.endpoints.restActions.tls.enforced=optional" | tr -d [:space:] > .bob/var.bro-helm-flags
+
+    #Set up k8s environment
+    - rule: deploy-create-namespace
+    - rule: helm-install-prep
+    - rule: deploy-zk
+    - rule: deploy-kf
+    - rule: deploy-bro
+    - rule: log-k8s-env-info
+    - task: copy-chart
+      cmd: cp .bob/${helm-chart-name}/${helm-chart-file-name} test/${helm-chart-file-name}
+
+    #Execute tests in nose_auto_bur.py
+    - task: test-nose-bur
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+        - "--env TESTFW_SIP_TLS=false"
+        - "--network=host"
+      cmd:
+        - python testframework/bootstrap.py
+          --kubernetes-admin-conf="${env.KUBECONFIG}"
+          --kubernetes-namespace="${helm-install-namespace}"
+          --chart-archive="/tmp/${helm-chart-file-name}"
+          --helm-repo="${var.helm-chart-repo-internal}"
+          --baseline_chart_version="${var.version}"
+          --baseline_deployment_type="deployment"
+          --baseline_chart_name="${helm-chart-name}"
+          --test-params KOOPA_num1=4 KOOPA_num2=2
+          --test-runner-cmdline="nosetests -x -v --with-html --html-file=output.html --where=/test nose_auto_bur.py"
+          -f True
+
+  contract-test:
+    - task: docker:login
+    - task: docker-build-contract
+      cmd: docker build ${env.PWD}/spring-cloud-contract
+        --file ${env.PWD}/spring-cloud-contract/Dockerfile
+        --tag ${var.image-full-name-internal}-contract:${var.version}
+        --build-arg PROJECT_GROUP=${project-group}
+        --build-arg PROJECT_NAME=${project-name}
+        --build-arg PROJECT_VERSION=${var.version}
+        --build-arg PRODUCER_STUBS_CLASSIFIER=${producer-stubs-classifier}
+        --build-arg APPLICATION_BASE_URL=http://${helm-chart-name}:8081
+    - task: publish-image
+      condition: conditions:jenkins
+      cmd: docker push ${var.image-full-name-internal}-contract:${var.version}
+    - task: docker:logout
+    - task: delete-pod
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          kubectl delete pod spring-cloud-contract --namespace ${helm-install-namespace} || true'
+    - task: create-pod
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          kubectl run spring-cloud-contract --namespace ${helm-install-namespace}
+            --image=${var.image-full-name-internal}-contract:${var.version}
+            --env PROJECT_GROUP=${project-group}
+            --env PROJECT_NAME=${project-name}
+            --env PROJECT_VERSION=${var.version}
+            --env PRODUCER_STUBS_CLASSIFIER=${producer-stubs-classifier}
+            --env APPLICATION_BASE_URL=http://${helm-chart-name}:8081
+            --restart=Never
+            --image-pull-policy=IfNotPresent;
+          kubectl wait --for=condition=Ready pod/spring-cloud-contract --namespace ${helm-install-namespace} --timeout=60s'
+    - task: build-contracts
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          kubectl exec --namespace ${helm-install-namespace} spring-cloud-contract -- bash -c "sed -i 's/stacktrace/debug/g' build.sh && ./build.sh"'
+    - task: copy-contracts
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          kubectl cp --namespace ${helm-install-namespace} spring-cloud-contract:/spring-cloud-contract-output/libs/${project-name}-${var.version}-${producer-stubs-classifier}.jar ${env.PWD}/spring-cloud-contract/${project-name}-${var.version}-${producer-stubs-classifier}.jar'
+
+  # [CI] Publish docker images and helm charts to drop repository (Call publish only when merged to master)
+  publish:
+    - task: docker:login
+    - task: package-helm-public
+      docker-image: adp-release-auto
+      cmd: helm-package
+        --folder Helm/${helm-chart-name}
+        --workdir .bob --output build
+        --version ${var.version}
+        --replace eric-product-info.yaml:VERSION=${var.version}
+        --replace RSTATE=${var.rstate}
+        --replace eric-product-info.yaml:REPO_PATH=${image-drop-repopath}
+    - task: image-pull-internal
+      cmd: docker pull ${var.image-full-name-internal}:${var.version}
+    # Re-tagging image with :${var.version} tag
+    - task: image-tag-public
+      cmd: docker tag ${var.image-full-name-internal}:${var.version} ${image-full-name}:${var.version}
+    - task: bragent-image-tag-public
+      cmd: docker tag ${var.bragent-image-full-name-internal}:${var.version} ${bragent-image-full-name}:${var.version}    # Pushing image with :${var.version} tag
+    - task: image-push-public
+      cmd: docker push ${image-full-name}:${var.version}
+    - task: bragent-image-push-public
+      cmd: docker push ${bragent-image-full-name}:${var.version}
+    # Re-tagging image with :latest tag
+    - task: image-tag-public
+      cmd: docker tag ${var.image-full-name-internal}:${var.version} ${image-full-name}:latest
+    # Pushing image with :latest tag
+    - task: bragent-image-tag-public-latest
+      cmd: docker tag ${var.bragent-image-full-name-internal}:${var.version} ${bragent-image-full-name}:latest
+    - task: image-push-public
+      cmd: docker push ${image-full-name}:latest
+    - task: bragent-image-push-public-latest
+      cmd: cat .bob/var.HELM_REPO_API_TOKEN | docker login -u ${git-user} --password-stdin ${image-registry} && docker push ${bragent-image-full-name}:latest
+    - task: helm-upload
+      docker-image: adp-release-auto
+      cmd: upload_file.sh
+        --filename=build/${helm-chart-file-name}
+        --repository=${helm-chart-drop-repo}/${helm-chart-name}
+        --api-token=${var.HELM_REPO_API_TOKEN}
+    - task: git-tag
+      docker-image: adp-release-auto
+      docker-flags:
+        - --env GERRIT_USERNAME=${git-user}
+        - --env GERRIT_PASSWORD='c(9(dIDwm+\4C}{<'
+      cmd: version-handler create-git-tag
+           --tag v${var.version}
+           --message "Release ${var.version}"
+           --git-repo-url ${git-clone-url}
+    - task: zip-md-oas
+      docker-image: adp-release-auto
+      cmd: doc-handler generate
+        --config ${env.PWD}/Documentation/marketplace_config.config
+        --output ${env.PWD}/build/doc-md
+        --format html
+        --zip
+    - task: upload-md-oas
+      docker-image: adp-release-auto
+      cmd: 'marketplace upload
+        --arm-api-token ${var.HELM_REPO_API_TOKEN}
+        --arm-url ${var.doc-repo-internal}
+        --config ${env.PWD}/Documentation/marketplace_upload_config.yaml
+        --dev
+        --debug
+        --portal-token ${var.MARKETPLACE_TOKEN}
+        --refresh'
+    - task: contract-upload
+      condition: conditions:contract-test
+      docker-image: adp-release-auto
+      cmd: upload_file.sh
+        --filename=${env.PWD}/spring-cloud-contract/${project-name}-${var.version}-${producer-stubs-classifier}.jar
+        --completeurl=https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss-release-local/com/ericsson/oss/dmi/${project-name}/${var.version}/${project-name}-${var.version}-${producer-stubs-classifier}.jar
+        --api-token=${var.HELM_REPO_API_TOKEN}
+        --overwrite=true
+        --dry-run=false
+
+  create-new-cbo-patch:
+    - task: create-new-cbo-patch
+      docker-image: adp-release-auto
+      docker-flags:
+        - "--env GERRIT_USERNAME"
+        - "--env GERRIT_PASSWORD"
+      cmd:
+        - "sed -i 's/image-base-os-version: .*/image-base-os-version: ${env.IMAGE_TAG}/' Docker/files/common-properties.yaml"
+        - config-handler update
+          --set-cbo-version ${env.IMAGE_TAG}
+          --dependencies-file Docker/files/dependencies.yaml
+          --debug
+        - gerrit create-patch
+          --file Docker/files/common-properties.yaml Docker/files/dependencies.yaml
+          --message "NO JIRA Update Common Base OS to ${env.IMAGE_TAG}"
+          --git-repo-local .
+          --wait-label "Verified"="+1"
+          --submit
+          --debug
+          --timeout 4200 # 70m
+        # If user does not have email set --email ${env.EMAIL}
+        #

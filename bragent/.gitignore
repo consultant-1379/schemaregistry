@@ -1,0 +1,13 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Helm
+Helm/eric-oss-schema-registry-sr/*.lock
+localtest/umbrella/*.lock
+*.tgz
+
+# Maven build files
+build
+target
+

@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+      "Name": {
+          "type": "string"
+      },
+      "Version": {
+          "type": "string"
+      },
+      "Artifact": {
+          "type": "object",
+          "properties": {
+              "Type": {
+                  "type": "string"
+              },
+              "Name": {
+                  "type": "string"
+              },
+              "Tag": {
+                  "type": "string"
+              },
+              "ProductNumber": {
+                  "type": "string"
+              },
+              "GerritProjectName": {
+                  "type": "string"
+              }
+          },
+          "required": ["GerritProjectName", "Name", "ProductNumber", "Tag", "Type"]
+      },
+      "Capabilities": {
+          "type": "object",
+          "properties": {
+              "Name": {
+                  "type": "string"
+              },
+              "Version": {
+                  "type": "string"
+              },
+              "Description": {
+                  "type": "string"
+              }
+          },
+          "required": ["Description", "Name"]
+      },
+      "Requirements": {
+          "type": "array",
+          "items": {
+              "type": "object",
+              "properties": {
+                  "Id": {
+                      "type": "string"
+                  },
+                  "prefix": {
+                      "type": "string"
+                  },
+                  "Version": {
+                      "type": "string"
+                  }
+              },
+              "required": ["Id", "prefix"]
+          }
+      },
+      "ConfigurationDeclaration": {
+          "type": "object"
+      },
+      "ConfigurationAssignment": {
+          "type": "object"
+      },
+      "Resources": {
+          "type": "object",
+          "properties": {
+              "LoadDrivers": {
+                  "type": "object",
+                  "properties": {
+                      "numOfRequestPerSecond": {
+                          "type": "string"
+                      }
+                  },
+                  "required": ["numOfRequestPerSecond"]
+              }
+          },
+          "required": ["LoadDrivers"]
+      },
+      "Rules": {
+          "type": "object",
+          "properties": {
+              "horizontalScalingLimit": {
+                  "type": "string"
+              },
+              "CpuUsage": {
+                  "type": "string"
+              },
+              "PeakCpuUsage": {
+                  "type": "string"
+              },
+              "MemoryUsage": {
+                  "type": "string"
+              },
+              "PeakMemoryUsage": {
+                  "type": "string"
+              },
+              "optimumNumOfRequestPerInstance": {
+                  "type": "string"
+              },
+              "latency": {
+                  "type": "string"
+              },
+              "trafficRate": {
+                  "type": "string"
+              },
+              "perSecondRequestProcessingCost": {
+                  "type": "string"
+              },
+              "instanceProcessingPower": {
+                  "type": "string"
+              },
+              "requiredProcessingPower": {
+                  "type": "string"
+              },
+              "instanceCount": {
+                  "type": "string"
+              },
+              "CpuRequest": {
+                  "type": "string"
+              },
+              "CpuLimit": {
+                  "type": "string"
+              },
+              "MemoryRequest": {
+                  "type": "string"
+              },
+              "MemoryLimit": {
+                  "type": "string"
+              },
+              "cpuRequest": {
+                  "type": "string"
+              },
+              "memRequest": {
+                  "type": "string"
+              },
+              "cpuLimits": {
+                  "type": "string"
+              },
+              "memLimits": {
+                  "type": "string"
+              },
+              "RequestCpu": {
+                  "type": "string"
+              },
+              "LimitCpu": {
+                  "type": "string"
+              },
+              "RequestMem": {
+                  "type": "string"
+              },
+              "LimitMem": {
+                  "type": "string"
+              }
+          },
+          "required": ["cpuLimits", "cpuRequest", "horizontalScalingLimit", "instanceCount", "instanceProcessingPower", "CpuLimit", "CpuRequest", "CpuUsage", "LimitCpu", "LimitMem", "MemoryLimit", "MemoryRequest", "MemoryUsage", "PeakCpuUsage", "PeakMemoryUsage", "RequestCpu", "RequestMem", "latency", "memLimits", "memRequest", "optimumNumOfRequestPerInstance", "perSecondRequestProcessingCost", "requiredProcessingPower", "trafficRate"]
+      }
+  },
+  "required": ["Artifact", "Capabilities", "ConfigurationAssignment", "Name", "Requirements", "Resources", "Rules", "Version"]
+}

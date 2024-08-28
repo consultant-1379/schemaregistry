@@ -1,0 +1,655 @@
+#
+# COPYRIGHT Ericsson 2022
+#
+#
+#
+# The copyright to the computer program(s) herein is the property of
+#
+# Ericsson Inc. The programs may be used and/or copied only with written
+#
+# permission from Ericsson Inc. or in accordance with the terms and
+#
+# conditions stipulated in the agreement/contract under which the
+#
+# program(s) have been supplied.
+#
+modelVersion: 2.0
+description: "EC SON: SCHEMA_REGISTORY Repository (eric-oss-schema-registry-sr)"
+# See image catalog: https://confluence.lmera.ericsson.se/display/ACD/ADP+CICD+Docker+Image+Catalog
+docker-images:
+  - adp-asciidoc-builder: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-asciidocbuilder:${env.ASCII_DOC_BUILDER_TAG}
+  - adp-helm-dr-check: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/common-library-adp-helm-dr-check:latest
+  - doc-builder: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-docbuilder:${env.DOC_BUILDER_TAG}
+  - adp-release-auto: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-adp-release-auto:${env.RELEASE_AUTO_TAG}
+  #- adp-release-auto: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-adp-release-auto:${env.ADP_RELEASE_AUTO_TAG}
+  - py-builder: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-python3builder:latest
+  - py3-kube-helm3: armdocker.rnd.ericsson.se/sandbox/adp-staging/adp-cicd/bob-py3kubehelmbuilder:2.0.3-latest
+  - java11-mvn-builder: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-java11mvnbuilder:latest
+  - elib-make-utilities: ${elib-make-subpath}-oss-drop/eric-elib/elib_makeutilities:${env.ELIB_MAKE_UTILITIES_TAG}
+  - bth-linter: armdocker.rnd.ericsson.se/proj-eric-oss-drop/eric-bth/eric-bth-spectral-linter:${env.BTH_LINTER_TAG}
+  - sdk-validator: armdocker.rnd.ericsson.se/proj-eric-oss-sdkschema-drop/eric-oss-sdkschema-validator:${env.SDKSCHEMA_VALIDATOR_TAG}
+  - grype-scan: ${grype-image}:${env.ANCHORE_TAG}
+  - trivy-inline-scan: ${trivy-image}:${env.TRIVY_TAG}
+  - va-scan-kubesec: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-scan-kubesec:${env.KUBESEC_TAG}
+  - va-scan-kubeaudit: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-scan-kubeaudit:${env.KUBEAUDIT_TAG}
+  - va-scan-kubehunter: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/va-scan-kubehunter:${env.KUBEHUNTER_TAG}
+  - hadolint-scan: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/hadolint-scan:${env.HADOLINT_TAG}
+  - adp-maven-builder: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-java11mvnbuilder:${env.MVN_BUILDER_TAG}
+  - adp-helm-kubectl: armdocker.rnd.ericsson.se/proj-adp-cicd-drop/bob-py3kubehelmbuilder:${env.HELM_KUBECTL_TAG}
+  - py3-builder: armdocker.rnd.ericsson.se/proj-eric-oss-dev-test/eric-oss-dmm-resource/py3-builder:4.0
+import:
+  common: ../common-properties.yaml
+# List of constants
+properties:
+  - image-name: eric-oss-schema-registry-sr
+  - image-registry: armdocker.rnd.ericsson.se
+  #- image-drop-repopath: proj-ec-son-drop
+  - image-dev-repopath: proj-ec-son-dev
+  - image-ci-repopath: ${image-registry-path}-ci-internal
+  #- image-full-name: ${image-registry}/${image-drop-repopath}/${image-name}
+  - image-registry-path: armdocker.rnd.ericsson.se/proj-eric-oss
+  - image-drop-repopath: ${image-registry-path}-drop
+  - image-full-name: ${image-drop-repopath}/${common.docker-image-name}
+  - image-secret: k8s-registry-secret
+  - image-ci-full-name: ${image-ci-repopath}/${common.docker-image-name}
+  - helm-chart-name: eric-oss-schema-registry-sr
+  - helm-chart-repo-server: https://arm.seli.gic.ericsson.se/artifactory
+ # Generic repository for publishing artifacts such as documentation
+  - generic-drop-repo: ${helm-chart-repo-server-path}-drop-generic
+  - helm-chart-dev-repopath: proj-ec-son-dev-helm
+  - helm-chart-ci-repopath: ${helm-chart-repo-server-path}-ci-internal-helm-local
+  - helm-chart-drop-repo: ${helm-chart-repo-server-path}-drop-helm
+  - helm-chart-repo-server-path: https://arm.seli.gic.ericsson.se/artifactory/proj-eric-oss
+  - helm-chart-drop-repopath: proj-ec-son-drop-helm
+  - helm-chart-repo-name-released: proj-eric-oss-drop-helm
+  - helm-chart-repo-name-drop: proj-eric-oss-drop-helm
+  - helm-chart-repo-fullpath-released: ${common.helm-chart-repo-server}/${helm-chart-repo-name-released}/${common.helm-chart-name}
+  - helm-chart-repo-fullpath-drop: ${common.helm-chart-repo-server}/${helm-chart-repo-name-drop}/${common.helm-chart-name}
+  - helm-chart-repo-released: ${common.helm-chart-repo-server}/${helm-chart-repo-name-released}
+  - helm-chart-repo-drop: ${common.helm-chart-repo-server}/${helm-chart-repo-name-drop}
+  - helm-chart-folder-released: 'build/released-charts'
+  #- helm-chart-drop-repo: ${helm-chart-repo-server}/${helm-chart-drop-repopath}
+  - helm-chart-file-name: ${helm-chart-name}-${var.version}.tgz
+  #- helm-install-namespace: ${helm-chart-name}-install
+  - helm-install-namespace: namespace61
+  - git-user: ejenksonom
+  - git-clone-url: https://${git-user}@gerrit-gamma.gic.ericsson.se/a/AIA/microservices/schemaregistry
+  - git-repo: https://gerrit-gamma.gic.ericsson.se/#/admin/projects/AIA/microservices/schemaregistry
+  - DOCKER_DIR: ./Docker
+  - project-group: com.ericsson.oss.dmi
+  - project-name: eric-oss-schema-registry-sr
+  - producer-stubs-classifier: stubs
+
+  # Robustness test report location
+  - robustness-test-report: ${env.PWD}/Documentation/Robustness_test_report/robustness_test_report.md
+  # Characteristic test report location
+  - characteristic-test-report: ${env.PWD}/Documentation/Characteristic_Test_Report/characteristic_test_report.md
+
+  # MVN REPO url, etc
+  - adp-repo-name: proj-adp-gs-all
+  - adp-repo-url: https://arm.rnd.ki.sw.ericsson.se/artifactory/proj-adp-gs-all-helm
+  - key-management-chart-name: eric-sec-key-management
+  - key-management-chart-version:           # If left empty will use latest PRA
+  - key-management-root-secret-name: eric-data-distributed-coordinator-creds
+  - key-management-root-secret-password: topSecret
+  - sip-tls-chart-name: eric-sec-sip-tls
+  - sip-tls-chart-version:            # If left empty will use latest PRA
+  - distributed-coordinator-ed-chart-name: eric-data-distributed-coordinator-ed
+  - distributed-coordinator-ed-chart-version:            # If left empty will use latest PRA
+  - zk-chart-name: eric-data-coordinator-zk
+  - zk-chart-version:            # If left empty will use latest PRA
+  - kf-chart-name: eric-data-message-bus-kf
+  - kf-chart-version:            # If left empty will use latest PRA
+  - bro-chart-name: eric-ctrl-bro
+  - bro-chart-version:            # If left empty will use latest PRA
+  - sip-tls-crd-chart-name: eric-sec-sip-tls-crd
+  - sip-tls-crd-chart-version:            # If left empty will use latest PRA
+  - sip-tls-crd-namespace: ${sip-tls-crd-chart-name}
+  # bragent
+  # Docker Images
+  - bragent-image-full-name-internal: ${image-ci-repopath}/${common.bragent-image-name}
+  - bragent-image-full-name: ${image-drop-repopath}/${common.bragent-image-name}
+  - skipped-helm-design-rules: "" # format "-DhelmDesignRule.config.DR-D1121-121=skip"
+  # Other properties
+  - git-change-url: "https://gerrit-gamma.gic.ericsson.se/#/q/"
+  #PRA
+  - image-to-PRA: ${image-full-name}:${env.RELEASE_CANDIDATE}
+# Import environment variables (e.g. Jenkins parameters)
+env:
+  - ADP_RELEASE_AUTO_TAG (default=latest)
+  - ASCII_DOC_BUILDER_TAG (default=latest)
+  - DOC_BUILDER_TAG (default=1.0.0-3)
+  - MAVEN_CLI_OPTS (default=-Duser.home=${env.HOME} -B)
+  - MAVEN_OPTS (default=-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn)
+  - DOCKER_VOLUME_MAPPING_PASSWD (default=--volume ${env.HOME}/mypasswd:/etc/passwd:ro)
+  - MVN_BUILDER_TAG (default=latest)
+  - RELEASE_AUTO_TAG (default=latest)
+  - PWD
+  - HOME
+  - KUBECONFIG (default=notset)
+  - API_TOKEN
+  - HELM_USER
+  - GERRIT_PATCHSET_REVISION (default=HEAD)
+  - GERRIT_USERNAME
+  - GERRIT_PASSWORD
+  - GERRIT_CHANGE_NUMBER
+  - JIRA_USERNAME
+  - JIRA_PASSWORD
+  - ERIDOC_USERNAME
+  - ERIDOC_PASSWORD
+  - IMAGE_REPO
+  - IMAGE_NAME
+  - IMAGE_TAG
+  - SIP_TLS (default=false)
+  - HELM3_INSTALL_TIMEOUT (default=600s)
+  - CONTRACT_TEST (default=false)
+  - K8S_NAMESPACE (default=${common.helm-chart-name}-${var.commithash})
+  - HELM_INSTALL_TIMEOUT (default=5m0s)
+  - HELM_RELEASE (default=${common.helm-chart-name}-release)
+  - SELI_ARTIFACTORY_REPO_PASS
+  - SELI_ARTIFACTORY_REPO_USER
+  - ENABLE_HELM_V3 (default=true)
+  - PROJ_MVN (default=/proj/mvn)
+  - BTH_LINTER_TAG (default=latest)
+  - HELM_KUBECTL_TAG (default=latest)
+  - DOCKER_NETWORK (default=--network host)
+  - API_TEST_ENABLE (default=true)
+  - RELEASE_CANDIDATE
+  - CREDENTIALS_SELI_ARTIFACTORY_USR
+  - CREDENTIALS_SELI_ARTIFACTORY_PSW
+  - DRY_RUN (default=false)
+  - PRA_ENABLED
+  - SR_ADP_PORTAL_API_KEY
+  - MARKETPLACE_TOKEN_SR
+
+  # Kubernetes
+  - COLLECT_LOGS_SCRIPT_LOCATION (default="https://arm.sero.gic.ericsson.se/artifactory/proj-ADP_GS_Support_FTP-generic-local/collect_ADP_logs")
+  - COLLECT_LOGS_SCRIPT_FILE_NAME (default="collect_ADP_logs.sh")
+  - COLLECT_LOGS_SINCE_RELATIVE_TIME (default="2h")
+  - COLLECT_LOGS_DIR (default=./k8s-logs)
+  - HELM_TEST_TIMEOUT (default=5m0s)
+  - HELM_VERSION (default="3.5.2")
+  - BUILD_DIR (default=./build)
+  - KAAS_INFO_FILE (default=${env.BUILD_DIR}/kaas-info.log)
+  - HA_INFO_FILE (default=${env.BUILD_DIR}/ha-info.log)
+  - API_INFO_FILE (default=${env.BUILD_DIR}/api-info.log)
+
+    # VA Tools docker image tags
+  - ANCHORE_TAG (default=latest)
+  - TRIVY_TAG (default=latest)
+  - KUBESEC_TAG (default=latest)
+  - KUBEAUDIT_TAG (default=latest)
+  - KUBEHUNTER_TAG (default=latest)
+  - HADOLINT_TAG (default=latest)
+
+    # X-RAY
+  - XRAY_USER
+  - XRAY_APIKEY
+    # VHUB
+  - VHUB_API_TOKEN
+    # BTH Linter
+  - OPEN_API_SPEC_DIRECTORY (default=src/main/resources/v1)
+var:
+  - version
+  - rstate
+  - commithash
+  - image-repopath-internal
+  - image-full-name-internal
+  - image-repopath-drop
+  - bragent-image-full-name-internal
+  - helm-chart-repo-internal
+  - doc-repo-internal
+  - helm-lint-values
+  - key-management-chart-file-name
+  - key-management-helm-flags
+  - sip-tls-chart-file-name
+  - sip-tls-helm-flags
+  - distributed-coordinator-ed-chart-file-name
+  - distributed-coordinator-ed-helm-flags
+  - zk-chart-file-name
+  - zk-helm-flags
+  - kf-chart-file-name
+  - kf-helm-flags
+  - bro-chart-file-name
+  - bro-helm-flags
+  - sr-helm-flags
+  - sip-tls-crd-chart-file-name
+  - docker-config-basepath
+  - save-namespace
+  - start-time-seconds
+  - end-time-seconds
+  - elapsed-time
+  - service-pods
+  - released-version
+  - helmchart-file-name
+  - doc-version
+  - SR_ADP_PORTAL_API_KEY
+
+# Rules to execute
+rules:
+  lint:
+    - task: python-script
+      docker-image: py3-builder
+      cmd:
+        - python3 ci/scripts/validation.py
+  chart-init:
+    - task: helm-chart-init
+      docker-image: py3-kube-helm3
+      cmd:
+        - bash -c '
+          helm repo add ${adp-repo-name} ${adp-repo-url};
+          helm repo update;
+          declare -A variables;
+          variables[${key-management-chart-name}]=key-management-chart-file-name;
+          variables[${sip-tls-chart-name}]=sip-tls-chart-file-name;
+          variables[${distributed-coordinator-ed-chart-name}]=distributed-coordinator-ed-chart-file-name;
+          variables[${zk-chart-name}]=zk-chart-file-name;
+          variables[${kf-chart-name}]=kf-chart-file-name;
+          variables[${bro-chart-name}]=bro-chart-file-name;
+          variables[${sip-tls-crd-chart-name}]=sip-tls-crd-chart-file-name;
+          declare -A versions;
+          versions[${key-management-chart-name}]=${key-management-chart-version};
+          versions[${sip-tls-chart-name}]=${sip-tls-chart-version};
+          versions[${distributed-coordinator-ed-chart-name}]=${distributed-coordinator-ed-chart-version};
+          versions[${zk-chart-name}]=${zk-chart-version};
+          versions[${kf-chart-name}]=${kf-chart-version};
+          versions[${bro-chart-name}]=${bro-chart-version};
+          versions[${sip-tls-crd-chart-name}]=${sip-tls-crd-chart-version};
+          for key in "${!versions[@]}"; do
+            if [[ "${versions[$key]}" == "None" ]]; then
+              echo "Getting version for $key...";
+              versions[$key]=$(helm search repo -r "${adp-repo-name}/$key[^-]" --versions | sort -Vr | awk '\''NR==1 { print $2 }'\'');
+            fi;
+            chartfilename="$key-${versions[$key]}.tgz";
+            echo "$chartfilename";
+            echo "$chartfilename" > .bob/var.${variables[$key]};
+          done'
+  initialize-deployment:
+    # Initialize helm set flags needed for deployment
+    - task: set-key-management-helm-flags
+      cmd: echo "replicas=1" > .bob/var.key-management-helm-flags
+    - task: set-sip-tls-helm-flags
+      cmd: echo "replicaCount=1" > .bob/var.sip-tls-helm-flags
+    - task: set-distributed-coordinator-ed-helm-flags
+      cmd: echo "pods.dced.replicas=1,
+        persistence.persistentVolumeClaim.storageClassName=" | tr -d [:space:] > .bob/var.distributed-coordinator-ed-helm-flags
+    - task: set-zk-helm-flags
+      cmd: echo "global.security.tls.enabled=${env.SIP_TLS},
+        replicaCount=1,
+        resources.datacoordinatorzk.requests.cpu=500m,
+        resources.datacoordinatorzk.requests.memory=2Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        global.pullSecret=${image-secret},
+        persistence.persistentVolumeClaim.enabled=false" | tr -d [:space:] > .bob/var.zk-helm-flags
+    - task: set-kf-helm-flags
+      cmd: echo "global.security.tls.enabled=${env.SIP_TLS},
+        replicaCount=3,
+        resources.messagebuskf.requests.cpu=500m,
+        resources.messagebuskf.requests.memory=1Gi,
+        resources.jmxExporter.requests.cpu=50m,
+        resources.jmxExporter.requests.memory=256Mi,
+        configurationOverrides.min\.insync\.replicas=1,
+        configurationOverrides.default\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.replication\.factor=1,
+        configurationOverrides.offsets\.topic\.num\.partitions=1,
+        configurationOverrides.transaction\.state\.log\.num\.partitions=1,
+        global.pullSecret=${image-secret},
+        persistence.persistentVolumeClaim.enabled=false" | tr -d [:space:] > .bob/var.kf-helm-flags
+    - task: set-bro-helm-flags
+      cmd: echo "global.security.tls.enabled=false,
+        eric-ctrl-bro.persistence.persistentVolumeClaim.size=5Gi,
+        security.tls.broToAgent.enabled=false,
+        security.tls.rest.enabled=false,
+        service.endpoints.broToAgent.tls.enforced=optional,
+        service.endpoints.broToAgent.tls.verifyClientCertificate=optional,
+        global.pullSecret=${image-secret},
+        service.endpoints.restActions.tls.enforced=optional" | tr -d [:space:] > .bob/var.bro-helm-flags
+  # Create the namespace services will be installed into
+  deploy-create-namespace:
+    - task: deploy-create-namespace
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          if [[ -z $(kubectl get ns ${env.K8S_NAMESPACE}) ]]; then
+            kubectl create namespace ${env.K8S_NAMESPACE};
+          fi'
+
+ # Create K8s secret
+  helm-install-prep:
+    - task: find-docker-config-basepath
+      cmd: dirname $HOME/.docker/config.json > .bob/var.docker-config-basepath
+    - task: helm-install-prep
+      docker-image: adp-helm-kubectl
+      docker-flags: 
+        - ${env.DOCKER_NETWORK}
+        - "--env HOME=${env.HOME}"
+        - "--env K8S_NAMESPACE=${env.K8S_NAMESPACE}"
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--env ENABLE_HELM_V3"
+        - "--env HELM_VERSION"
+        - "--env COLLECT_LOGS_SCRIPT_LOCATION"
+        - "--volume ${env.PWD}:${env.PWD}"
+        - "--volume ${env.HOME}:${env.HOME}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+        - "--volume ${var.docker-config-basepath}:${var.docker-config-basepath}"
+      cmd: kubectl create secret generic ${image-secret}
+        --from-file=.dockerconfigjson=$HOME/.docker/config.json
+        --type=kubernetes.io/dockerconfigjson
+        --namespace ${env.K8S_NAMESPACE} || true
+
+  deploy-zk:
+    - task: deploy-zk
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.zk-chart-file-name}";
+          helm upgrade --install ${zk-chart-name}
+          ${adp-repo-url}/${zk-chart-name}/${var.zk-chart-file-name}
+          --namespace ${env.K8S_NAMESPACE}
+          --set "${var.zk-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+  deploy-kf:
+    - task: deploy-kf
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.kf-chart-file-name}";
+          helm upgrade --install ${kf-chart-name}
+          ${adp-repo-url}/${kf-chart-name}/${var.kf-chart-file-name}
+          --namespace ${env.K8S_NAMESPACE}
+          --set "${var.kf-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+  deploy-bro:
+    - task: deploy-bro
+      docker-image: py3-kube-helm3
+      docker-flags:
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+      cmd:
+        - bash -c '
+          echo "Installing ${var.bro-chart-file-name}";
+          helm upgrade --install ${bro-chart-name}
+          ${adp-repo-url}/${bro-chart-name}/${var.bro-chart-file-name}
+          --namespace ${env.K8S_NAMESPACE}
+          --set "${var.bro-helm-flags}"
+          --wait
+          --timeout ${env.HELM3_INSTALL_TIMEOUT}'
+  build-agent:
+    - task: build-agent-jar
+      docker-image: java11-mvn-builder
+      docker-flags:
+        - "--env HOME=${env.HOME}"
+        - "--volume ${env.HOME}/.m2:${env.HOME}/.m2"
+      cmd:
+        - mvn clean install -f bragent/pom.xml -Dmaven.repo.local="$HOME/.m2/repository"
+
+# bragent Image
+  image-bragent:
+    - task: docker-build-bra
+      cmd: docker build ${env.PWD}/bragent/Docker
+        --tag ${bragent-image-full-name-internal}:${var.version}
+        --file ${env.PWD}/bragent/Docker/Dockerfile
+        --build-arg OS_BASE_IMAGE_REPO=${common.cbos-image-repo}
+        --build-arg OS_BASE_IMAGE_NAME=${common.cbos-image-name}
+        --build-arg OS_BASE_IMAGE_TAG=${common.cbos-image-version}
+        --build-arg PRODUCT_REVISION="${var.rstate}"
+        --build-arg IMAGE_REVISION="${var.commithash}"
+        --build-arg IMAGE_VERSION="${var.version}"
+    - task: docker-push-internal-br
+      cmd: docker push ${bragent-image-full-name-internal}:${var.version}
+
+  # Fetch vulnerabililty report VA 2.0
+  generate-VA-report-V2:
+    - task: no-upload
+      docker-image: adp-release-auto
+      docker-flags:
+        - --env VHUB_API_TOKEN
+      cmd: bash -c 'va-report
+           --set version=${var.version}
+           --config ${env.PWD}/config/va-report.config
+           --output ${env.PWD}/build/va-reports/Vulnerability_Report_2.0.md
+           --md
+           --debug
+           --anchore-reports ${env.PWD}/build/va-reports/anchore-reports
+           --trivy-reports ${env.PWD}/build/va-reports/trivy-reports
+           --xray-report ${env.PWD}/build/va-reports/xray-reports/xray_report.json
+           --raw-xray-report ${env.PWD}/build/va-reports/xray-reports/raw_xray_report.json
+           --hadolint-reports ${env.PWD}/build/va-reports/hadolint-scan
+           --kubeaudit-reports ${env.PWD}/build/va-reports/kube-audit-report/${common.helm-chart-name}/templates/schema-registry-statefulset
+           --kubesec-reports ${env.PWD}/build/va-reports/kubesec-reports'; exit 0;
+    - task: upload
+      docker-image: adp-release-auto
+      docker-flags:
+        - --env VHUB_API_TOKEN
+      cmd: bash -c 'va-report
+           --set version=${var.version}
+           --config ${env.PWD}/config/va-report.config
+           --output ${env.PWD}/build/va-reports/Vulnerability_Report_2.0.md
+           --md
+           --debug
+           --anchore-reports ${env.PWD}/build/va-reports/anchore-reports
+           --trivy-reports ${env.PWD}/build/va-reports/trivy-reports
+           --xray-report ${env.PWD}/build/va-reports/xray-reports/xray_report.json
+           --raw-xray-report ${env.PWD}/build/va-reports/xray-reports/raw_xray_report.json
+           --hadolint-reports ${env.PWD}/build/va-reports/hadolint-scan
+           --kubeaudit-reports ${env.PWD}/build/va-reports/kube-audit-report/${common.helm-chart-name}/templates/schema-registry-statefulset
+           --kubesec-reports ${env.PWD}/build/va-reports/kubesec-reports
+           --upload-scan-results'; exit 0;
+
+# Using only md-oas as custom , because its showing md file error.
+  publish-md-oas:
+    - task: zipping-md-oas
+      docker-image: adp-release-auto
+      cmd: doc-handler generate
+        --config ${env.PWD}/Documentation/marketplace_config.config
+        --output ${env.PWD}/build/doc-md
+        --format md
+        --zip
+    - task: upload-md-oas
+      docker-image: adp-release-auto
+      cmd: "marketplace upload --arm-api-token=${env.SELI_ARTIFACTORY_REPO_PASS}
+        --arm-url=${generic-drop-repo}-local/${common.helm-chart-name}/${var.version}
+        --config ${env.PWD}/Documentation/marketplace_upload_config.yaml
+        --version=${var.version}"
+  publish-bragent: 
+    # Re-tagging image with :${var.version} tag    
+    - task: bragent-image-tag-public
+      cmd: docker tag ${bragent-image-full-name-internal}:${var.version} ${bragent-image-full-name}:${var.version}
+    # Pushing image with :${var.version} tag
+    - task: bragent-image-push-public
+      cmd: docker push ${bragent-image-full-name}:${var.version}
+    # Pushing image with :latest tag
+    - task: bragent-image-tag-public-latest
+      cmd: docker tag ${bragent-image-full-name-internal}:${var.version} ${bragent-image-full-name}:latest 
+    - task: bragent-image-push-public-latest
+      cmd: docker push ${bragent-image-full-name}:latest
+
+  helm-count-start:
+    - task: timing:store-start-time-seconds
+
+  helm-count-end:
+    - task: timing:store-end-time-seconds
+    - task: timing:store-elapsed-time
+    - task: update-characteristic-test-report
+      cmd: >
+        sed -i "s/\(Startup.*: \`\`\`\).*\(\`\`\`\)/\1${var.elapsed-time}\2/" ${characteristic-test-report}
+  api-testing:
+    - task: create-build-dir
+      cmd: mkdir -p ${env.BUILD_DIR}
+    - task: api-script
+      docker-image: adp-helm-kubectl
+      docker-flags: &docker_flags_kube_config
+        - ${env.DOCKER_NETWORK}
+        - "--env HOME=${env.HOME}"
+        - "--env K8S_NAMESPACE=${env.K8S_NAMESPACE}"
+        - "--env KUBECONFIG=${env.KUBECONFIG}"
+        - "--env ENABLE_HELM_V3"
+        - "--env HELM_VERSION"
+        - "--env SELI_ARTIFACTORY_REPO_USER=${CREDENTIALS_SELI_ARTIFACTORY_USR}"
+        - "--env SELI_ARTIFACTORY_REPO_PASS=\"${CREDENTIALS_SELI_ARTIFACTORY_PSW}\""
+        - "--env COLLECT_LOGS_SCRIPT_LOCATION"
+        - "--volume ${env.PWD}:${env.PWD}"
+        - "--volume ${env.HOME}:${env.HOME}"
+        - "--volume ${env.KUBECONFIG}:${env.KUBECONFIG}"
+        - "--volume ${var.docker-config-basepath}:${var.docker-config-basepath}"
+      cmd:
+        - chmod 755 Apitestscript.sh
+        - echo -e 'API  Test Starts:' >> ${env.API_INFO_FILE}
+        - ./Apitestscript.sh ${env.K8S_NAMESPACE} ${common.loc-values-yaml} >> ${env.API_INFO_FILE}
+        - echo -e 'API Test Ends:' >> ${env.API_INFO_FILE}
+  k8s-restart-pod:
+    - task: find-docker-config-basepath
+      cmd: dirname $HOME/.docker/config.json > .bob/var.docker-config-basepath
+    - task: timing:store-start-time-seconds
+    - task: restart-pod-and-wait
+      docker-image: adp-helm-kubectl
+      docker-flags: *docker_flags_kube_config
+      # Have to write the pods to a var because running the get pods command as a subshell command
+      # in the delete and wait commands does not work as it complains about not being able to find kubectl.
+      # Probably because the subshell command ends up running on the host and not in the container.
+      cmd:
+        - kubectl get pods --namespace ${env.K8S_NAMESPACE} -o custom-columns=':metadata.name' | awk '{ORS=" "} 1' > .bob/var.service-pods
+        - kubectl delete pods --namespace ${env.K8S_NAMESPACE} ${var.service-pods} --wait
+        - kubectl get pods --namespace ${env.K8S_NAMESPACE} -o custom-columns=':metadata.name' | awk '{ORS=" "} 1' > .bob/var.service-pods
+        - kubectl wait pods --namespace ${env.K8S_NAMESPACE} --for condition=Ready --timeout=${env.HELM_INSTALL_TIMEOUT} ${var.service-pods}
+    - task: timing:store-end-time-seconds
+    - task: timing:store-elapsed-time
+    - task: update-characteristic-test-report
+      cmd: >
+        sed -i "s/\(Restart.*: \`\`\`\).*\(\`\`\`\)/\1${var.elapsed-time}\2/" ${characteristic-test-report}
+
+  robustness-test:
+    - task: available-pods-before-restart
+      docker-image: adp-helm-kubectl
+      docker-flags: *docker_flags_kube_config
+      cmd:
+        - echo "## Available services after startup" >> ${robustness-test-report}
+        - kubectl get pods --namespace ${env.K8S_NAMESPACE} >> ${robustness-test-report}
+    - task: available-pods-after-restart-pod-and-wait
+      docker-image: adp-helm-kubectl
+      docker-flags: *docker_flags_kube_config
+      cmd:
+        - kubectl get pods --namespace ${env.K8S_NAMESPACE} -o custom-columns=':metadata.name' | awk '{ORS=" "} 1' > .bob/var.service-pods
+        - kubectl delete pods --namespace ${env.K8S_NAMESPACE} ${var.service-pods} --wait
+        - kubectl get pods --namespace ${env.K8S_NAMESPACE} -o custom-columns=':metadata.name' | awk '{ORS=" "} 1' > .bob/var.service-pods
+        - kubectl wait pods --namespace ${env.K8S_NAMESPACE} --for condition=Ready --timeout=${env.HELM_INSTALL_TIMEOUT} ${var.service-pods}
+        - echo "## Available services after restart" >> ${robustness-test-report}
+        - kubectl get pods --namespace ${env.K8S_NAMESPACE} >> ${robustness-test-report}
+
+  timing:
+    - task: store-start-time-seconds
+      cmd: date +"%s" > .bob/var.start-time-seconds
+    - task: store-end-time-seconds
+      cmd: date +"%s" > .bob/var.end-time-seconds
+    - task: store-elapsed-time
+      cmd: date -d@$(expr ${var.end-time-seconds} - ${var.start-time-seconds}) -u +%H:%M:%S:%3N > .bob/var.elapsed-time
+
+  init:
+    - task: generate-released-version
+      cmd:
+        - echo ${env.RELEASE_CANDIDATE} | sed s/-/+/ > .bob/var.released-version
+    - task: helmchart-file-name
+      cmd: echo ${common.helm-chart-name}-${var.released-version}.tgz > .bob/var.helmchart-file-name
+    - task: doc-repo-internal
+      cmd: echo '${helm-chart-ci-repopath}/${common.helm-chart-name}' > .bob/var.doc-repo-internal
+      # doc-version is major.minor.patch
+    - task: doc-version
+      cmd: bash -c 'v=${env.RELEASE_CANDIDATE}; echo "${v%-*}"' > .bob/var.doc-version
+
+  # This rule pulls the release candidate image, saves it in a tar.gz format and pushes it to released-artifacts-repo
+  image-package-release:
+    - task: pull-docker-image
+      cmd:
+        - docker pull ${image-to-PRA}
+    - task: save-images
+      cmd:
+        - mkdir -p ${image-folder-released}
+        - docker save ${image-to-PRA}
+             -o ${image-folder-released}/${common.image-name}-${env.RELEASE_CANDIDATE}.tar.gz
+  # This rule fetches release candidate (e.g. 1.0.0-3) helm chart from helm-chart-repo
+  # and packages with PRA release version (e.g. 1.0.0+3)
+  helm-package-release:
+    - task: generate-release-chart
+      docker-image: adp-release-auto
+      docker-flags:
+       - "--env ENABLE_HELM_V3=true"
+      cmd:
+        - mkdir -p ${helm-chart-folder-released}
+        - generate_release_helm_package
+          -r ${helm-chart-drop-repo}
+          -n ${common.helm-chart-name}
+          -v ${env.RELEASE_CANDIDATE}
+          -o ${helm-chart-folder-released}
+          -x ${var.released-version}
+          -u ${env.CREDENTIALS_SELI_ARTIFACTORY_USR}
+          -t ${env.CREDENTIALS_SELI_ARTIFACTORY_PSW}
+    - task: adp-artifacts-properties
+      docker-image: adp-release-auto
+      cmd: generate-adp-artifacts
+        --chart-name ${common.helm-chart-name}
+        --chart-version ${var.released-version}
+        --chart-repo ${helm-chart-repo-released}
+        --image-name ${common.image-name}
+        --image-version ${env.RELEASE_CANDIDATE}
+        --image-repo ${image-ci-repopath}
+    - task: write-git-details
+      cmd:
+        - echo "GIT_TAG=$(git log -1 --pretty=format:'%h')" >> artifact.properties
+        - echo "GIT_COMMIT_AUTHOR=$(git log -1 --pretty=format:'%an')" >> artifact.properties
+        - echo "GIT_COMMIT_SUMMARY=$(git log -1 --pretty=format:'%s')" >> artifact.properties
+        - echo "GERRIT_CHANGE_URL=${git-change-url}$(git log -1 --pretty=format:'%H')" >> artifact.properties
+    - task: additional-adp-artifact-properties
+      cmd:
+        - echo "DRY_RUN=${env.DRY_RUN}" >> artifact.properties
+
+  # The rule uploads the helm chart with PRA release version (e.g. 1.0.0+3) generated
+  # to the official helm repository helm-chart-repo-released
+  publish-release:
+    - task: release-helm-package
+      docker-image: adp-release-auto
+      cmd: upload_file.sh
+        --filename=${helm-chart-folder-released}/${var.helmchart-file-name}
+        --repository=${helm-chart-repo-fullpath-released}
+        --api-token=${env.CREDENTIALS_SELI_ARTIFACTORY_PSW}
+        --dry-run=${env.DRY_RUN}
+    # Create and push git tag. Example v1.0.0+55
+    - task: git-tag
+      docker-image: adp-release-auto
+      docker-flags:
+        - --env GERRIT_USERNAME=ejenksonom
+        - --env GERRIT_PASSWORD='c(9(dIDwm+\4C}{<'
+      cmd: version-handler create-git-tag
+           --tag v${var.released-version}
+           --message "PRA Release ${var.released-version}"
+           --git-repo-url ${git-clone-url}
+           --dry-run ${env.DRY_RUN}
+    - task: zip-md-oas-release
+      docker-image: adp-release-auto
+      cmd: doc-handler generate
+        --config ${env.PWD}/Documentation/marketplace_config.config
+        --output ${env.PWD}/build/doc-md
+        --format html
+        --zip
+    - task: upload-md-oas-release
+      docker-image: adp-release-auto
+      cmd: marketplace upload
+          --arm-api-token ${env.CREDENTIALS_SELI_ARTIFACTORY_PSW}
+          --arm-url ${var.doc-repo-internal}
+          --config ${env.PWD}/Documentation/marketplace_upload_config.yaml
+          --version ${var.doc-version}
+          --debug
+          --portal-token ${env.MARKETPLACE_TOKEN_SR}
+          --refresh
+          --dry-run ${env.DRY_RUN}

@@ -1,0 +1,35 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- if eq (include "eric-oss-schema-registry-sr.service-mesh-enabled" .) "false" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+spec:
+  {{- if $global.internalIPFamily }}
+  ipFamilies: [{{- $global.internalIPFamily | quote -}}]
+  {{- end }}
+  type: {{ .Values.service.type }}
+  ports:
+{{- if $global.security.tls.enabled }}
+    - name: https
+      port: {{ .Values.security.tls.schemaregistry.port }}
+      protocol: TCP
+{{- end }}
+{{- if include "eric-oss-schema-registry-sr.plaintext.enabled" . }}
+    - name: http
+      port: {{ .Values.security.plaintext.schemaregistry.port }}
+      protocol: TCP
+{{- end }}
+{{- if .Values.jmx.enabled }}
+    - name: metrics
+      port: {{ .Values.jmx.servicePort }}
+      protocol: TCP
+{{- end }}
+  selector:
+   app: {{ template "eric-oss-schema-registry-sr.name" . }}
+   release: {{ .Release.Name | quote }}
+{{- end }}

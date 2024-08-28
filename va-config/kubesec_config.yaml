@@ -1,0 +1,21 @@
+Kubesec:
+  Product: "Schema Registry"        #Name of your product(optional parameter now, newly added for analytics)
+  KubesecYAML:
+    Scan: True
+    armLinks:                       #Add the ARM links which doesn't require authentication here
+      Links:
+        #  - "https://arm.sero.gic.ericsson.se/artifactory/proj-adp-gs-all-helm/eric-pm-server/eric-pm-server-1.0.0-259.tgz"
+      valuesOverride:               ##If override is needed, add the values yaml names in the same order as arm links
+    armLinksWithAuth:               #Add the ARM links which require authentication here
+      Links:
+        #  - "https://arm.seli.gic.ericsson.se/artifactory/......-0.tgz"
+        #  - "https://arm.seli.gic.ericsson.se/artifactory/...17-0.tgz"
+      armUser: 'exxxxx'             ##mandatory if links given
+      armEncryptedPwd: ''           ##mandatory if links given
+      valuesOverride:               ##If override is needed, add the values yaml names in the same order as arm links, if none, mark it ''
+        #  - ''
+        #  - 'external-values.yaml'  #place this inside conf and mount to /opt/va-scan-kubesec/conf
+  KubesecCluster:
+    Scan: True
+    KubeconfigFile: "/opt/va-scan-kubesec/conf/kubeconfig"
+    namespace: "eric-oss-schema-registry-sr-install-va"

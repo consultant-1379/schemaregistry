@@ -1,0 +1,4812 @@
+modelVersion: '3.0'
+dependencies:
+- ID: com.android+26.0.1
+  additional_info:
+    fossa-attribution:
+      Description: The Android Software Development Kit
+      Package: com.android
+      Source: mvn
+      Version: 26.0.1
+      Hash: ''
+      licenses:
+      - Android-Sdk
+      Title: Android SDK
+  bazaar:
+    register: 'no'
+    prim: 3/CTX1027562
+    community_link: https://developer.android.com/studio/releases/platform-tools
+    community_name: https://developer.android.com/studio/releases/platform-tools
+    community_url: https://developer.android.com/studio/releases/platform-tools
+    component_comment: ''
+    component_highlevel_description: Android SDK Platform-Tools is a component for
+      the Android SDK. It includes tools that interface with the Android platform,
+      such as adb, fastboot, and systrace. These tools are required for Android app
+      development. They're also needed if you want to unlock your device bootloader
+      and flash it with a new system image.
+    component_name: Android SDK Platform-Tools
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 26.0.1
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://dl.google.com/android/repository/platform-tools_r26.0.1-linux.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 54 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=946425
+    recode: RE1
+    retext: PRODUCT VERSION IS OLDER THAN 54 MONTHS
+    country: US
+    crypto: No Encryption
+    programming_language: C++
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.android
+    target_sw: linux
+    vendor: mvn
+    version: 26.0.1
+    web_url: https://www.android.com/
+  licenses:
+  - Android-Sdk
+  name: Android SDK
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 26.0.1
+  mimer:
+    linking: Classpath
+    product_number: CTX1027562
+    product_version_label: 26.0.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: org.codehaus.mojo:animal-sniffer-annotations+1.19
+  additional_info:
+    fossa-attribution:
+      Description: The fossa information is fetched from  FOSSA service. Don't Edit!
+      Package: org.codehaus.mojo:animal-sniffer-annotations
+      Source: mvn
+      Version: '1.19'
+      Hash: ''
+      licenses:
+      - MIT
+      Title: Animal Sniffer Annotations
+      DownloadURL: https://repo1.maven.org/maven2/org/codehaus/mojo/animal-sniffer-annotations/1.19/animal-sniffer-annotations-1.19-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 5/CAX1059951
+    community_link: https://github.com/mojohaus/animal-sniffer
+    community_name: https://github.com/mojohaus/animal-sniffer
+    community_url: https://github.com/mojohaus/animal-sniffer
+    component_comment: ''
+    component_highlevel_description: Animal Sniffer provides tools to assist verifying
+      that classes compiled with a newer JDK/API are compatible with an older JDK/API.
+    component_name: AnimalSniffer, MojoHaus
+    component_platform: linux
+    component_programing_language: Java
+    component_version: '1.19'
+    licenses:
+    - 'FAL1159008: MIT License (MIT)'
+    src_download_link: https://github.com/mojohaus/animal-sniffer/archive/animal-sniffer-parent-1.19.zip
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Product version is older than 18 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=955009
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.codehaus.mojo_animal-sniffer-annotations
+    target_sw: linux
+    vendor: mvn
+    version: '1.19'
+    web_url: https://repo1.maven.org/maven2/org/codehaus/mojo/animal-sniffer-annotations
+  licenses:
+  - MIT
+  name: Animal Sniffer Annotations
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - '1.19'
+  mimer:
+    linking: Classpath
+    product_number: CAX1059951
+    product_version_label: '1.19'
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''AnimalSniffer, MojoHaus'':  stako_decision_reason: ''allowed'' for
+    stako: ''ESW3'', team takes the risk!'
+- ID: org.apache.commons:commons-lang3+3.11
+  additional_info:
+    fossa-attribution:
+      Description: Apache Commons Lang, a package of Java utility classes for the  classes
+        that are in java.lang's hierarchy, or are considered to be so  standard as
+        to justify existence in java.lang.
+      Package: org.apache.commons:commons-lang3
+      Source: mvn
+      Version: '3.11'
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Apache Commons Lang
+      DownloadURL: https://repo1.maven.org/maven2/org/apache/commons/commons-lang3/3.11/commons-lang3-3.11-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 25/CAX1053253
+    community_link: https://github.com/apache/commons-lang
+    community_name: https://github.com/apache/commons-lang
+    community_url: https://github.com/apache/commons-lang
+    component_comment: ''
+    component_highlevel_description: Lang provides a host of helper utilities for
+      the java. Lang API, notably String manipulation methods, basic numerical methods,
+      object reflection, concurrency, creation and serialization and System properties.
+    component_name: Apache Commons Lang (Commons Lang3)
+    component_platform: linux
+    component_programing_language: Java
+    component_version: '3.11'
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: http://apache.mirrors.spacedump.net/commons/lang/source/commons-lang3-3.11-src.zip
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Product version is older than 18 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=940900
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.apache.commons_commons-lang3
+    target_sw: linux
+    vendor: mvn
+    version: '3.11'
+    web_url: http://commons.apache.org/proper/commons-lang/
+  licenses:
+  - Apache-2.0
+  name: Apache Commons Lang
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - '3.11'
+  mimer:
+    linking: Classpath
+    product_number: CAX1053253
+    product_version_label: '3.11'
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Apache Commons Lang (Commons Lang3)'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.apache.logging.log4j:log4j-api+2.17.1
+  additional_info:
+    fossa-attribution:
+      Description: The Apache Log4j API
+      Package: org.apache.logging.log4j:log4j-api
+      Source: mvn
+      Version: 2.17.1
+      Hash: ''
+      licenses:
+      - Apache-1.1
+      - Apache-2.0
+      Title: Apache Log4j API
+      DownloadURL: https://arm.epk.ericsson.se/artifactory/proj-ema-remote/org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 46/CAX1053123
+    community_link: https://github.com/apache/logging-log4j2
+    community_name: https://github.com/apache/logging-log4j2
+    community_url: https://github.com/apache/logging-log4j2
+    component_comment: ''
+    component_highlevel_description: Apache Log4j 2 is an upgrade to Log4j that provides
+      significant improvements over its predecessor, Log4j 1.x, and provides many
+      of the improvements available in Logback while fixing some inherent problems
+      in Logback's architecture.
+    component_name: Apache Log4J
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.17.1
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/apache/logging-log4j2/archive/refs/tags/rel/2.17.1.zip
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: ''
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=995927
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.apache.logging.log4j_log4j-api
+    target_sw: linux
+    vendor: mvn
+    version: 2.17.1
+    web_url: https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api
+  licenses:
+  - Apache-1.1
+  - Apache-2.0
+  name: Apache Log4j API
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.17.1
+  mimer:
+    linking: Classpath
+    product_number: CAX1053123
+    product_version_label: 2.17.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Apache Log4J'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: org.apache.logging.log4j:log4j-core+2.17.1
+  additional_info:
+    fossa-attribution:
+      Description: The Apache Log4j Implementation
+      Package: org.apache.logging.log4j:log4j-core
+      Source: mvn
+      Version: 2.17.1
+      Hash: ''
+      licenses:
+      - Apache-1.1
+      - Apache-2.0
+      - CDDL-1.0
+      - MIT
+      Title: Apache Log4j Core
+      DownloadURL: https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.17.1/log4j-core-2.17.1-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 46/CAX1053123
+    community_link: https://github.com/apache/logging-log4j2
+    community_name: https://github.com/apache/logging-log4j2
+    community_url: https://github.com/apache/logging-log4j2
+    component_comment: ''
+    component_highlevel_description: Apache Log4j 2 is an upgrade to Log4j that provides
+      significant improvements over its predecessor, Log4j 1.x, and provides many
+      of the improvements available in Logback while fixing some inherent problems
+      in Logback's architecture.
+    component_name: Apache Log4J
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.17.1
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/apache/logging-log4j2/archive/refs/tags/rel/2.17.1.zip
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: ''
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=995927
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.apache.logging.log4j_log4j-core
+    target_sw: linux
+    vendor: mvn
+    version: 2.17.1
+    web_url: https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core
+  licenses:
+  - Apache-1.1
+  - Apache-2.0
+  - CDDL-1.0
+  - MIT
+  name: Apache Log4j Core
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.17.1
+  mimer:
+    linking: Classpath
+    product_number: CAX1053123
+    product_version_label: 2.17.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Apache Log4J'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: org.apache.logging.log4j:log4j-to-slf4j+2.17.1
+  additional_info:
+    fossa-attribution:
+      Description: The Apache Log4j binding between Log4j 2 API and SLF4J.
+      Package: org.apache.logging.log4j:log4j-to-slf4j
+      Source: mvn
+      Version: 2.17.1
+      Hash: ''
+      licenses:
+      - Apache-1.1
+      - Apache-2.0
+      - MIT
+      Title: Apache Log4j to SLF4J Adapter
+      DownloadURL: https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-to-slf4j/2.17.1/log4j-to-slf4j-2.17.1-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 46/CAX1053123
+    community_link: https://github.com/apache/logging-log4j2
+    community_name: https://github.com/apache/logging-log4j2
+    community_url: https://github.com/apache/logging-log4j2
+    component_comment: ''
+    component_highlevel_description: Apache Log4j 2 is an upgrade to Log4j that provides
+      significant improvements over its predecessor, Log4j 1.x, and provides many
+      of the improvements available in Logback while fixing some inherent problems
+      in Logback's architecture.
+    component_name: Apache Log4J
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.17.1
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/apache/logging-log4j2/archive/refs/tags/rel/2.17.1.zip
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: ''
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=995927
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.apache.logging.log4j_log4j-to-slf4j
+    target_sw: linux
+    vendor: mvn
+    version: 2.17.1
+    web_url: https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-to-slf4j
+  licenses:
+  - Apache-1.1
+  - Apache-2.0
+  - MIT
+  name: Apache Log4j to SLF4J Adapter
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.17.1
+  mimer:
+    linking: Classpath
+    product_number: CAX1053123
+    product_version_label: 2.17.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Apache Log4J'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: org.checkerframework:checker-compat-qual+2.5.5
+  additional_info:
+    fossa-attribution:
+      Description: 'Checker Qual is the set of annotations (qualifiers) and supporting
+        classes        used by the Checker Framework to type check Java source code.  Please        see
+        artifact:        org.checkerframework:checker'
+      Package: org.checkerframework:checker-compat-qual
+      Source: mvn
+      Version: 2.5.5
+      Hash: ''
+      licenses:
+      - GPL-2.0-with-classpath-exception
+      - MIT
+      Title: Checker Qual
+      DownloadURL: https://repo1.maven.org/maven2/org/checkerframework/checker-compat-qual/2.5.5/checker-compat-qual-2.5.5-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 4/CTX1022981
+    community_link: http://checkerframework.org/
+    community_name: http://checkerframework.org/
+    community_url: http://checkerframework.org/
+    component_comment: ''
+    component_highlevel_description: Pluggable type-checking for Java.
+    component_name: Checker Framework
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.5.5
+    licenses:
+    - 'FAL1159001/4: GNU General Public License v2.0 w/Classpath exception ( GPL-2.0-with-classpath-exception)'
+    src_download_link: https://github.com/typetools/checker-framework/archive/checker-framework-2.5.5.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=924723
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.checkerframework_checker-compat-qual
+    target_sw: linux
+    vendor: mvn
+    version: 2.5.5
+    web_url: https://checkerframework.org
+  licenses:
+  - GPL-2.0-with-classpath-exception
+  - MIT
+  name: Checker Qual
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.5.5
+  mimer:
+    linking: Classpath
+    product_number: CTX1022981
+    product_version_label: 2.5.5
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: com.google.code.findbugs:jsr305+3.0.2
+  additional_info:
+    fossa-attribution:
+      Description: JSR305 Annotations for Findbugs
+      Package: com.google.code.findbugs:jsr305
+      Source: mvn
+      Version: 3.0.2
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      - BSD-2-Clause
+      - CC-BY-2.5
+      Title: FindBugs-jsr305
+      DownloadURL: https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 3/CTX1020957
+    community_link: https://github.com/stephenc/findbugs-annotations
+    community_name: https://github.com/stephenc/findbugs-annotations
+    community_url: https://github.com/stephenc/findbugs-annotations
+    component_comment: ''
+    component_highlevel_description: This is a cleanroom implementation of the Findbugs
+      Annotations.
+    component_name: Findbugs Annotations
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 3.0.2
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2-sources.jar
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 54 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=914490
+    recode: RE1
+    retext: PRODUCT VERSION IS OLDER THAN 54 MONTHS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.code.findbugs_jsr305
+    target_sw: linux
+    vendor: mvn
+    version: 3.0.2
+    web_url: http://findbugs.sourceforge.net/
+  licenses:
+  - Apache-2.0
+  - BSD-2-Clause
+  - CC-BY-2.5
+  name: FindBugs-jsr305
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 3.0.2
+  mimer:
+    linking: Classpath
+    product_number: CTX1020957
+    product_version_label: 3.0.2
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: com.google.code.gson:gson+2.9.0
+  additional_info:
+    fossa-attribution:
+      Description: Google Gson library
+      Package: com.google.code.gson:gson
+      Source: mvn
+      Version: 2.9.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Gson
+      DownloadURL: https://repo1.maven.org/maven2/com/google/code/gson/gson/2.9.0/gson-2.9.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 31/CAX1053893
+    community_link: https://github.com/google/gson
+    community_name: https://github.com/google/gson
+    community_url: https://github.com/google/gson
+    component_comment: ''
+    component_highlevel_description: A Java serialization/deserialization library
+      to convert Java Objects into JSON and back
+    component_name: Google-gson
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.9.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/google/gson/archive/gson-parent-2.9.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1001767
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.code.gson_gson
+    target_sw: linux
+    vendor: mvn
+    version: 2.9.0
+    web_url: https://repo1.maven.org/maven2/com/google/code/gson/gson
+  licenses:
+  - Apache-2.0
+  name: Gson
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.9.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1053893
+    product_version_label: 2.9.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Google-gson'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: com.google.guava:failureaccess+1.0.1
+  additional_info:
+    fossa-attribution:
+      Description: Contains    com.google.common.util.concurrent.internal.InternalFutureFailureAccess
+        and    InternalFutures. Most users will never need to use this artifact. Its    classes
+        is conceptually a part of Guava, but they're in this separate    artifact
+        so that Android libraries can use them without pulling in all of    Guava
+        (just as they can use ListenableFuture by depending on the    listenablefuture
+        artifact).
+      Package: com.google.guava:failureaccess
+      Source: mvn
+      Version: 1.0.1
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Guava InternalFutureFailureAccess and InternalFutures
+      DownloadURL: https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 35/CAX1054600
+    community_link: https://github.com/google/guava
+    community_name: https://github.com/google/guava
+    community_url: https://github.com/google/guava
+    component_comment: ''
+    component_highlevel_description: 'The Guava project contains several of Google''s
+      core libraries that we rely on in our Java-based projects: collections, caching,
+      primitives support, concurrency libraries, common annotations, string processing,
+      I/O, and so forth.'
+    component_name: Guava, Google
+    component_platform: linux
+    component_programing_language: Java
+    component_version: FAILUREACCESS-V1.0.1
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/google/guava/archive/failureaccess-v1.0.1.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=916785
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.guava_failureaccess
+    target_sw: linux
+    vendor: mvn
+    version: 1.0.1
+    web_url: https://repo1.maven.org/maven2/com/google/guava/failureaccess
+  licenses:
+  - Apache-2.0
+  name: Guava InternalFutureFailureAccess and InternalFutures
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 1.0.1
+  mimer:
+    linking: Classpath
+    product_number: CAX1054600
+    product_version_label: 1.0.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: com.google.guava:listenablefuture+9999.0-empty-to-avoid-conflict-with-guava
+  additional_info:
+    fossa-attribution:
+      Description: 'An empty artifact that Guava depends on to signal that it is providing    ListenableFuture
+        -- but is also available in a second "version" that    contains com.google.common.util.concurrent.ListenableFuture
+        class, without    any other Guava classes. The idea is:    - If users want
+        only ListenableFuture, they depend on listenablefuture-1.0.    - If users
+        want all of Guava, they depend on guava, which, as of Guava    27.0, depends
+        on    listenablefuture-9999.0-empty-to-avoid-conflict-with-guava. The 9999.0-...    version
+        number is enough for some build systems (notably, Gradle) to select    that
+        empty artifact over the "real" listenablefuture-1.0 -- avoiding a    conflict
+        with the copy of ListenableFuture in guava itself. If users are    using an
+        older version of Guava or a build system other than Gradle, they    may see
+        class conflicts. If so, they can solve them by manually excluding    the listenablefuture
+        artifact or manually forcing their build systems to    use 9999.0-....'
+      Package: com.google.guava:listenablefuture
+      Source: mvn
+      Version: 9999.0-empty-to-avoid-conflict-with-guava
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Guava ListenableFuture only
+      DownloadURL: https://repo1.maven.org/maven2/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar
+  bazaar:
+    register: 'no'
+    prim: 76/CAX1054600
+    community_link: https://github.com/google/guava
+    community_name: https://github.com/google/guava
+    community_url: https://github.com/google/guava
+    component_comment: ''
+    component_highlevel_description: 'The Guava project contains several of Google''s
+      core libraries that we rely on in our Java-based projects: collections, caching,
+      primitives support, concurrency libraries, common annotations, string processing,
+      I/O, and so forth.'
+    component_name: Guava, Google
+    component_platform: linux
+    component_programing_language: Java
+    component_version: '31.1'
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/google/guava/archive/v31.1.tar.gz
+    stako_decision_reason: automatic
+    stako: ESW2
+    stako_comment: ''
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1025699
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.guava_listenablefuture
+    target_sw: linux
+    vendor: mvn
+    version: 9999.0-empty-to-avoid-conflict-with-guava
+    web_url: https://repo1.maven.org/maven2/com/google/guava/listenablefuture
+  licenses:
+  - Apache-2.0
+  name: Guava ListenableFuture only
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 9999.0-empty-to-avoid-conflict-with-guava
+  mimer:
+    linking: Classpath
+    product_number: CAX1054600
+    product_version_label: 9999.0-empty-to-avoid-conflict-with-guava
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+- ID: com.google.guava:guava+30.0-android
+  additional_info:
+    fossa-attribution:
+      Description: Guava is a suite of core and expanded libraries that include    utility
+        classes, Google's collections, I/O classes, and    much more.
+      Package: com.google.guava:guava
+      Source: mvn
+      Version: 30.0-android
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      - CC0-1.0
+      - X11
+      Title: 'Guava: Google Core Libraries for Java'
+      DownloadURL: https://repo1.maven.org/maven2/com/google/guava/guava/30.0-android/guava-30.0-android-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 53/CAX1054600
+    community_link: https://github.com/google/guava
+    community_name: https://github.com/google/guava
+    community_url: https://github.com/google/guava
+    component_comment: ''
+    component_highlevel_description: 'The Guava project contains several of Google''s
+      core libraries that we rely on in our Java-based projects: collections, caching,
+      primitives support, concurrency libraries, common annotations, string processing,
+      I/O, and so forth.'
+    component_name: Guava, Google
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 30.0-ANDROID
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://repo1.maven.org/maven2/com/google/guava/guava/30.0-android/guava-30.0-android-sources.jar
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=955734
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.guava_guava
+    target_sw: linux
+    vendor: mvn
+    version: 30.0-android
+    web_url: https://github.com/google/guava
+  licenses:
+  - Apache-2.0
+  - CC0-1.0
+  - X11
+  name: 'Guava: Google Core Libraries for Java'
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 30.0-android
+  mimer:
+    linking: Classpath
+    product_number: CAX1054600
+    product_version_label: 30.0-android
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: com.google.j2objc:j2objc-annotations+1.3
+  additional_info:
+    fossa-attribution:
+      Description: A set of annotations that provide additional information to the
+        J2ObjC    translator to modify the result of translation.
+      Package: com.google.j2objc:j2objc-annotations
+      Source: mvn
+      Version: '1.3'
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: J2ObjC Annotations
+      DownloadURL: https://repo1.maven.org/maven2/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 2/CTX1020693
+    community_link: https://github.com/google/j2objc
+    community_name: https://github.com/google/j2objc
+    community_url: https://github.com/google/j2objc
+    component_comment: ''
+    component_highlevel_description: A Java to iOS Objective-C translation tool and
+      runtime.
+    component_name: J2ObjC, Google
+    component_platform: linux
+    component_programing_language: Java
+    component_version: '1.3'
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/google/j2objc/archive/1.3.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=923118
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.j2objc_j2objc-annotations
+    target_sw: linux
+    vendor: mvn
+    version: '1.3'
+    web_url: https://github.com/google/j2objc/
+  licenses:
+  - Apache-2.0
+  name: J2ObjC Annotations
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - '1.3'
+  mimer:
+    linking: Classpath
+    product_number: CTX1020693
+    product_version_label: '1.3'
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: org.slf4j:jul-to-slf4j+1.7.36
+  additional_info:
+    fossa-attribution:
+      Description: JUL to SLF4J bridge
+      Package: org.slf4j:jul-to-slf4j
+      Source: mvn
+      Version: 1.7.36
+      Hash: ''
+      licenses:
+      - MIT
+      Title: JUL to SLF4J bridge
+      DownloadURL: https://repo1.maven.org/maven2/org/slf4j/jul-to-slf4j/1.7.36/jul-to-slf4j-1.7.36-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 52/CAX1053096
+    community_link: https://github.com/qos-ch/slf4j
+    community_name: https://github.com/qos-ch/slf4j
+    community_url: https://github.com/qos-ch/slf4j
+    component_comment: ''
+    component_highlevel_description: The Simple Logging Facade for Java or (SLF4J)
+      serves as a simple facade or abstraction for various logging frameworks, e.g.
+      java.util.logging, log4j and logback, allowing the end user to plug in the desired
+      logging framework at deployment time.
+    component_name: SLF4J - Simple Logging Facade for Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.7.36
+    licenses:
+    - 'FAL1159008: MIT License (MIT)'
+    src_download_link: https://github.com/qos-ch/slf4j/archive/v_1.7.36.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1002566
+    recode: ''
+    retext: ''
+    country: CH
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.slf4j_jul-to-slf4j
+    target_sw: linux
+    vendor: mvn
+    version: 1.7.36
+    web_url: http://www.slf4j.org
+  licenses:
+  - MIT
+  name: JUL to SLF4J bridge
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 1.7.36
+  mimer:
+    linking: Classpath
+    product_number: CAX1053096
+    product_version_label: 1.7.36
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''SLF4J - Simple Logging Facade for Java'':  stako_decision_reason:
+    ''allowed'' for stako: ''ESW3'', team takes the risk!'
+- ID: com.fasterxml.jackson.datatype:jackson-datatype-jsr310+2.13.3
+  additional_info:
+    fossa-attribution:
+      Description: Add-on module to support JSR-310 (Java 8 Date & Time API) data
+        types.
+      Package: com.fasterxml.jackson.datatype:jackson-datatype-jsr310
+      Source: mvn
+      Version: 2.13.3
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: 'Jackson datatype: JSR310'
+      DownloadURL: https://repo1.maven.org/maven2/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.3/jackson-datatype-jsr310-2.13.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 41/CAX1058821
+    community_link: https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    community_name: https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    community_url: https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310
+    component_comment: ''
+    component_highlevel_description: '(DEPRECATED) -- moved under `jackson-modules-java8`
+      repo: https://github.com/FasterXML/jackson-modules-java8'
+    component_name: Jackson Datatype JSR310
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.13.3
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://repo1.maven.org/maven2/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.13.3/jackson-datatype-jsr310-2.13.3-sources.jar
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1013181
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.fasterxml.jackson.datatype_jackson-datatype-jsr310
+    target_sw: linux
+    vendor: mvn
+    version: 2.13.3
+    web_url: https://repo1.maven.org/maven2/com/fasterxml/jackson/datatype/jackson-datatype-jsr310
+  licenses:
+  - Apache-2.0
+  name: 'Jackson datatype: JSR310'
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.13.3
+  mimer:
+    linking: Classpath
+    product_number: CAX1058821
+    product_version_label: 2.13.3
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Jackson Datatype JSR310'':  stako_decision_reason: ''allowed'' for
+    stako: ''ESW3'', team takes the risk!'
+- ID: com.fasterxml.jackson.datatype:jackson-datatype-jdk8+2.13.3
+  additional_info:
+    fossa-attribution:
+      Description: Add-on module for Jackson (http://jackson.codehaus.org) to supportJDK
+        8 data types.
+      Package: com.fasterxml.jackson.datatype:jackson-datatype-jdk8
+      Source: mvn
+      Version: 2.13.3
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: 'Jackson datatype: jdk8'
+      DownloadURL: https://arm.epk.ericsson.se/artifactory/proj-ema-remote/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.13.3/jackson-datatype-jdk8-2.13.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 34/CTX1021798
+    community_link: https://github.com/FasterXML/jackson-modules-java8
+    community_name: https://github.com/FasterXML/jackson-modules-java8
+    community_url: https://github.com/FasterXML/jackson-modules-java8
+    component_comment: ''
+    component_highlevel_description: Set of support modules for Java 8 datatypes (Optionals,
+      date/time) and features (parameter names)
+    component_name: jackson-modules-java8
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.13.3
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/FasterXML/jackson-modules-java8/archive/refs/tags/jackson-modules-java8-2.13.3.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011701
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.fasterxml.jackson.datatype_jackson-datatype-jdk8
+    target_sw: linux
+    vendor: mvn
+    version: 2.13.3
+    web_url: https://repo1.maven.org/maven2/com/fasterxml/jackson/datatype/jackson-datatype-jdk8
+  licenses:
+  - Apache-2.0
+  name: 'Jackson datatype: jdk8'
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.13.3
+  mimer:
+    linking: Classpath
+    product_number: CTX1021798
+    product_version_label: 2.13.3
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''jackson-modules-java8'':  stako_decision_reason: ''allowed'' for
+    stako: ''ESW3'', team takes the risk!'
+- ID: com.fasterxml.jackson.core:jackson-annotations+2.13.3
+  additional_info:
+    fossa-attribution:
+      Description: Core annotations used for value types, used by Jackson data binding
+        package.
+      Package: com.fasterxml.jackson.core:jackson-annotations
+      Source: mvn
+      Version: 2.13.3
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Jackson-annotations
+      DownloadURL: https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.13.3/jackson-annotations-2.13.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 90/CAX1056157
+    community_link: https://github.com/FasterXML/jackson-annotations
+    community_name: https://github.com/FasterXML/jackson-annotations
+    community_url: https://github.com/FasterXML/jackson-annotations
+    component_comment: ''
+    component_highlevel_description: This project contains general purpose annotations
+      for Jackson Data Processor, used on value and handler types. The only annotations
+      not included are ones that require dependency to the Databind package.
+    component_name: jackson-annotations
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.13.3
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/FasterXML/jackson-annotations/archive/jackson-annotations-2.13.3.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011397
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.fasterxml.jackson.core_jackson-annotations
+    target_sw: linux
+    vendor: mvn
+    version: 2.13.3
+    web_url: https://github.com/FasterXML/jackson
+  licenses:
+  - Apache-2.0
+  name: Jackson-annotations
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.13.3
+  mimer:
+    linking: Classpath
+    product_number: CAX1056157
+    product_version_label: 2.13.3
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''jackson-annotations'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: com.fasterxml.jackson.core:jackson-core+2.13.3
+  additional_info:
+    fossa-attribution:
+      Description: Core Jackson processing abstractions (aka Streaming API), implementation
+        for JSON
+      Package: com.fasterxml.jackson.core:jackson-core
+      Source: mvn
+      Version: 2.13.3
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      - LGPL-2.1-only
+      Title: Jackson-core
+      DownloadURL: https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.13.3/jackson-core-2.13.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 97/CAX1056158
+    community_link: https://github.com/FasterXML/jackson-core
+    community_name: https://github.com/FasterXML/jackson-core
+    community_url: https://github.com/FasterXML/jackson-core
+    component_comment: ''
+    component_highlevel_description: This project contains core low-level incremental
+      ('streaming') parser and generator abstractions used by Jackson Data Processor.
+      It also includes the default implementation of handler types (parser, generator)
+      that handle JSON format.
+    component_name: jackson-core
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.13.3
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/FasterXML/jackson-core/archive/jackson-core-2.13.3.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011398
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.fasterxml.jackson.core_jackson-core
+    target_sw: linux
+    vendor: mvn
+    version: 2.13.3
+    web_url: https://github.com/FasterXML/jackson-core
+  licenses:
+  - Apache-2.0
+  - LGPL-2.1-only
+  name: Jackson-core
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.13.3
+  mimer:
+    linking: Classpath
+    product_number: CAX1056158
+    product_version_label: 2.13.3
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''jackson-core'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: com.fasterxml.jackson.module:jackson-module-parameter-names+2.13.3
+  additional_info:
+    fossa-attribution:
+      Description: Add-on module for Jackson (http://jackson.codehaus.org) to supportintrospection
+        of method/constructor parameter names, without having to add explicit property
+        name annotation.
+      Package: com.fasterxml.jackson.module:jackson-module-parameter-names
+      Source: mvn
+      Version: 2.13.3
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Jackson-module-parameter-names
+      DownloadURL: https://arm.epk.ericsson.se/artifactory/proj-ema-remote/com/fasterxml/jackson/module/jackson-module-parameter-names/2.13.3/jackson-module-parameter-names-2.13.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 34/CTX1021798
+    community_link: https://github.com/FasterXML/jackson-modules-java8
+    community_name: https://github.com/FasterXML/jackson-modules-java8
+    community_url: https://github.com/FasterXML/jackson-modules-java8
+    component_comment: ''
+    component_highlevel_description: Set of support modules for Java 8 datatypes (Optionals,
+      date/time) and features (parameter names)
+    component_name: jackson-modules-java8
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.13.3
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/FasterXML/jackson-modules-java8/archive/refs/tags/jackson-modules-java8-2.13.3.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011701
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.fasterxml.jackson.module_jackson-module-parameter-names
+    target_sw: linux
+    vendor: mvn
+    version: 2.13.3
+    web_url: https://repo1.maven.org/maven2/com/fasterxml/jackson/module/jackson-module-parameter-names
+  licenses:
+  - Apache-2.0
+  name: Jackson-module-parameter-names
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.13.3
+  mimer:
+    linking: Classpath
+    product_number: CTX1021798
+    product_version_label: 2.13.3
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''jackson-modules-java8'':  stako_decision_reason: ''allowed'' for
+    stako: ''ESW3'', team takes the risk!'
+- ID: jakarta.annotation:jakarta.annotation-api+1.3.5
+  additional_info:
+    fossa-attribution:
+      Description: Jakarta Annotations API
+      Package: jakarta.annotation:jakarta.annotation-api
+      Source: mvn
+      Version: 1.3.5
+      Hash: ''
+      licenses:
+      - BSD-3-Clause
+      - EPL-2.0
+      - GPL-2.0-only
+      - GPL-2.0-with-classpath-exception
+      Title: Jakarta Annotations API
+      DownloadURL: https://repo1.maven.org/maven2/jakarta/annotation/jakarta.annotation-api/1.3.5/jakarta.annotation-api-1.3.5-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 2/CTX1027257
+    community_link: https://projects.eclipse.org/projects/ee4j.ca
+    community_name: https://projects.eclipse.org/projects/ee4j.ca
+    community_url: https://projects.eclipse.org/projects/ee4j.ca
+    component_comment: ''
+    component_highlevel_description: Jakarta Annotations defines a collection of annotations
+      representing common semantic concepts that enable a declarative style of programming
+      that applies across a variety of Java technologies.
+    component_name: Jakarta Annotations
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.3.5
+    licenses:
+    - 'FAL1159001/4: GNU General Public License v2.0 w/Classpath exception ( GPL-2.0-with-classpath-exception)'
+    - 'FAL1159013/20: Eclipse Public License 2.0 (EPL-2.0)'
+    src_download_link: https://github.com/eclipse-ee4j/common-annotations-api/archive/1.3.5.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=925699
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: jakarta.annotation_jakarta.annotation-api
+    target_sw: linux
+    vendor: mvn
+    version: 1.3.5
+    web_url: https://projects.eclipse.org/projects/ee4j.ca
+  licenses:
+  - BSD-3-Clause
+  - EPL-2.0
+  - GPL-2.0-only
+  - GPL-2.0-with-classpath-exception
+  name: Jakarta Annotations API
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 1.3.5
+  mimer:
+    linking: Classpath
+    product_number: CTX1027257
+    product_version_label: 1.3.5
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: javax.activation:javax.activation-api+1.2.0
+  additional_info:
+    fossa-attribution:
+      Description: The fossa information is fetched from  FOSSA service. Don't Edit!
+      Package: javax.activation:javax.activation-api
+      Source: mvn
+      Version: 1.2.0
+      Hash: ''
+      licenses:
+      - CDDL-1.1
+      - GPL-2.0-only
+      Title: JavaBeans Activation Framework API jar
+      DownloadURL: https://repo1.maven.org/maven2/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 1/CTX1023734
+    community_link: https://eclipse-ee4j.github.io/jaf/
+    community_name: https://eclipse-ee4j.github.io/jaf/
+    community_url: https://eclipse-ee4j.github.io/jaf/
+    component_comment: ''
+    component_highlevel_description: 'The JavaBeans Activation Framework (JAF) is
+      a standard extension to the Java platform that lets you take advantage of standard
+      services to: determine the type of an arbitrary piece of data; encapsulate access
+      to it; discover the operations available on it; and instantiate the appropriate
+      bean to perform the operation(s).'
+    component_name: JavaBeans Activation Framework (JAF)
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.2.0
+    licenses:
+    - 'FAL1159001/4: GNU General Public License v2.0 w/Classpath exception ( GPL-2.0-with-classpath-exception)'
+    - 'FAL1159007/11: Common Development and Distribution License 1.1 (CDDL-1.1)'
+    src_download_link: https://github.com/javaee/activation/archive/JAF-1_2_0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=906178
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: javax.activation_javax.activation-api
+    target_sw: linux
+    vendor: mvn
+    version: 1.2.0
+    web_url: https://repo1.maven.org/maven2/javax/activation/javax.activation-api
+  licenses:
+  - CDDL-1.1
+  - GPL-2.0-only
+  name: JavaBeans Activation Framework API jar
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 1.2.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1023734
+    product_version_label: 1.2.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: Jinja2+2.9.6
+  additional_info:
+    fossa-attribution:
+      Description: 'Jinja=====Jinja is a fast, expressive, extensible templating engine.
+        Specialplaceholders in the template allow writing code similar to Pythonsyntax.
+        Then the template is passed data to render the final document.It includes:-   Template
+        inheritance and inclusion.-   Define and import macros within templates.-   HTML
+        templates can use autoescaping to prevent XSS from untrusted    user input.-   A
+        sandboxed environment can safely render untrusted templates.-   AsyncIO support
+        for generating templates and calling async    functions.-   I18N support with
+        Babel.-   Templates are compiled to optimized Python code just-in-time and    cached,
+        or can be compiled ahead-of-time.-   Exceptions point to the correct line
+        in templates to make debugging    easier.-   Extensible filters, tests, functions,
+        and even syntax.Jinja''s philosophy is that while application logic belongs
+        in Python ifpossible, it shouldn''t make the template designer''s job difficult
+        byrestricting functionality too much.Installing----------Install and update
+        using `pip`_:.. code-block:: text    $ pip install -U Jinja2.. _pip: https://pip.pypa.io/en/stable/getting-started/In
+        A Nutshell-------------.. code-block:: jinja    {% extends "base.html" %}    {%
+        block title %}Members{% endblock %}    {% block content %}      <ul>      {%
+        for user in users %}        <li><a href="{{ user.url }}">{{ user.username
+        }}</a></li>      {% endfor %}      </ul>    {% endblock %}Donate------The
+        Pallets organization develops and supports Jinja and other popularpackages.
+        In order to grow the community of contributors and users, andallow the maintainers
+        to devote more time to the projects, `pleasedonate today`_... _please donate
+        today: https://palletsprojects.com/donateLinks------   Documentation: https://jinja.palletsprojects.com/-   Changes:
+        https://jinja.palletsprojects.com/changes/-   PyPI Releases: https://pypi.org/project/Jinja2/-   Source
+        Code: https://github.com/pallets/jinja/-   Issue Tracker: https://github.com/pallets/jinja/issues/-   Website:
+        https://palletsprojects.com/p/jinja/-   Twitter: https://twitter.com/PalletsTeam-   Chat:
+        https://discord.gg/pallets'
+      Package: Jinja2
+      Source: pip
+      Version: 2.9.6
+      Hash: ''
+      licenses:
+      - BSD-3-Clause
+      - GPL-2.0-or-later
+      Title: Jinja2
+      DownloadURL: https://files.pythonhosted.org/packages/80/21/ae597efc7ed8caaa43fb35062288baaf99a7d43ff0cf66452ddf47604ee6/Jinja2-3.0.1-py3-none-any.whl
+  bazaar:
+    register: 'no'
+    prim: 10/CAX1054904
+    community_link: http://jinja.pocoo.org/
+    community_name: http://jinja.pocoo.org/
+    community_url: http://jinja.pocoo.org/
+    component_comment: ''
+    component_highlevel_description: Jinja2 is a template engine written in pure Python.
+      It provides a Django inspired non-XML syntax but supports inline expressions
+      and an optional sandboxed environment.
+    component_name: Jinja2
+    component_platform: linux
+    component_programing_language: ''
+    component_version: 2.9.6
+    licenses:
+    - 'FAL1159003/2: BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)'
+    src_download_link: https://github.com/pallets/jinja/archive/2.9.6.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=38714
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Python
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: Jinja2
+    target_sw: linux
+    vendor: pip
+    version: 2.9.6
+    web_url: https://palletsprojects.com/p/jinja/
+  licenses:
+  - BSD-3-Clause
+  - GPL-2.0-or-later
+  name: Jinja2
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.9.6
+  mimer:
+    linking: Classpath
+    product_number: CAX1054904
+    product_version_label: 2.9.6
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: org.lz4:lz4-java+1.8.0
+  additional_info:
+    fossa-attribution:
+      Description: Java ports and bindings of the LZ4 compression algorithm and the
+        xxHash hashing algorithm
+      Package: org.lz4:lz4-java
+      Source: mvn
+      Version: 1.8.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: LZ4 and xxHash
+      DownloadURL: https://repo1.maven.org/maven2/org/lz4/lz4-java/1.8.0/lz4-java-1.8.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 7/CTX1021471
+    community_link: https://github.com/lz4/lz4-java
+    community_name: https://github.com/lz4/lz4-java
+    community_url: https://github.com/lz4/lz4-java
+    component_comment: ''
+    component_highlevel_description: LZ4 compression for Java
+    component_name: LZ4 Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.8.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/lz4/lz4-java/archive/1.8.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Product version is older than 18 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=985486
+    recode: ''
+    retext: ''
+    country: FR
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.lz4_lz4-java
+    target_sw: linux
+    vendor: mvn
+    version: 1.8.0
+    web_url: https://github.com/lz4/lz4-java
+  licenses:
+  - Apache-2.0
+  name: LZ4 and xxHash
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 1.8.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1021471
+    product_version_label: 1.8.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''LZ4 Java'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: ch.qos.logback:logback-classic+1.2.11
+  additional_info:
+    fossa-attribution:
+      Description: logback-classic module
+      Package: ch.qos.logback:logback-classic
+      Source: mvn
+      Version: 1.2.11
+      Hash: ''
+      licenses:
+      - EPL-1.0
+      - LGPL-2.1-only
+      Title: Logback Classic Module
+      DownloadURL: https://repo1.maven.org/maven2/ch/qos/logback/logback-classic/1.2.11/logback-classic-1.2.11-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 36/CAX1055342
+    community_link: https://github.com/qos-ch/logback
+    community_name: https://github.com/qos-ch/logback
+    community_url: https://github.com/qos-ch/logback
+    component_comment: ''
+    component_highlevel_description: Logback is intended as a successor to the popular
+      log4j project, picking up where log4j leaves off. Logback's basic architecture
+      is sufficiently generic so as to apply under different circumstances. At present
+      time, logback is divided into three modules, logbackcore, logback-classic and
+      logback-access.
+    component_name: logback
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.2.11
+    licenses:
+    - 'FAL1159002/21: GNU Lesser General Public License v2.1 only (LGPL-2.1-only)'
+    - 'FAL1159013/10: Eclipse Public License 1.0 (EPL-1.0)'
+    src_download_link: https://github.com/qos-ch/logback/archive/v_1.2.11.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1005479
+    recode: ''
+    retext: ''
+    country: CH
+    crypto: N/A
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: ch.qos.logback_logback-classic
+    target_sw: linux
+    vendor: mvn
+    version: 1.2.11
+    web_url: https://repo1.maven.org/maven2/ch/qos/logback/logback-classic
+  licenses:
+  - EPL-1.0
+  - LGPL-2.1-only
+  name: Logback Classic Module
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.2.11
+  mimer:
+    linking: Classpath
+    product_number: CAX1055342
+    product_version_label: 1.2.11
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''logback'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: ch.qos.logback:logback-core+1.2.11
+  additional_info:
+    fossa-attribution:
+      Description: logback-core module
+      Package: ch.qos.logback:logback-core
+      Source: mvn
+      Version: 1.2.11
+      Hash: ''
+      licenses:
+      - EPL-1.0
+      - LGPL-2.1-only
+      Title: Logback Core Module
+      DownloadURL: https://repo1.maven.org/maven2/ch/qos/logback/logback-core/1.2.11/logback-core-1.2.11-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 36/CAX1055342
+    community_link: https://github.com/qos-ch/logback
+    community_name: https://github.com/qos-ch/logback
+    community_url: https://github.com/qos-ch/logback
+    component_comment: ''
+    component_highlevel_description: Logback is intended as a successor to the popular
+      log4j project, picking up where log4j leaves off. Logback's basic architecture
+      is sufficiently generic so as to apply under different circumstances. At present
+      time, logback is divided into three modules, logbackcore, logback-classic and
+      logback-access.
+    component_name: logback
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.2.11
+    licenses:
+    - 'FAL1159002/21: GNU Lesser General Public License v2.1 only (LGPL-2.1-only)'
+    - 'FAL1159013/10: Eclipse Public License 1.0 (EPL-1.0)'
+    src_download_link: https://github.com/qos-ch/logback/archive/v_1.2.11.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1005479
+    recode: ''
+    retext: ''
+    country: CH
+    crypto: N/A
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: ch.qos.logback_logback-core
+    target_sw: linux
+    vendor: mvn
+    version: 1.2.11
+    web_url: https://repo1.maven.org/maven2/ch/qos/logback/logback-core
+  licenses:
+  - EPL-1.0
+  - LGPL-2.1-only
+  name: Logback Core Module
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.2.11
+  mimer:
+    linking: Classpath
+    product_number: CAX1055342
+    product_version_label: 1.2.11
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''logback'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: MarkupSafe+1.1.0
+  additional_info:
+    fossa-attribution:
+      Description: 'MarkupSafe==========MarkupSafe implements a text object that escapes
+        characters so it issafe to use in HTML and XML. Characters that have special
+        meanings arereplaced so that they display as the actual characters. This mitigatesinjection
+        attacks, meaning untrusted user input can safely be displayedon a page.Installing----------Install
+        and update using `pip`_:.. code-block:: text    pip install -U MarkupSafe..
+        _pip: https://pip.pypa.io/en/stable/getting-started/Examples--------.. code-block::
+        pycon    >>> from markupsafe import Markup, escape    >>> # escape replaces
+        special characters and wraps in Markup    >>> escape("<script>alert(document.cookie);</script>")    Markup(''&lt;script&gt;alert(document.cookie);&lt;/script&gt;'')    >>>
+        # wrap in Markup to mark text "safe" and prevent escaping    >>> Markup("<strong>Hello</strong>")    Markup(''<strong>hello</strong>'')    >>>
+        escape(Markup("<strong>Hello</strong>"))    Markup(''<strong>hello</strong>'')    >>>
+        # Markup is a str subclass    >>> # methods and operators escape their arguments    >>>
+        template = Markup("Hello <em>{name}</em>")    >>> template.format(name=''"World"'')    Markup(''Hello
+        <em>&#34;World&#34;</em>'')Donate------The Pallets organization develops and
+        supports MarkupSafe and otherpopular packages. In order to grow the community
+        of contributors andusers, and allow the maintainers to devote more time to
+        the projects,`please donate today`_... _please donate today: https://palletsprojects.com/donateLinks------   Documentation:
+        https://markupsafe.palletsprojects.com/-   Changes: https://markupsafe.palletsprojects.com/changes/-   PyPI
+        Releases: https://pypi.org/project/MarkupSafe/-   Source Code: https://github.com/pallets/markupsafe/-   Issue
+        Tracker: https://github.com/pallets/markupsafe/issues/-   Website: https://palletsprojects.com/p/markupsafe/-   Twitter:
+        https://twitter.com/PalletsTeam-   Chat: https://discord.gg/pallets'
+      Package: MarkupSafe
+      Source: pip
+      Version: 1.1.0
+      Hash: ''
+      licenses:
+      - BSD-3-Clause
+      Title: MarkupSafe
+      DownloadURL: https://files.pythonhosted.org/packages/81/8b/f28eac2790d49dde61f89ae9e007ac65002edc90bb2dd63c3b9e653820d2/MarkupSafe-2.0.1-cp310-cp310-macosx_10_9_universal2.whl
+  bazaar:
+    register: 'no'
+    prim: 4/CAX1056401
+    community_link: https://palletsprojects.com/p/markupsafe/
+    community_name: https://palletsprojects.com/p/markupsafe/
+    community_url: https://palletsprojects.com/p/markupsafe/
+    component_comment: ''
+    component_highlevel_description: Implements a XML/HTML/XHTML Markup safe string
+      for Python
+    component_name: MarkupSafe
+    component_platform: linux
+    component_programing_language: ''
+    component_version: 1.1.0
+    licenses:
+    - 'FAL1159003/2: BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)'
+    src_download_link: https://github.com/pallets/markupsafe/archive/1.1.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=903385
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: AT
+    crypto: No Encryption
+    programming_language: Python, C
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: MarkupSafe
+    target_sw: linux
+    vendor: pip
+    version: 1.1.0
+    web_url: https://palletsprojects.com/p/markupsafe/
+  licenses:
+  - BSD-3-Clause
+  name: MarkupSafe
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.1.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1056401
+    product_version_label: 1.1.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: com.google.protobuf:protobuf-java+3.12.0
+  additional_info:
+    fossa-attribution:
+      Description: Core Protocol Buffers library. Protocol Buffers are a way of encoding
+        structured data in an    efficient yet extensible format.
+      Package: com.google.protobuf:protobuf-java
+      Source: mvn
+      Version: 3.12.0
+      Hash: ''
+      licenses:
+      - BSD-3-Clause
+      Title: Protocol Buffers [Core]
+      DownloadURL: https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.12.0/protobuf-java-3.12.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 37/CAX1054389
+    community_link: https://github.com/protocolbuffers/protobuf
+    community_name: https://github.com/protocolbuffers/protobuf
+    community_url: https://github.com/protocolbuffers/protobuf
+    component_comment: ''
+    component_highlevel_description: Protocol buffers are Google's language-neutral,
+      platform-neutral, extensible mechanism for serializing structured data - think
+      XML, but smaller, faster, and simpler. Google uses Protocol Buffers for almost
+      all of its internal RPC protocols and file formats.
+    component_name: Protocol Buffers (protobuf)
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 3.12.0
+    licenses:
+    - 'FAL1159003/2: BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)'
+    src_download_link: https://github.com/protocolbuffers/protobuf/archive/v3.12.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=942820
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: C++
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.protobuf_protobuf-java
+    target_sw: linux
+    vendor: mvn
+    version: 3.12.0
+    web_url: https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java
+  licenses:
+  - BSD-3-Clause
+  name: Protocol Buffers [Core]
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 3.12.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1054389
+    product_version_label: 3.12.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: org.slf4j:slf4j-api+1.7.36
+  additional_info:
+    fossa-attribution:
+      Description: The slf4j API
+      Package: org.slf4j:slf4j-api
+      Source: mvn
+      Version: 1.7.36
+      Hash: ''
+      licenses:
+      - MIT
+      Title: SLF4J API Module
+      DownloadURL: https://arm.seli.gic.ericsson.se/artifactory/proj-eof-dev/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 52/CAX1053096
+    community_link: https://github.com/qos-ch/slf4j
+    community_name: https://github.com/qos-ch/slf4j
+    community_url: https://github.com/qos-ch/slf4j
+    component_comment: ''
+    component_highlevel_description: The Simple Logging Facade for Java or (SLF4J)
+      serves as a simple facade or abstraction for various logging frameworks, e.g.
+      java.util.logging, log4j and logback, allowing the end user to plug in the desired
+      logging framework at deployment time.
+    component_name: SLF4J - Simple Logging Facade for Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.7.36
+    licenses:
+    - 'FAL1159008: MIT License (MIT)'
+    src_download_link: https://github.com/qos-ch/slf4j/archive/v_1.7.36.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1002566
+    recode: ''
+    retext: ''
+    country: CH
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.slf4j_slf4j-api
+    target_sw: linux
+    vendor: mvn
+    version: 1.7.36
+    web_url: http://www.slf4j.org
+  licenses:
+  - MIT
+  name: SLF4J API Module
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 1.7.36
+  mimer:
+    linking: Classpath
+    product_number: CAX1053096
+    product_version_label: 1.7.36
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''SLF4J - Simple Logging Facade for Java'':  stako_decision_reason:
+    ''allowed'' for stako: ''ESW3'', team takes the risk!'
+- ID: org.yaml:snakeyaml+1.30
+  additional_info:
+    fossa-attribution:
+      Description: YAML 1.1 parser and emitter for Java
+      Package: org.yaml:snakeyaml
+      Source: mvn
+      Version: '1.30'
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: SnakeYAML
+      DownloadURL: https://arm.seli.gic.ericsson.se/artifactory/proj-eof-dev/org/yaml/snakeyaml/1.30/snakeyaml-1.30-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CAX1056807
+    community_link: https://mvnrepository.com/artifact/org.yaml/snakeyaml
+    community_name: https://mvnrepository.com/artifact/org.yaml/snakeyaml
+    community_url: https://mvnrepository.com/artifact/org.yaml/snakeyaml
+    component_comment: ''
+    component_highlevel_description: SnakeYAML is a YAML parser and emitter for the
+      Java programming language (YAML is a data serialization format designed for
+      human readability and interaction with scripting languages).
+    component_name: SnakeYAML
+    component_platform: linux
+    component_programing_language: Java
+    component_version: '1.30'
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.30/snakeyaml-1.30-sources.jar
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=995869
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.yaml_snakeyaml
+    target_sw: linux
+    vendor: mvn
+    version: '1.30'
+    web_url: https://bitbucket.org/snakeyaml/snakeyaml
+  licenses:
+  - Apache-2.0
+  name: SnakeYAML
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - '1.30'
+  mimer:
+    linking: Classpath
+    product_number: CAX1056807
+    product_version_label: '1.30'
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''SnakeYAML'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: org.springframework:spring-aop+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring AOP
+      Package: org.springframework:spring-aop
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring AOP
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-aop/5.3.20/spring-aop-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-aop
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring AOP
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework:spring-beans+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Beans
+      Package: org.springframework:spring-beans
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Beans
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-beans/5.3.20/spring-beans-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-beans
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Beans
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework:spring-jcl+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Commons Logging Bridge
+      Package: org.springframework:spring-jcl
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Commons Logging Bridge
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-jcl/5.3.20/spring-jcl-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-jcl
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Commons Logging Bridge
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework:spring-context+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Context
+      Package: org.springframework:spring-context
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Context
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-context/5.3.20/spring-context-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-context
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Context
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework:spring-core+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Core
+      Package: org.springframework:spring-core
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      - BSD-3-Clause
+      Title: Spring Core
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-core/5.3.20/spring-core-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-core
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  - BSD-3-Clause
+  name: Spring Core
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework:spring-expression+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Expression Language (SpEL)
+      Package: org.springframework:spring-expression
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Expression Language (SpEL)
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-expression/5.3.20/spring-expression-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-expression
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Expression Language (SpEL)
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework.kafka:spring-kafka+2.8.6
+  additional_info:
+    fossa-attribution:
+      Description: Spring Kafka Support
+      Package: org.springframework.kafka:spring-kafka
+      Source: mvn
+      Version: 2.8.6
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Kafka Support
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/kafka/spring-kafka/2.8.6/spring-kafka-2.8.6-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 66/CTX1020156
+    community_link: https://github.com/spring-projects/spring-kafka
+    community_name: https://github.com/spring-projects/spring-kafka
+    community_url: https://github.com/spring-projects/spring-kafka
+    component_comment: ''
+    component_highlevel_description: Provides Familiar Spring Abstractions for Apache
+      Kafka
+    component_name: Spring Kafka
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.8.6
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-kafka/archive/v2.8.6.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1013133
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.kafka_spring-kafka
+    target_sw: linux
+    vendor: mvn
+    version: 2.8.6
+    web_url: https://github.com/spring-projects/spring-kafka
+  licenses:
+  - Apache-2.0
+  name: Spring Kafka Support
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.8.6
+  mimer:
+    linking: Classpath
+    product_number: CTX1020156
+    product_version_label: 2.8.6
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Kafka'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: org.springframework:spring-messaging+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Messaging
+      Package: org.springframework:spring-messaging
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Messaging
+      DownloadURL: https://arm.seli.gic.ericsson.se/artifactory/proj-eof-dev/org/springframework/spring-messaging/5.3.20/spring-messaging-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-messaging
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Messaging
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework.retry:spring-retry+1.3.3
+  additional_info:
+    fossa-attribution:
+      Description: Spring Retry provides an abstraction around retrying failed operations,
+        with anemphasis on declarative control of the process and policy-based behaviour
+        that iseasy to extend and customize. For instance, you can configure a plain
+        POJOoperation to retry if it fails, based on the type of exception, and with
+        a fixedor exponential backoff.
+      Package: org.springframework.retry:spring-retry
+      Source: mvn
+      Version: 1.3.3
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Retry
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/retry/spring-retry/1.3.3/spring-retry-1.3.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 17/CAX1056595
+    community_link: https://github.com/spring-projects/spring-retry
+    community_name: https://github.com/spring-projects/spring-retry
+    community_url: https://github.com/spring-projects/spring-retry
+    component_comment: ''
+    component_highlevel_description: Spring Retry provides an abstraction around retrying
+      failed operations, with an emphasis on declarative control of the process and
+      policy-based bahaviour that is easy to extend and customize. For instance, you
+      can configure a plain POJO operation to retry if it fails, based on the type
+      of exception, and with a fixed or exponential backoff.
+    component_name: spring-retry
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.3.3
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-retry/archive/v1.3.3.tar.gz
+    stako_decision_reason: automatic
+    stako: ESW2
+    stako_comment: ''
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1007990
+    recode: ''
+    retext: ''
+    country: US
+    crypto: N/A
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.retry_spring-retry
+    target_sw: linux
+    vendor: mvn
+    version: 1.3.3
+    web_url: https://www.springsource.org
+  licenses:
+  - Apache-2.0
+  name: Spring Retry
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.3.3
+  mimer:
+    linking: Classpath
+    product_number: CAX1056595
+    product_version_label: 1.3.3
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+- ID: org.springframework:spring-tx+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Transaction
+      Package: org.springframework:spring-tx
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Transaction
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-tx/5.3.20/spring-tx-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-tx
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Transaction
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework:spring-web+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Web
+      Package: org.springframework:spring-web
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Web
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-web/5.3.20/spring-web-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-web
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Web
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: org.springframework:spring-webmvc+5.3.20
+  additional_info:
+    fossa-attribution:
+      Description: Spring Web MVC
+      Package: org.springframework:spring-webmvc
+      Source: mvn
+      Version: 5.3.20
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: Spring Web MVC
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/spring-webmvc/5.3.20/spring-webmvc-5.3.20-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 185/CAX1053104
+    community_link: https://github.com/spring-projects/spring-framework
+    community_name: https://github.com/spring-projects/spring-framework
+    community_url: https://github.com/spring-projects/spring-framework
+    component_comment: ''
+    component_highlevel_description: Spring Framework is a Java platform that provides
+      comprehensive infrastructure support for developing Java applications.
+    component_name: Spring Framework, SpringSource
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 5.3.20
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-framework/archive/v5.3.20.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011203
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework_spring-webmvc
+    target_sw: linux
+    vendor: mvn
+    version: 5.3.20
+    web_url: https://github.com/spring-projects/spring-framework
+  licenses:
+  - Apache-2.0
+  name: Spring Web MVC
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 5.3.20
+  mimer:
+    linking: Classpath
+    product_number: CAX1053104
+    product_version_label: 5.3.20
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Framework, SpringSource'':  stako_decision_reason: ''allowed''
+    for stako: ''ESW3'', team takes the risk!'
+- ID: com.google.errorprone:error_prone_annotations+2.4.0
+  additional_info:
+    fossa-attribution:
+      Description: The fossa information is fetched from  FOSSA service. Don't Edit!
+      Package: com.google.errorprone:error_prone_annotations
+      Source: mvn
+      Version: 2.4.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: error-prone annotations
+      DownloadURL: https://repo1.maven.org/maven2/com/google/errorprone/error_prone_annotations/2.4.0/error_prone_annotations-2.4.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 11/CTX1020689
+    community_link: https://github.com/google/error-prone
+    community_name: https://github.com/google/error-prone
+    community_url: https://github.com/google/error-prone
+    component_comment: ''
+    component_highlevel_description: Error Prone is a static analysis tool for Java
+      that catches common programming mistakes at compile-time.
+    component_name: Error Prone
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.4.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/google/error-prone/archive/v2.4.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=955017
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.errorprone_error_prone_annotations
+    target_sw: linux
+    vendor: mvn
+    version: 2.4.0
+    web_url: https://repo1.maven.org/maven2/com/google/errorprone/error_prone_annotations
+  licenses:
+  - Apache-2.0
+  name: error-prone annotations
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.4.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020689
+    product_version_label: 2.4.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.grpc:grpc-api+1.37.0
+  additional_info:
+    fossa-attribution:
+      Description: 'gRPC: API'
+      Package: io.grpc:grpc-api
+      Source: mvn
+      Version: 1.37.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: io.grpc:grpc-api
+      DownloadURL: https://repo1.maven.org/maven2/io/grpc/grpc-api/1.37.0/grpc-api-1.37.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CTX1020513
+    community_link: https://github.com/grpc/grpc-java
+    community_name: https://github.com/grpc/grpc-java
+    community_url: https://github.com/grpc/grpc-java
+    component_comment: ''
+    component_highlevel_description: The Java gRPC implementation. HTTP/2 based RPC
+    component_name: gRPC-Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.37.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/grpc/grpc-java/archive/refs/tags/v1.37.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=967964
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: ''
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.grpc_grpc-api
+    target_sw: linux
+    vendor: mvn
+    version: 1.37.0
+    web_url: https://github.com/grpc/grpc-java
+  licenses:
+  - Apache-2.0
+  name: io.grpc:grpc-api
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.37.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020513
+    product_version_label: 1.37.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.grpc:grpc-context+1.37.0
+  additional_info:
+    fossa-attribution:
+      Description: 'gRPC: Context'
+      Package: io.grpc:grpc-context
+      Source: mvn
+      Version: 1.37.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: io.grpc:grpc-context
+      DownloadURL: https://repo1.maven.org/maven2/io/grpc/grpc-context/1.37.0/grpc-context-1.37.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CTX1020513
+    community_link: https://github.com/grpc/grpc-java
+    community_name: https://github.com/grpc/grpc-java
+    community_url: https://github.com/grpc/grpc-java
+    component_comment: ''
+    component_highlevel_description: The Java gRPC implementation. HTTP/2 based RPC
+    component_name: gRPC-Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.37.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/grpc/grpc-java/archive/refs/tags/v1.37.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=967964
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: ''
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.grpc_grpc-context
+    target_sw: linux
+    vendor: mvn
+    version: 1.37.0
+    web_url: https://github.com/grpc/grpc-java
+  licenses:
+  - Apache-2.0
+  name: io.grpc:grpc-context
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.37.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020513
+    product_version_label: 1.37.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.grpc:grpc-core+1.37.0
+  additional_info:
+    fossa-attribution:
+      Description: 'gRPC: Core'
+      Package: io.grpc:grpc-core
+      Source: mvn
+      Version: 1.37.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: io.grpc:grpc-core
+      DownloadURL: https://repo1.maven.org/maven2/io/grpc/grpc-core/1.37.0/grpc-core-1.37.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CTX1020513
+    community_link: https://github.com/grpc/grpc-java
+    community_name: https://github.com/grpc/grpc-java
+    community_url: https://github.com/grpc/grpc-java
+    component_comment: ''
+    component_highlevel_description: The Java gRPC implementation. HTTP/2 based RPC
+    component_name: gRPC-Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.37.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/grpc/grpc-java/archive/refs/tags/v1.37.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=967964
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: ''
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.grpc_grpc-core
+    target_sw: linux
+    vendor: mvn
+    version: 1.37.0
+    web_url: https://github.com/grpc/grpc-java
+  licenses:
+  - Apache-2.0
+  name: io.grpc:grpc-core
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.37.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020513
+    product_version_label: 1.37.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.grpc:grpc-netty-shaded+1.37.0
+  additional_info:
+    fossa-attribution:
+      Description: 'gRPC: Netty Shaded'
+      Package: io.grpc:grpc-netty-shaded
+      Source: mvn
+      Version: 1.37.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: io.grpc:grpc-netty-shaded
+      DownloadURL: https://repo1.maven.org/maven2/io/grpc/grpc-netty-shaded/1.37.0/grpc-netty-shaded-1.37.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CTX1020513
+    community_link: https://github.com/grpc/grpc-java
+    community_name: https://github.com/grpc/grpc-java
+    community_url: https://github.com/grpc/grpc-java
+    component_comment: ''
+    component_highlevel_description: The Java gRPC implementation. HTTP/2 based RPC
+    component_name: gRPC-Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.37.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/grpc/grpc-java/archive/refs/tags/v1.37.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=967964
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: ''
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.grpc_grpc-netty-shaded
+    target_sw: linux
+    vendor: mvn
+    version: 1.37.0
+    web_url: https://github.com/grpc/grpc-java
+  licenses:
+  - Apache-2.0
+  name: io.grpc:grpc-netty-shaded
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.37.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020513
+    product_version_label: 1.37.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.grpc:grpc-protobuf+1.37.0
+  additional_info:
+    fossa-attribution:
+      Description: 'gRPC: Protobuf'
+      Package: io.grpc:grpc-protobuf
+      Source: mvn
+      Version: 1.37.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: io.grpc:grpc-protobuf
+      DownloadURL: https://repo1.maven.org/maven2/io/grpc/grpc-protobuf/1.37.0/grpc-protobuf-1.37.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CTX1020513
+    community_link: https://github.com/grpc/grpc-java
+    community_name: https://github.com/grpc/grpc-java
+    community_url: https://github.com/grpc/grpc-java
+    component_comment: ''
+    component_highlevel_description: The Java gRPC implementation. HTTP/2 based RPC
+    component_name: gRPC-Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.37.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/grpc/grpc-java/archive/refs/tags/v1.37.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=967964
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: ''
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.grpc_grpc-protobuf
+    target_sw: linux
+    vendor: mvn
+    version: 1.37.0
+    web_url: https://github.com/grpc/grpc-java
+  licenses:
+  - Apache-2.0
+  name: io.grpc:grpc-protobuf
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.37.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020513
+    product_version_label: 1.37.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.grpc:grpc-protobuf-lite+1.37.0
+  additional_info:
+    fossa-attribution:
+      Description: 'gRPC: Protobuf Lite'
+      Package: io.grpc:grpc-protobuf-lite
+      Source: mvn
+      Version: 1.37.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: io.grpc:grpc-protobuf-lite
+      DownloadURL: https://repo1.maven.org/maven2/io/grpc/grpc-protobuf-lite/1.37.0/grpc-protobuf-lite-1.37.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CTX1020513
+    community_link: https://github.com/grpc/grpc-java
+    community_name: https://github.com/grpc/grpc-java
+    community_url: https://github.com/grpc/grpc-java
+    component_comment: ''
+    component_highlevel_description: The Java gRPC implementation. HTTP/2 based RPC
+    component_name: gRPC-Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.37.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/grpc/grpc-java/archive/refs/tags/v1.37.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=967964
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: ''
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.grpc_grpc-protobuf-lite
+    target_sw: linux
+    vendor: mvn
+    version: 1.37.0
+    web_url: https://github.com/grpc/grpc-java
+  licenses:
+  - Apache-2.0
+  name: io.grpc:grpc-protobuf-lite
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.37.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020513
+    product_version_label: 1.37.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.grpc:grpc-stub+1.37.0
+  additional_info:
+    fossa-attribution:
+      Description: 'gRPC: Stub'
+      Package: io.grpc:grpc-stub
+      Source: mvn
+      Version: 1.37.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: io.grpc:grpc-stub
+      DownloadURL: https://repo1.maven.org/maven2/io/grpc/grpc-stub/1.37.0/grpc-stub-1.37.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 22/CTX1020513
+    community_link: https://github.com/grpc/grpc-java
+    community_name: https://github.com/grpc/grpc-java
+    community_url: https://github.com/grpc/grpc-java
+    component_comment: ''
+    component_highlevel_description: The Java gRPC implementation. HTTP/2 based RPC
+    component_name: gRPC-Java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.37.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/grpc/grpc-java/archive/refs/tags/v1.37.0.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=967964
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: ''
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.grpc_grpc-stub
+    target_sw: linux
+    vendor: mvn
+    version: 1.37.0
+    web_url: https://github.com/grpc/grpc-java
+  licenses:
+  - Apache-2.0
+  name: io.grpc:grpc-stub
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.37.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1020513
+    product_version_label: 1.37.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: com.fasterxml.jackson.core:jackson-databind+2.13.3
+  additional_info:
+    fossa-attribution:
+      Description: 'General data-binding functionality for Jackson: works on core
+        streaming API'
+      Package: com.fasterxml.jackson.core:jackson-databind
+      Source: mvn
+      Version: 2.13.3
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: jackson-databind
+      DownloadURL: https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.13.3/jackson-databind-2.13.3-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 118/CAX1056155
+    community_link: https://github.com/FasterXML/jackson-databind
+    community_name: https://github.com/FasterXML/jackson-databind
+    community_url: https://github.com/FasterXML/jackson-databind
+    component_comment: ''
+    component_highlevel_description: This project contains the general-purpose data-binding
+      functionality and treemodel for Jackson Data Processor. It builds on core streaming
+      parser/generator package, and uses Jackson Annotations for configuration. More
+      low-level details can be found on Javadocs.
+    component_name: jackson-databind
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.13.3
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/FasterXML/jackson-databind/archive/jackson-databind-2.13.3.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1011245
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.fasterxml.jackson.core_jackson-databind
+    target_sw: linux
+    vendor: mvn
+    version: 2.13.3
+    web_url: https://github.com/FasterXML/jackson
+  licenses:
+  - Apache-2.0
+  name: jackson-databind
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.13.3
+  mimer:
+    linking: Classpath
+    product_number: CAX1056155
+    product_version_label: 2.13.3
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''jackson-databind'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: javax.annotation:javax.annotation-api+1.3.2
+  additional_info:
+    fossa-attribution:
+      Description: Common Annotations for the JavaTM Platform API
+      Package: javax.annotation:javax.annotation-api
+      Source: mvn
+      Version: 1.3.2
+      Hash: ''
+      licenses:
+      - CDDL-1.1
+      - GPL-2.0-with-classpath-exception
+      Title: javax.annotation-api
+      DownloadURL: https://repo1.maven.org/maven2/javax/annotation/javax.annotation-api/1.3.2/javax.annotation-api-1.3.2-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 4/CAX1056638
+    community_link: https://github.com/javaee/javax.annotation
+    community_name: https://github.com/javaee/javax.annotation
+    community_url: https://github.com/javaee/javax.annotation
+    component_comment: ''
+    component_highlevel_description: Common Annotations for the JavaTM Platform API
+    component_name: javax.annotation-api
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.3.2
+    licenses:
+    - 'FAL1159001/4: GNU General Public License v2.0 w/Classpath exception ( GPL-2.0-with-classpath-exception)'
+    - 'FAL1159007/11: Common Development and Distribution License 1.1 (CDDL-1.1)'
+    src_download_link: https://github.com/javaee/javax.annotation/archive/1.3.2.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 54 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=902439
+    recode: RE1
+    retext: PRODUCT VERSION IS OLDER THAN 54 MONTHS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: javax.annotation_javax.annotation-api
+    target_sw: linux
+    vendor: mvn
+    version: 1.3.2
+    web_url: http://jcp.org/en/jsr/detail?id=250
+  licenses:
+  - CDDL-1.1
+  - GPL-2.0-with-classpath-exception
+  name: javax.annotation-api
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.3.2
+  mimer:
+    linking: Classpath
+    product_number: CAX1056638
+    product_version_label: 1.3.2
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: javax.xml.bind:jaxb-api+2.3.1
+  additional_info:
+    fossa-attribution:
+      Description: JAXB (JSR 222) API
+      Package: javax.xml.bind:jaxb-api
+      Source: mvn
+      Version: 2.3.1
+      Hash: ''
+      licenses:
+      - CDDL-1.1
+      - GPL-2.0-with-classpath-exception
+      Title: jaxb-api
+      DownloadURL: https://repo1.maven.org/maven2/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 13/CAX1055785
+    community_link: https://github.com/javaee/jaxb-spec
+    community_name: https://github.com/javaee/jaxb-spec
+    community_url: https://github.com/javaee/jaxb-spec
+    component_comment: ''
+    component_highlevel_description: 'The JAXB API, defined in the javax.xml.bind
+      package, is a set of interfaces through which client applications communicate
+      with code generated from a schema. The center of the JAXB API is JAXBContext,
+      the client''s entry point. It provides an abstraction for managing the XML-Java
+      binding information necessary to implement the JAXB binding framework operations:
+      unmarshal, marshal and validate.'
+    component_name: jaxb-api
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.3.1
+    licenses:
+    - 'FAL1159001/4: GNU General Public License v2.0 w/Classpath exception ( GPL-2.0-with-classpath-exception)'
+    - 'FAL1159007/11: Common Development and Distribution License 1.1 (CDDL-1.1)'
+    src_download_link: https://github.com/javaee/jaxb-spec/archive/2.3.1.zip
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=906179
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: javax.xml.bind_jaxb-api
+    target_sw: linux
+    vendor: mvn
+    version: 2.3.1
+    web_url: https://repo1.maven.org/maven2/javax/xml/bind/jaxb-api
+  licenses:
+  - CDDL-1.1
+  - GPL-2.0-with-classpath-exception
+  name: jaxb-api
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.3.1
+  mimer:
+    linking: Classpath
+    product_number: CAX1055785
+    product_version_label: 2.3.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: io.perfmark:perfmark-api+0.23.0
+  additional_info:
+    fossa-attribution:
+      Description: PerfMark API
+      Package: io.perfmark:perfmark-api
+      Source: mvn
+      Version: 0.23.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: perfmark:perfmark-api
+      DownloadURL: https://repo1.maven.org/maven2/io/perfmark/perfmark-api/0.23.0/perfmark-api-0.23.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 3/CTX1026505
+    community_link: https://github.com/perfmark/perfmark
+    community_name: https://github.com/perfmark/perfmark
+    community_url: https://github.com/perfmark/perfmark
+    component_comment: ''
+    component_highlevel_description: PerfMark is a low-overhead, manually-instrumented,
+      tracing library for Java.
+    component_name: PerfMark
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 0.23.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/perfmark/perfmark/archive/v0.23.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Product version is older than 18 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=955023
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: io.perfmark_perfmark-api
+    target_sw: linux
+    vendor: mvn
+    version: 0.23.0
+    web_url: https://github.com/perfmark/perfmark
+  licenses:
+  - Apache-2.0
+  name: perfmark:perfmark-api
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 0.23.0
+  mimer:
+    linking: Classpath
+    product_number: CTX1026505
+    product_version_label: 0.23.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''PerfMark'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: com.google.api.grpc:proto-google-common-protos+2.0.1
+  additional_info:
+    fossa-attribution:
+      Description: PROTO library for proto-google-common-protos
+      Package: com.google.api.grpc:proto-google-common-protos
+      Source: mvn
+      Version: 2.0.1
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: proto-google-common-protos
+      DownloadURL: https://repo1.maven.org/maven2/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 7/CTX1021898
+    community_link: https://mvnrepository.com/artifact/com.google.api.grpc/grpc-google-common-protos
+    community_name: https://mvnrepository.com/artifact/com.google.api.grpc/grpc-google-common-protos
+    community_url: https://mvnrepository.com/artifact/com.google.api.grpc/grpc-google-common-protos
+    component_comment: ''
+    component_highlevel_description: PROTO library for proto-google-common-protos
+    component_name: GRPC Google Common Protos
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.0.1
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://repo1.maven.org/maven2/com/google/api/grpc/proto-google-common-protos/2.0.1/proto-google-common-protos-2.0.1-sources.jar
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=955016
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.google.api.grpc_proto-google-common-protos
+    target_sw: linux
+    vendor: mvn
+    version: 2.0.1
+    web_url: https://github.com/googleapis/gapic-generator-java
+  licenses:
+  - Apache-2.0
+  name: proto-google-common-protos
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.0.1
+  mimer:
+    linking: Classpath
+    product_number: CTX1021898
+    product_version_label: 2.0.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: requests+2.11.1
+  additional_info:
+    fossa-attribution:
+      Description: "# Requests**Requests** is a simple, yet elegant, HTTP library.```python>>>\
+        \ import requests>>> r = requests.get('https://httpbin.org/basic-auth/user/pass',\
+        \ auth=('user', 'pass'))>>> r.status_code200>>> r.headers['content-type']'application/json;\
+        \ charset=utf8'>>> r.encoding'utf-8'>>> r.text'{\"authenticated\": true, ...'>>>\
+        \ r.json(){'authenticated': True, ...}```Requests allows you to send HTTP/1.1\
+        \ requests extremely easily. There\u2019s no need to manually add query strings\
+        \ to your URLs, or to form-encode your `PUT` & `POST` data \u2014 but nowadays,\
+        \ just use the `json` method!Requests is one of the most downloaded Python\
+        \ packages today, pulling in around `30M downloads / week`\u2014 according\
+        \ to GitHub, Requests is currently [depended upon](https://github.com/psf/requests/network/dependents?package_id=UGFja2FnZS01NzA4OTExNg%3D%3D)\
+        \ by `1,000,000+` repositories. You may certainly put your trust in this code.[![Downloads](https://pepy.tech/badge/requests/month)](https://pepy.tech/project/requests)[![Supported\
+        \ Versions](https://img.shields.io/pypi/pyversions/requests.svg)](https://pypi.org/project/requests)[![Contributors](https://img.shields.io/github/contributors/psf/requests.svg)](https://github.com/psf/requests/graphs/contributors)##\
+        \ Installing Requests and Supported VersionsRequests is available on PyPI:```console$\
+        \ python -m pip install requests```Requests officially supports Python 3.7+.##\
+        \ Supported Features & Best\u2013PracticesRequests is ready for the demands\
+        \ of building robust and reliable HTTP\u2013speaking applications, for the\
+        \ needs of today.- Keep-Alive & Connection Pooling- International Domains\
+        \ and URLs- Sessions with Cookie Persistence- Browser-style TLS/SSL Verification-\
+        \ Basic & Digest Authentication- Familiar `dict`\u2013like Cookies- allowed\
+        \ Content Decompression and Decoding- Multi-part File Uploads- SOCKS Proxy\
+        \ Support- Connection Timeouts- Streaming Downloads- allowed honoring of `.netrc`-\
+        \ Chunked HTTP Requests## API Reference and User Guide available on [Read\
+        \ the Docs](https://requests.readthedocs.io)[![Read the Docs](https://raw.githubusercontent.com/psf/requests/main/ext/ss.png)](https://requests.readthedocs.io)##\
+        \ Cloning the repositoryWhen cloning the Requests repository, you may need\
+        \ to add the `-cfetch.fsck.badTimezone=ignore` flag to avoid an error about\
+        \ a bad commit (see[this issue](https://github.com/psf/requests/issues/2690)\
+        \ for more background):```shellgit clone -c fetch.fsck.badTimezone=ignore\
+        \ https://github.com/psf/requests.git```You can also apply this setting to\
+        \ your global Git config:```shellgit config --global fetch.fsck.badTimezone\
+        \ ignore```---[![Kenneth Reitz](https://raw.githubusercontent.com/psf/requests/main/ext/kr.png)](https://kennethreitz.org)\
+        \ [![Python Software Foundation](https://raw.githubusercontent.com/psf/requests/main/ext/psf.png)](https://www.python.org/psf)"
+      Package: requests
+      Source: pip
+      Version: 2.11.1
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      - MIT
+      - MPL-2.0
+      Title: requests
+      DownloadURL: https://files.pythonhosted.org/packages/92/96/144f70b972a9c0eabbd4391ef93ccd49d0f2747f4f6a2a2738e99e5adc65/requests-2.26.0-py2.py3-none-any.whl
+  bazaar:
+    register: 'no'
+    prim: 11/CAX1056548
+    community_link: https://pypi.python.org/pypi/requests
+    community_name: https://pypi.python.org/pypi/requests
+    community_url: https://pypi.python.org/pypi/requests
+    component_comment: ''
+    component_highlevel_description: Requests is an Apache2 Licensed HTTP library,
+      written in Python, for human beings.
+    component_name: Requests, Python
+    component_platform: linux
+    component_programing_language: ''
+    component_version: 2.11.1
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://pypi.python.org/packages/2e/ad/e627446492cc374c284e82381215dcd9a0a87c4f6e90e9789afefe6da0ad/requests-2.11.1.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=26252
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: US
+    crypto: Strong Encryption
+    programming_language: Python
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: requests
+    target_sw: linux
+    vendor: pip
+    version: 2.11.1
+    web_url: https://requests.readthedocs.io
+  licenses:
+  - Apache-2.0
+  - MIT
+  - MPL-2.0
+  name: requests
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 2.11.1
+  mimer:
+    linking: Classpath
+    product_number: CAX1056548
+    product_version_label: 2.11.1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: setuptools-git+1.0b1
+  additional_info:
+    fossa-attribution:
+      Description: 'About-----This is a plugin for setuptools that enables git integration.
+        Onceinstalled, Setuptools can be told to include in a package distributionall
+        the files tracked by git. This is an alternative to explicitinclusion specifications
+        with ``MANIFEST.in``.A package distribution here refers to a package that
+        you create usingsetup.py, for example::  $> python setup.py sdist  $> python
+        setup.py bdist_rpm  $> python setup.py bdist_eggThis package was formerly
+        known as gitlsfiles. The name change is theresult of an effort by the setuptools
+        plugin developers to provide auniform naming convention.Installation------------With
+        easy_install::  $> easy_install setuptools_gitAlternative manual installation::  $>
+        tar -zxvf setuptools_git-X.Y.Z.tar.gz  $> cd setuptools_git-X.Y.Z  $> python
+        setup.py installWhere X.Y.Z is a version number.Usage-----To activate this
+        plugin, you must first package your python modulewith ``setup.py`` and use
+        setuptools. The former is well documented inthe `distutils manual <http://docs.python.org/dist/dist.html>`_.To
+        use setuptools instead of distutils, just edit ``setup.py`` andchange:.. code-block::
+        python  from distutils.core import setupto:.. code-block:: python  from setuptools
+        import setup, find_packagesWhen Setuptools builds a source package, it always
+        includes all filestracked by your revision control system, if it knows how
+        to learn whatthose files are.When Setuptools builds a binary package, you
+        can ask it to include allfiles tracked by your revision control system, by
+        adding these argumentto your invocation of `setup()`:.. code-block:: python  setup(...,        packages=find_packages(),        include_package_data=True,        ...)which
+        will detect that a directory is a package if it contains a``__init__.py``
+        file.  Alternatively, you can do without ``__init__.py``files and tell Setuptools
+        explicitly which packages to process:.. code-block:: python  setup(...,        packages=["a_package",
+        "another_one"],        include_package_data=True,        ...)This plugin lets
+        setuptools know what files are tracked by your gitrevision control tool.  Setuptools
+        ships with support for cvs andsubversion.  Other plugins like this one are
+        available for bzr, darcs,monotone, mercurial, and many others.It might happen
+        that you track files with your revision control systemthat you don''t want
+        to include in your packages.  In that case, youcan prevent setuptools from
+        packaging those files with a directive inyour ``MANIFEST.in``, for example::  exclude
+        .gitignore  recursive-exclude images *.xcf *.blendIn this example, we prevent
+        setuptools from packaging ``.gitignore`` andthe Gimp and Blender source files
+        found under the ``images`` directory.Files to exclude from the package can
+        also be listed in the `setup()`directive.  To do the same as the MANIFEST.in
+        above, do:.. code-block:: python  setup(...,        exclude_package_data={'''':
+        [''.gitignore''],                              ''images'': [''*.xcf'', ''*.blend'']},        ...)Here
+        is another example:.. code-block:: python  setup(...,        exclude_package_data={'''':
+        [''.gitignore'', ''artwork/*''],                              ''model'': [''config.py'']},        ...)Gotchas-------Be
+        aware that for this module to work properly, git and the gitmeta-data must
+        be available. That means that if someone tries to makea package distribution
+        out of a non-git distribution of yours, say atarball, setuptools will lack
+        the information necessary to know whichfiles to include. A similar problem
+        will happen if someone clonesyour git repository but does not install this
+        plugin.Resolving those problems is out of the scope of this plugin; youshould
+        add relevant warnings to your documentation if those situationsare a concern
+        to you.You can make sure that anyone who clones your git repository and usesyour
+        setup.py file has this plugin by adding a `setup_requires`argument:.. code-block::
+        python  setup(...,        setup_requires=[ "setuptools_git >= 0.3", ],        ...)Changes-------1.2;  2017-02-17~~~~~~~~~~~~~~~~  -
+        Add ability to get version from git tags (https://github.com/msabramo/setuptools-git/pull/9)  -
+        Return early if a directory isn''t managed by git (https://github.com/msabramo/setuptools-git/pull/10)  -
+        Support universal wheels (https://github.com/msabramo/setuptools-git/pull/11)  -
+        Optimize directory scanning to skip ignored directories (https://github.com/msabramo/setuptools-git/pull/12)References----------*
+        `How to distribute Python modules with Distutils  <http://docs.python.org/dist/dist.html>`_*
+        `Setuptools complete manual  <http://peak.telecommunity.com/DevCenter/setuptools>`_Thanks
+        to `Zooko O''Whielacronx`_ for many improvements to the documentation... _Zooko
+        O''Whielacronx: https://bitbucket.org/zooko'
+      Package: setuptools-git
+      Source: pip
+      Version: 1.0b1
+      Hash: ''
+      licenses:
+      - BSD-3-Clause
+      Title: setuptools-git
+      DownloadURL: https://files.pythonhosted.org/packages/05/97/dd99fa9c0d9627a7b3c103a00f1566d8193aca8d473884ed258cca82b06f/setuptools_git-1.2-py2.py3-none-any.whl
+  bazaar:
+    register: 'no'
+    prim: 1/CAX1057061
+    community_link: https://pypi.python.org/pypi/setuptools-git
+    community_name: https://pypi.python.org/pypi/setuptools-git
+    community_url: https://pypi.python.org/pypi/setuptools-git
+    component_comment: ''
+    component_highlevel_description: Setuptools revision control system plugin for
+      Git
+    component_name: setuptools-git
+    component_platform: linux
+    component_programing_language: ''
+    component_version: 1.0.B1
+    licenses:
+    - 'FAL1159003/2: BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)'
+    src_download_link: https://pypi.python.org/packages/source/s/setuptools-git/setuptools-git-1.0b1.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 54 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=8904
+    recode: RE1
+    retext: PRODUCT VERSION IS OLDER THAN 54 MONTHS
+    country: US
+    crypto: No Encryption
+    programming_language: Python
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: setuptools-git
+    target_sw: linux
+    vendor: pip
+    version: 1.0b1
+    web_url: https://github.com/msabramo/setuptools-git
+  licenses:
+  - BSD-3-Clause
+  name: setuptools-git
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.0b1
+  mimer:
+    linking: Classpath
+    product_number: CAX1057061
+    product_version_label: 1.0b1
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used
+- ID: org.xerial.snappy:snappy-java+1.1.8.4
+  additional_info:
+    fossa-attribution:
+      Description: 'snappy-java: A fast compression/decompression library'
+      Package: org.xerial.snappy:snappy-java
+      Source: mvn
+      Version: 1.1.8.4
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: snappy-java
+      DownloadURL: https://repo1.maven.org/maven2/org/xerial/snappy/snappy-java/1.1.8.4/snappy-java-1.1.8.4-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 24/CAX1056425
+    community_link: https://github.com/xerial/snappy-java
+    community_name: https://github.com/xerial/snappy-java
+    community_url: https://github.com/xerial/snappy-java
+    component_comment: ''
+    component_highlevel_description: Snappy compressor/decompressor for Java.
+    component_name: snappy-java
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.1.8.4
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/xerial/snappy-java/archive/1.1.8.4.zip
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Product version is older than 18 months
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=985467
+    recode: ''
+    retext: ''
+    country: US
+    crypto: N/A
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.xerial.snappy_snappy-java
+    target_sw: linux
+    vendor: mvn
+    version: 1.1.8.4
+    web_url: https://github.com/xerial/snappy-java
+  licenses:
+  - Apache-2.0
+  name: snappy-java
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.1.8.4
+  mimer:
+    linking: Classpath
+    product_number: CAX1056425
+    product_version_label: 1.1.8.4
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''snappy-java'':  stako_decision_reason: ''allowed'' for stako: ''ESW3'',
+    team takes the risk!'
+- ID: org.springframework.boot:spring-boot+2.7.0
+  additional_info:
+    fossa-attribution:
+      Description: Spring Boot
+      Package: org.springframework.boot:spring-boot
+      Source: mvn
+      Version: 2.7.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: spring-boot
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/boot/spring-boot/2.7.0/spring-boot-2.7.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 141/CAX1058168
+    community_link: https://github.com/spring-projects/spring-boot
+    community_name: https://github.com/spring-projects/spring-boot
+    community_url: https://github.com/spring-projects/spring-boot
+    component_comment: ''
+    component_highlevel_description: Spring Boot makes it easy to create Spring-powered,
+      production-grade applications and services with absolute minimum fuss. It takes
+      an opinionated view of the Spring platform so that new and existing users can
+      quickly get to the bits they need.
+    component_name: Spring Boot, Spring
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.7.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-boot/archive/refs/tags/v2.7.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1012025
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.boot_spring-boot
+    target_sw: linux
+    vendor: mvn
+    version: 2.7.0
+    web_url: https://spring.io/projects/spring-boot
+  licenses:
+  - Apache-2.0
+  name: spring-boot
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.7.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1058168
+    product_version_label: 2.7.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Boot, Spring'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.springframework.boot:spring-boot-autoconfigure+2.7.0
+  additional_info:
+    fossa-attribution:
+      Description: Spring Boot AutoConfigure
+      Package: org.springframework.boot:spring-boot-autoconfigure
+      Source: mvn
+      Version: 2.7.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      - NCSA
+      Title: spring-boot-autoconfigure
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/boot/spring-boot-autoconfigure/2.7.0/spring-boot-autoconfigure-2.7.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 141/CAX1058168
+    community_link: https://github.com/spring-projects/spring-boot
+    community_name: https://github.com/spring-projects/spring-boot
+    community_url: https://github.com/spring-projects/spring-boot
+    component_comment: ''
+    component_highlevel_description: Spring Boot makes it easy to create Spring-powered,
+      production-grade applications and services with absolute minimum fuss. It takes
+      an opinionated view of the Spring platform so that new and existing users can
+      quickly get to the bits they need.
+    component_name: Spring Boot, Spring
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.7.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-boot/archive/refs/tags/v2.7.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1012025
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.boot_spring-boot-autoconfigure
+    target_sw: linux
+    vendor: mvn
+    version: 2.7.0
+    web_url: https://spring.io/projects/spring-boot
+  licenses:
+  - Apache-2.0
+  - NCSA
+  name: spring-boot-autoconfigure
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.7.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1058168
+    product_version_label: 2.7.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Boot, Spring'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.springframework.boot:spring-boot-starter+2.7.0
+  additional_info:
+    fossa-attribution:
+      Description: Core starter, including auto-configuration support, logging and
+        YAML
+      Package: org.springframework.boot:spring-boot-starter
+      Source: mvn
+      Version: 2.7.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: spring-boot-starter
+      DownloadURL: https://arm.epk.ericsson.se/artifactory/proj-ema-remote/org/springframework/boot/spring-boot-starter/2.7.0/spring-boot-starter-2.7.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 141/CAX1058168
+    community_link: https://github.com/spring-projects/spring-boot
+    community_name: https://github.com/spring-projects/spring-boot
+    community_url: https://github.com/spring-projects/spring-boot
+    component_comment: ''
+    component_highlevel_description: Spring Boot makes it easy to create Spring-powered,
+      production-grade applications and services with absolute minimum fuss. It takes
+      an opinionated view of the Spring platform so that new and existing users can
+      quickly get to the bits they need.
+    component_name: Spring Boot, Spring
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.7.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-boot/archive/refs/tags/v2.7.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1012025
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.boot_spring-boot-starter
+    target_sw: linux
+    vendor: mvn
+    version: 2.7.0
+    web_url: https://spring.io/projects/spring-boot
+  licenses:
+  - Apache-2.0
+  name: spring-boot-starter
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.7.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1058168
+    product_version_label: 2.7.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Boot, Spring'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.springframework.boot:spring-boot-starter-json+2.7.0
+  additional_info:
+    fossa-attribution:
+      Description: Starter for reading and writing json
+      Package: org.springframework.boot:spring-boot-starter-json
+      Source: mvn
+      Version: 2.7.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: spring-boot-starter-json
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/boot/spring-boot-starter-json/2.7.0/spring-boot-starter-json-2.7.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 141/CAX1058168
+    community_link: https://github.com/spring-projects/spring-boot
+    community_name: https://github.com/spring-projects/spring-boot
+    community_url: https://github.com/spring-projects/spring-boot
+    component_comment: ''
+    component_highlevel_description: Spring Boot makes it easy to create Spring-powered,
+      production-grade applications and services with absolute minimum fuss. It takes
+      an opinionated view of the Spring platform so that new and existing users can
+      quickly get to the bits they need.
+    component_name: Spring Boot, Spring
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.7.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-boot/archive/refs/tags/v2.7.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1012025
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.boot_spring-boot-starter-json
+    target_sw: linux
+    vendor: mvn
+    version: 2.7.0
+    web_url: https://spring.io/projects/spring-boot
+  licenses:
+  - Apache-2.0
+  name: spring-boot-starter-json
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.7.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1058168
+    product_version_label: 2.7.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Boot, Spring'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.springframework.boot:spring-boot-starter-logging+2.7.0
+  additional_info:
+    fossa-attribution:
+      Description: Starter for logging using Logback. Default logging starter
+      Package: org.springframework.boot:spring-boot-starter-logging
+      Source: mvn
+      Version: 2.7.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: spring-boot-starter-logging
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/boot/spring-boot-starter-logging/2.7.0/spring-boot-starter-logging-2.7.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 141/CAX1058168
+    community_link: https://github.com/spring-projects/spring-boot
+    community_name: https://github.com/spring-projects/spring-boot
+    community_url: https://github.com/spring-projects/spring-boot
+    component_comment: ''
+    component_highlevel_description: Spring Boot makes it easy to create Spring-powered,
+      production-grade applications and services with absolute minimum fuss. It takes
+      an opinionated view of the Spring platform so that new and existing users can
+      quickly get to the bits they need.
+    component_name: Spring Boot, Spring
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.7.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-boot/archive/refs/tags/v2.7.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1012025
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.boot_spring-boot-starter-logging
+    target_sw: linux
+    vendor: mvn
+    version: 2.7.0
+    web_url: https://spring.io/projects/spring-boot
+  licenses:
+  - Apache-2.0
+  name: spring-boot-starter-logging
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.7.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1058168
+    product_version_label: 2.7.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Boot, Spring'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.springframework.boot:spring-boot-starter-tomcat+2.7.0
+  additional_info:
+    fossa-attribution:
+      Description: Starter for using Tomcat as the embedded servlet container. Default
+        servlet container starter used by spring-boot-starter-web
+      Package: org.springframework.boot:spring-boot-starter-tomcat
+      Source: mvn
+      Version: 2.7.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: spring-boot-starter-tomcat
+      DownloadURL: https://repo1.maven.org/maven2/org/springframework/boot/spring-boot-starter-tomcat/2.7.0/spring-boot-starter-tomcat-2.7.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 141/CAX1058168
+    community_link: https://github.com/spring-projects/spring-boot
+    community_name: https://github.com/spring-projects/spring-boot
+    community_url: https://github.com/spring-projects/spring-boot
+    component_comment: ''
+    component_highlevel_description: Spring Boot makes it easy to create Spring-powered,
+      production-grade applications and services with absolute minimum fuss. It takes
+      an opinionated view of the Spring platform so that new and existing users can
+      quickly get to the bits they need.
+    component_name: Spring Boot, Spring
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.7.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-boot/archive/refs/tags/v2.7.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1012025
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.boot_spring-boot-starter-tomcat
+    target_sw: linux
+    vendor: mvn
+    version: 2.7.0
+    web_url: https://spring.io/projects/spring-boot
+  licenses:
+  - Apache-2.0
+  name: spring-boot-starter-tomcat
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.7.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1058168
+    product_version_label: 2.7.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Boot, Spring'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.springframework.boot:spring-boot-starter-web+2.7.0
+  additional_info:
+    fossa-attribution:
+      Description: Starter for building web, including RESTful, applications using
+        Spring MVC. Uses Tomcat as the default embedded container
+      Package: org.springframework.boot:spring-boot-starter-web
+      Source: mvn
+      Version: 2.7.0
+      Hash: ''
+      licenses:
+      - Apache-2.0
+      Title: spring-boot-starter-web
+      DownloadURL: https://arm.seli.gic.ericsson.se/artifactory/proj-eof-dev/org/springframework/boot/spring-boot-starter-web/2.7.0/spring-boot-starter-web-2.7.0-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 141/CAX1058168
+    community_link: https://github.com/spring-projects/spring-boot
+    community_name: https://github.com/spring-projects/spring-boot
+    community_url: https://github.com/spring-projects/spring-boot
+    component_comment: ''
+    component_highlevel_description: Spring Boot makes it easy to create Spring-powered,
+      production-grade applications and services with absolute minimum fuss. It takes
+      an opinionated view of the Spring platform so that new and existing users can
+      quickly get to the bits they need.
+    component_name: Spring Boot, Spring
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 2.7.0
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/spring-projects/spring-boot/archive/refs/tags/v2.7.0.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1012025
+    recode: ''
+    retext: ''
+    country: US
+    crypto: 'NO'
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.springframework.boot_spring-boot-starter-web
+    target_sw: linux
+    vendor: mvn
+    version: 2.7.0
+    web_url: https://spring.io/projects/spring-boot
+  licenses:
+  - Apache-2.0
+  name: spring-boot-starter-web
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 2.7.0
+  mimer:
+    linking: Classpath
+    product_number: CAX1058168
+    product_version_label: 2.7.0
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Spring Boot, Spring'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.apache.tomcat.embed:tomcat-embed-core+9.0.63
+  additional_info:
+    fossa-attribution:
+      Description: Core Tomcat implementation
+      Package: org.apache.tomcat.embed:tomcat-embed-core
+      Source: mvn
+      Version: 9.0.63
+      Hash: ''
+      licenses:
+      - Apache-1.1
+      - Apache-2.0
+      - CC0-1.0
+      - CDDL-1.0
+      - CDDL-1.1
+      - GPL-2.0-with-classpath-exception
+      Title: tomcat-embed-core
+      DownloadURL: https://repo1.maven.org/maven2/org/apache/tomcat/embed/tomcat-embed-core/9.0.63/tomcat-embed-core-9.0.63-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 240/CAX1053029
+    community_link: https://github.com/apache/tomcat
+    community_name: https://github.com/apache/tomcat
+    community_url: https://github.com/apache/tomcat
+    component_comment: ''
+    component_highlevel_description: Apache Tomcat is an open source software implementation
+      of the Java Servlet and JavaServer Pages technologies.
+    component_name: Apache Tomcat
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 9.0.63
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/apache/tomcat/archive/9.0.63.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1010968
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.apache.tomcat.embed_tomcat-embed-core
+    target_sw: linux
+    vendor: mvn
+    version: 9.0.63
+    web_url: https://tomcat.apache.org/
+  licenses:
+  - Apache-1.1
+  - Apache-2.0
+  - CC0-1.0
+  - CDDL-1.0
+  - CDDL-1.1
+  - GPL-2.0-with-classpath-exception
+  name: tomcat-embed-core
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 9.0.63
+  mimer:
+    linking: Classpath
+    product_number: CAX1053029
+    product_version_label: 9.0.63
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Apache Tomcat'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.apache.tomcat.embed:tomcat-embed-el+9.0.63
+  additional_info:
+    fossa-attribution:
+      Description: Core Tomcat implementation
+      Package: org.apache.tomcat.embed:tomcat-embed-el
+      Source: mvn
+      Version: 9.0.63
+      Hash: ''
+      licenses:
+      - Apache-1.1
+      - Apache-2.0
+      Title: tomcat-embed-el
+      DownloadURL: https://arm.seli.gic.ericsson.se/artifactory/proj-eof-dev/org/apache/tomcat/embed/tomcat-embed-el/9.0.63/tomcat-embed-el-9.0.63-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 240/CAX1053029
+    community_link: https://github.com/apache/tomcat
+    community_name: https://github.com/apache/tomcat
+    community_url: https://github.com/apache/tomcat
+    component_comment: ''
+    component_highlevel_description: Apache Tomcat is an open source software implementation
+      of the Java Servlet and JavaServer Pages technologies.
+    component_name: Apache Tomcat
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 9.0.63
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/apache/tomcat/archive/9.0.63.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1010968
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.apache.tomcat.embed_tomcat-embed-el
+    target_sw: linux
+    vendor: mvn
+    version: 9.0.63
+    web_url: https://tomcat.apache.org/
+  licenses:
+  - Apache-1.1
+  - Apache-2.0
+  name: tomcat-embed-el
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 9.0.63
+  mimer:
+    linking: Classpath
+    product_number: CAX1053029
+    product_version_label: 9.0.63
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Apache Tomcat'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: org.apache.tomcat.embed:tomcat-embed-websocket+9.0.63
+  additional_info:
+    fossa-attribution:
+      Description: Core Tomcat implementation
+      Package: org.apache.tomcat.embed:tomcat-embed-websocket
+      Source: mvn
+      Version: 9.0.63
+      Hash: ''
+      licenses:
+      - Apache-1.1
+      - Apache-2.0
+      Title: tomcat-embed-websocket
+      DownloadURL: https://repo1.maven.org/maven2/org/apache/tomcat/embed/tomcat-embed-websocket/9.0.63/tomcat-embed-websocket-9.0.63-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 240/CAX1053029
+    community_link: https://github.com/apache/tomcat
+    community_name: https://github.com/apache/tomcat
+    community_url: https://github.com/apache/tomcat
+    component_comment: ''
+    component_highlevel_description: Apache Tomcat is an open source software implementation
+      of the Java Servlet and JavaServer Pages technologies.
+    component_name: Apache Tomcat
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 9.0.63
+    licenses:
+    - 'FAL1159004/20: Apache License 2.0 (Apache-2.0)'
+    src_download_link: https://github.com/apache/tomcat/archive/9.0.63.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW3
+    stako_comment: Copyleft license found.
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1010968
+    recode: ''
+    retext: ''
+    country: US
+    crypto: No Encryption
+    programming_language: Java
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: org.apache.tomcat.embed_tomcat-embed-websocket
+    target_sw: linux
+    vendor: mvn
+    version: 9.0.63
+    web_url: https://tomcat.apache.org/
+  licenses:
+  - Apache-1.1
+  - Apache-2.0
+  name: tomcat-embed-websocket
+  primary:
+  - this
+  subcomponent: true
+  type: FOSS
+  versions:
+  - 9.0.63
+  mimer:
+    linking: Classpath
+    product_number: CAX1053029
+    product_version_label: 9.0.63
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - 'Manual set ''Apache Tomcat'':  stako_decision_reason: ''allowed'' for stako:
+    ''ESW3'', team takes the risk!'
+- ID: com.github.luben:zstd-jni+1.5.0-4
+  additional_info:
+    fossa-attribution:
+      Description: JNI bindings for Zstd native library that provides fast and high
+        compression lossless algorithm for Java and all JVM languages.
+      Package: com.github.luben:zstd-jni
+      Source: mvn
+      Version: 1.5.0-4
+      Hash: ''
+      licenses:
+      - BSD-2-Clause
+      Title: zstd-jni
+      DownloadURL: https://repo1.maven.org/maven2/com/github/luben/zstd-jni/1.5.0-4/zstd-jni-1.5.0-4-sources.jar
+  bazaar:
+    register: 'no'
+    prim: 16/CTX1022420
+    community_link: https://github.com/luben/zstd-jni
+    community_name: https://github.com/luben/zstd-jni
+    community_url: https://github.com/luben/zstd-jni
+    component_comment: ''
+    component_highlevel_description: JNI bindings for Zstd native library that provides
+      fast and high compression lossless algorithm for Android, Java and all JVM languages.
+    component_name: zstd-jni
+    component_platform: linux
+    component_programing_language: Java
+    component_version: 1.5.0-4
+    licenses:
+    - 'FAL1159003/1: BSD 2-Clause "Simplified" License (BSD-2-Clause)'
+    src_download_link: https://github.com/luben/zstd-jni/archive/v1.5.0-4.tar.gz
+    stako_decision_reason: allowed
+    stako: ESW4
+    stako_comment: Product version is older than 18 months. Newer versions exists
+    bazaarurl: https://bazaar.internal.ericsson.com/b-view-component.php?componentid=1001395
+    recode: REL
+    retext: PRODUCT VERSION IS OLDER THAN 18 MONTHS. NEWER VERSIONS EXISTS
+    country: IE
+    crypto: No Encryption
+    programming_language: C
+  encryptions:
+    used:
+    - ''
+  evms:
+    register: 'yes'
+    product_name: com.github.luben_zstd-jni
+    target_sw: linux
+    vendor: mvn
+    version: 1.5.0-4
+    web_url: https://github.com/luben/zstd-jni
+  licenses:
+  - BSD-2-Clause
+  name: zstd-jni
+  primary:
+  - this
+  subcomponent: false
+  type: FOSS
+  versions:
+  - 1.5.0-4
+  mimer:
+    linking: Classpath
+    product_number: CTX1022420
+    product_version_label: 1.5.0-4
+    obligation: Including the full license text in a prominent place with the software
+      when the FOSS is distributed
+    usage: Use as is
+    primary: 'True'
+  alerts:
+  - Stako is 'ESW4', BAZAAR component is not recommended to be used

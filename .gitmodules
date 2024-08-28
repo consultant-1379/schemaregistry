@@ -1,0 +1,7 @@
+[submodule "testframework"]
+    path = testframework
+    url = ../testframework
+    ignore = all
+[submodule "bob"]
+	path = bob
+	url = ../../../adp-cicd/bob

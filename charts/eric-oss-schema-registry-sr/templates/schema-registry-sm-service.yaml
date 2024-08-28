@@ -1,0 +1,67 @@
+{{- $global := fromJson (include "eric-oss-schema-registry-sr.global" .) -}}
+{{- if eq (include "eric-oss-schema-registry-sr.service-mesh-enabled" .) "true" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "eric-oss-schema-registry-sr.name" . }}
+  labels:
+    {{- include "eric-oss-schema-registry-sr.labels" . | nindent 4 }}
+  annotations:
+    {{- include "eric-oss-schema-registry-sr.annotations" . | nindent 4 }}
+{{- $serviceMesh := include "eric-oss-schema-registry-sr.service-mesh-enabled" . | trim -}}
+{{- $tls := include "eric-oss-schema-registry-sr.global-security-tls-enabled" . | trim -}}
+{{- $osm2ism := include "eric-oss-schema-registry-sr.osm2ism-enabled" . | trim -}}
+{{- $osmServiceAAS := include "eric-oss-schema-registry-sr.osmService-aas-enabled" . | trim -}}
+{{- $osmServiceAIS := include "eric-oss-schema-registry-sr.osmService-ais-enabled" . | trim -}}
+{{- $osmServiceCSAC := include "eric-oss-schema-registry-sr.osmService-csac-enabled" . | trim -}}
+{{- if and (eq $serviceMesh "true") (eq $tls "true") (eq $osm2ism "true") (eq $osmServiceAAS "true") (eq $osmServiceAIS "true") (eq $osmServiceCSAC "true")}}
+spec:
+  type: {{ .Values.service.type | quote }}
+  {{- if .Values.global }}
+  {{- if .Values.global.internalIPFamily }}
+  ipFamilies: [{{ .Values.global.internalIPFamily }}]
+  {{- end }}
+  {{- end }}
+  ports:
+  - name: http
+    port: 8081
+    targetPort: 9081
+  - name: https-aas
+    port: 443
+    targetPort: 9080
+  - name: https-ais
+    port: 444
+    targetPort: 9082
+  - name: https-csac
+    port: 445
+    targetPort: 9083
+  {{- if .Values.jmx.enabled }}
+  - appProtocol: http
+    name: metrics
+    port: {{ .Values.jmx.servicePort }}
+    protocol: TCP
+  {{- end }}
+  selector:
+   app: {{ template "eric-oss-schema-registry-sr.name" . }}
+   release: {{ .Release.Name | quote }}
+{{- else }}
+spec:
+  {{- if $global.internalIPFamily }}
+  ipFamilies: [{{- $global.internalIPFamily | quote -}}]
+  {{- end }}
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.security.plaintext.schemaregistry.port }}
+      protocol: TCP
+{{- if .Values.jmx.enabled }}
+    - appProtocol: http
+      name: metrics
+      port: {{ .Values.jmx.servicePort }}
+      protocol: TCP
+{{- end }}
+  selector:
+   app: {{ template "eric-oss-schema-registry-sr.name" . }}
+   release: {{ .Release.Name | quote }}
+{{- end }}
+{{- end -}}
